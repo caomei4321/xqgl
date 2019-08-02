@@ -43,12 +43,11 @@ $api->version('v1', [
 
         $api->get('user', 'RepairsController@thisUser');
 
-        //$api->get('repairs', 'RepairsController@repairs');
+        $api->get('repairs', 'RepairsController@repairs');  // 报修列表
 
-        $api->post('eventReport', 'RepairsController@eventReport');
-        $api->get('repairs/{repair}', 'RepairsController@show');
+        $api->post('eventReport', 'RepairsController@eventReport');  //报修
 
-        $api->post('completeRepair/{repair}', 'RepairsController@completeRepair');
+        $api->post('completeRepair', 'RepairsController@completeRepair'); //完成报修
 
     });
 });

@@ -20,11 +20,6 @@ class RepairsController extends Controller
         return  $repairs;
     }
 
-    public function show(Repair $repair)
-    {
-        return $repair;
-    }
-
     public function eventReport(Request $request)
     {
         $path = Storage::disk('public')->putfile('badImg',$request->file('bad_img'));
@@ -40,10 +35,11 @@ class RepairsController extends Controller
     }
 
     public function completeRepair(Request $request, Repair $repair)
-    {return $repair;
+    {
         $path = Storage::disk('public')->putfile('goodImg', $request->file('good_img'));
         $url = Storage::url($path);
 
+        $repair = $repair->find($request->id);
 
         $repair->update([
             'status' => 1,
