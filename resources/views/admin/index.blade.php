@@ -1,0 +1,1 @@
+@include('admin.admin_layouts.app')
