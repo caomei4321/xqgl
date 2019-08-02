@@ -49,4 +49,11 @@ class RepairsController extends Controller
         return $this->response()->accepted('',['msg' => '维修完成']);
 
     }
+
+    public function repairDetail(Request $request, Repair $repair)
+    {
+        $repair = $repair->find($request->id);
+
+        return $repair;
+    }
 }

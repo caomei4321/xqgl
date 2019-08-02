@@ -47,6 +47,8 @@ $api->version('v1', [
 
         $api->post('eventReport', 'RepairsController@eventReport');  //报修
 
+        $api->get('repairDetail/{id}', 'RepairsController@repairDetail');  // 报修详情
+
         $api->post('completeRepair', 'RepairsController@completeRepair'); //完成报修
 
     });
