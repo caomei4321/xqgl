@@ -32,34 +32,31 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    {{--<a href="{{ route('admin.repairs.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加新版本</button>
-                    </a>--}}
-                    {{--<a href="{{ route('device.map') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 设备位置分布</button>--}}
-                    {{--</a>--}}
+                    <a href="{{ route('admin.roles.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加角色</button>
+                    </a>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>报修用户</th>
-                            <th>地址</th>
-                            <th>描述</th>
-                            <th>维修状态</th>
-                            <th>报修时间</th>
+                            <th>角色名称</th>
+                            <th>用户组</th>
+                            <th>添加时间</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($repairs as $repair)
+                        @foreach($roles as $role)
                             <tr class="gradeC">
-                                <td>{{ $repair->id }}</td>
-                                <td>{{ $repair->user_id }}</td>
-                                <td>{{ $repair->address }}</td>
-                                <td>{{ $repair->description }}</td>
-                                <td>{{ $repair->repair_status }}</td>
-                                <td>{{ $repair->created_at }}</td>
+                                <td>{{ $role->id }}</td>
+                                <td>{{ $role->name }}</td>
+                                <td>{{ $role->guard_name }}</td>
+                                <td class="center">{{ $role->created_at }}</td>
                                 <td class="center">
-                                    <a href="{{ route('admin.repairs.show',['reapir' => $repair->id]) }}"><button type="button" class="btn btn-primary btn-xs">查看</button></a>
-                                    <button class="btn btn-warning btn-xs delete" data-id="{{ $repair->id }}">删除</button>
+                                    <a href="{{ route('admin.roles.edit',['role' => $role->id]) }}"><button type="button" class="btn btn-primary btn-xs">编辑</button></a>
+                                    <a href="{{ route('admin.roles.show',['role' => $role->id]) }}"><button type="button" class="btn btn-danger btn-xs">查看</button></a>
+                                    @if($role->id != 1)
+                                        <button class="btn btn-warning btn-xs delete" data-id="{{ $role->id }}">删除</button>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -67,16 +64,13 @@
                         <tfoot>
                         <tr>
                             <th>ID</th>
-                            <th>报修用户</th>
-                            <th>地址</th>
-                            <th>描述</th>
-                            <th>维修状态</th>
-                            <th>报修时间</th>
+                            <th>角色名称</th>
+                            <th>用户组</th>
+                            <th>添加时间</th>
                             <th>操作</th>
                         </tr>
                         </tfoot>
                     </table>
-                    {{ $repairs->links() }}
                 </div>
             </div>
         </div>
@@ -109,7 +103,7 @@
                 $.ajaxSetup({
                     headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                     type:"delete",
-                    url: '/admin/repair/'+id,
+                    url: '/admin/role/'+id,
                     success:function (res) {
                         if (res.status == 1){
                             swal(res.msg, "您已经永久删除了这条信息。", "success");

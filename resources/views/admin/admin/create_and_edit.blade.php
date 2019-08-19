@@ -9,10 +9,10 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    @if(isset($interfaceAddress->id))
-                        <h5>修改API地址</h5>
+                    @if($administrator->id)
+                        <h5>修改信息</h5>
                     @else
-                        <h5>添加API地址</h5>
+                        <h5>添加管理员</h5>
                     @endif
                     <div class="ibox-tools">
                         <a class="collapse-link">
@@ -33,10 +33,10 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    @if(empty($interfaceAddress->id))
-                        <form method="post" action="{{ route('admin.interfaceAddress.store') }}" class="form-horizontal">
+                    @if(empty($administrator->id))
+                        <form method="post" action="{{ route('admin.administrators.store') }}" class="form-horizontal">
                             @else
-                                <form method="POST" action="{{ route('admin.interfaceAddress.update',$interfaceAddress->id) }}" class="form-horizontal">
+                                <form method="POST" action="{{ route('admin.administrators.update',$administrator->id) }}" class="form-horizontal">
                                     <input type="hidden" name="_method" value="PUT">
                                     @endif
                                     <div class="form-group">
@@ -48,33 +48,43 @@
                                     </div>
                                     {{ csrf_field() }}
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">接口地址：</label>
+                                        <label class="col-sm-2 control-label">姓名：</label>
 
                                         <div class="col-sm-6">
-                                            @if(isset($interfaceAddress->id))
-                                            <input name="address" id="address" type="text" class="form-control" value="{{ old('address',$interfaceAddress->address) }}">
-                                            @else
-                                            <input name="address" id="address" type="text" class="form-control" value="">
-                                            @endif
-                                            <span>例如:http://127.0.0.1:2329/</span>
+                                            <input name="name" id="name" type="text" class="form-control" value="{{ old('name',$administrator->name) }}">
                                         </div>
                                     </div>
-                                    {{--<div class="form-group">
-                                        <label class="col-sm-2 control-label">选择角色权限：</label>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">手机号：</label>
+
                                         <div class="col-sm-6">
-                                            <select class="chosen-select" data-placement="选择角色权限" name="permission[]" multiple style="width: 350px;" tabindex="2">
-                                                @if($role->id)
-                                                    @foreach($permissions as $permission)
-                                                        <option value="{{ $permission->name }}" @if(array_search($permission->name,array_column($role_permission,'name'))) selected="selected" @endif>{{ $permission->mark }}</option>
+                                            <input name="phone" id="phone" type="phone" class="form-control" value="{{ old('phone',$administrator->phone) }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">密码：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="password" id="password" type="password" class="form-control" value="{{ old('password',$administrator->password) }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">用户角色：</label>
+                                        <div class="col-sm-6">
+                                            {{--multiple--}}
+                                            <select class="chosen-select" data-placement="选择角色" name="administrator_roles[]" multiple style="width: 350px;" tabindex="2">
+                                                @if($administrator->id)
+                                                    @foreach($roles as $role)
+                                                        <option value="{{ $role->id }}" @if (in_array($role->name,$administrator_roles)) selected="selected" @endif>{{ $role->name }}</option>
                                                     @endforeach
                                                 @else
-                                                    @foreach($permissions as $permission)
-                                                        <option value="{{ $permission->name }}">{{ $permission->mark }}</option>
+                                                    @foreach($roles as $role)
+                                                        <option value="{{ $role->id }}">{{ $role->name }}</option>
                                                     @endforeach
                                                 @endif
                                             </select>
                                         </div>
-                                    </div>--}}
+                                    </div>
                                     <div class="hr-line-dashed"></div>
                                     <div class="form-group">
                                         <div class="col-sm-4 col-sm-offset-2">

@@ -33,10 +33,33 @@ Route::group(['prefix' => 'admin'], function () {
         Route::put('user/{user}', 'Admin\UsersController@update')->name('admin.users.update');
         Route::get('user/create', 'Admin\UsersController@create')->name('admin.users.create');
 
-        Route::get('repair', 'Admin\RepairsController@index')->name('admin.repairs.index');
-        Route::get('repair/{repair}', 'Admin\RepairsController@show')->name('admin.repairs.show');
-        Route::delete('repair/{repair}', 'Admin\RepairsController@destroy')->name('admin.repairs.destroy');
-
+        Route::resource('administrators', 'Admin\AdminsController')->names([
+            'index' => 'admin.administrators.index',
+            'store' => 'admin.administrators.store',
+            'create' => 'admin.administrators.create',
+            'destroy' => 'admin.administrators.destroy',
+            'update' => 'admin.administrators.update',
+            'show' => 'admin.administrators.show',
+            'edit' => 'admin.administrators.edit',
+        ]);
+        Route::resource('permissions', 'Admin\PermissionsController')->names([
+            'index' => 'admin.permissions.index',
+            'store' => 'admin.permissions.store',
+            'create' => 'admin.permissions.create',
+            'destroy' => 'admin.permissions.destroy',
+            'update' => 'admin.permissions.update',
+            'show' => 'admin.permissions.show',
+            'edit' => 'admin.permissions.edit',
+        ]);
+        Route::resource('roles', 'Admin\RolesController')->names([
+            'index' => 'admin.roles.index',
+            'store' => 'admin.roles.store',
+            'create' => 'admin.roles.create',
+            'destroy' => 'admin.roles.destroy',
+            'update' => 'admin.roles.update',
+            'show' => 'admin.roles.show',
+            'edit' => 'admin.roles.edit',
+        ]);
     });
 
 });

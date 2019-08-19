@@ -59,16 +59,6 @@
                 <a class="J_menuItem" href="{{ route('admin.users.index') }}"><i class="fa fa-truck"></i> <span class="nav-label">人员管理</span></a>
             </li>
             <li>
-                <a class="J_menuItem" href="{{ route('admin.repairs.index') }}"><i class="fa fa-credit-card"></i> <span class="nav-label">报修管理</span></a>
-            </li>
-            {{--<li>
-                <a class="J_menuItem" href="{{ route('admin.ports.index') }}"><i class="fa fa-dot-circle-o"></i> <span class="nav-label">装料口管理</span></a>
-            </li>
-            <li>
-                <a class="J_menuItem" href="{{ route('admin.queues.index') }}"><i class="fa fa-dot-circle-o"></i> <span class="nav-label">排队管理</span></a>
-            </li>
-            @role('超级管理员')
-            <li>
                 <a href="#"><i class="fa fa-table"></i> <span class="nav-label">系统管理</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li><a class="J_menuItem" href="{{ route('admin.administrators.index') }}">管理员</a>
@@ -79,7 +69,6 @@
                     </li>
                 </ul>
             </li>
-            @endrole--}}
         </ul>
     </div>
 </nav>

@@ -9,10 +9,10 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    @if($qqGroup->id)
-                        <h5>修改QQ群</h5>
+                    @if($permission->id)
+                        <h5>添加权限信息</h5>
                     @else
-                        <h5>添加QQ群</h5>
+                        <h5>修改权限信息</h5>
                     @endif
                     <div class="ibox-tools">
                         <a class="collapse-link">
@@ -33,10 +33,10 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    @if(empty($qqGroup->id))
-                        <form method="post" action="{{ route('admin.qqGroup.store') }}" class="form-horizontal">
+                    @if(empty($permission->id))
+                        <form method="post" action="{{ route('admin.permissions.store') }}" class="form-horizontal">
                             @else
-                                <form method="POST" action="{{ route('admin.qqGroup.update',$qqGroup->id) }}" class="form-horizontal">
+                                <form method="POST" action="{{ route('admin.permissions.update',$permission->id) }}" class="form-horizontal">
                                     <input type="hidden" name="_method" value="PUT">
                                     @endif
                                     <div class="form-group">
@@ -48,28 +48,19 @@
                                     </div>
                                     {{ csrf_field() }}
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">群号：</label>
+                                        <label class="col-sm-2 control-label">权限标识：</label>
 
                                         <div class="col-sm-6">
-                                            <input name="group_num" id="group_num" type="text" class="form-control" value="{{ old('group_num',$qqGroup->group_num) }}">
+                                            <input name="mark" id="mark" type="text" placeholder="例：添加司机" class="form-control" value="{{ old('mark',$permission->mark) }}">
                                         </div>
                                     </div>
-                                    {{--<div class="form-group">
-                                        <label class="col-sm-2 control-label">选择角色权限：</label>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">权限名称：</label>
+
                                         <div class="col-sm-6">
-                                            <select class="chosen-select" data-placement="选择角色权限" name="permission[]" multiple style="width: 350px;" tabindex="2">
-                                                @if($role->id)
-                                                    @foreach($permissions as $permission)
-                                                        <option value="{{ $permission->name }}" @if(array_search($permission->name,array_column($role_permission,'name'))) selected="selected" @endif>{{ $permission->mark }}</option>
-                                                    @endforeach
-                                                @else
-                                                    @foreach($permissions as $permission)
-                                                        <option value="{{ $permission->name }}">{{ $permission->mark }}</option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
+                                            <input name="name" id="name" type="text" placeholder="例：user.add" class="form-control" value="{{ old('name',$permission->name) }}">
                                         </div>
-                                    </div>--}}
+                                    </div>
                                     <div class="hr-line-dashed"></div>
                                     <div class="form-group">
                                         <div class="col-sm-4 col-sm-offset-2">

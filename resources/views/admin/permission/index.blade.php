@@ -32,38 +32,42 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <a href="{{ route('admin.qqGroup.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加QQ群</button>
+                    <a href="{{ route('admin.permissions.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加权限</button>
                     </a>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                         <tr>
-                            <th>群号</th>
-                            <th>群名</th>
-                            <th>群人数</th>
+                            <th>ID</th>
+                            <th>标识</th>
+                            <th>权限名称</th>
+                            <th>用户组</th>
+                            <th>添加时间</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($qqGroups as $qqGroup)
+                        @foreach($permissions as $permission)
                             <tr class="gradeC">
-                                <td>{{ $qqGroup->gc }}</td>
-                                <td>{{ $qqGroup->gn }}</td>
-                                <td>{{ $qqGroup->user_count }}</td>
+                                <td>{{ $permission->id }}</td>
+                                <td>{{ $permission->mark }}</td>
+                                <td>{{ $permission->name }}</td>
+                                <td>{{ $permission->guard_name }}</td>
+                                <td class="center">{{ $permission->created_at }}</td>
                                 <td class="center">
-                                    <a href="{{ route('admin.qqGroup.deleteQqUser',['gc' => $qqGroup->gc]) }}"><button type="button" class="btn btn-primary btn-xs">踢人</button></a>
-                                    <a href=""><button type="button" class="btn btn-danger btn-xs">查看</button></a>
-                                    {{--@if($role->id != 1)--}}
-                                    {{--<button class="btn btn-warning btn-xs delete" data-id="{{ $role->id }}">删除</button>--}}
-                                    {{--@endif--}}
+                                    <a href="{{ route('admin.permissions.edit',['permission' => $permission->id]) }}"><button type="button" class="btn btn-primary btn-xs">编辑</button></a>
+                                    <a href="{{ route('admin.permissions.show',['permission' => $permission->id]) }}"><button type="button" class="btn btn-danger btn-xs">查看</button></a>
+                                    <button class="btn btn-warning btn-xs delete" data-id="{{ $permission->id }}">删除</button>
                                 </td>
                             </tr>
                         @endforeach
                         </tbody>
                         <tfoot>
                         <tr>
-                            <th>群号</th>
-                            <th>群名</th>
-                            <th>群人数</th>
+                            <th>ID</th>
+                            <th>标识</th>
+                            <th>权限名称</th>
+                            <th>用户组</th>
+                            <th>添加时间</th>
                             <th>操作</th>
                         </tr>
                         </tfoot>
@@ -100,7 +104,7 @@
                 $.ajaxSetup({
                     headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                     type:"delete",
-                    url: '/admin/keyWord/'+id,
+                    url: '/admin/role/'+id,
                     success:function (res) {
                         if (res.status == 1){
                             swal(res.msg, "您已经永久删除了这条信息。", "success");
