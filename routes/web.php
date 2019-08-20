@@ -60,6 +60,34 @@ Route::group(['prefix' => 'admin'], function () {
             'show' => 'admin.roles.show',
             'edit' => 'admin.roles.edit',
         ]);
+
+        Route::resource('categories', 'Admin\CategoriesController', ['except' => ['show']])->names([
+            'index'     =>  'admin.categories.index',
+            'create'    =>  'admin.categories.create',
+            'store'     =>  'admin.categories.store',
+            'edit'      =>  'admin.categories.edit',
+            'update'    =>  'admin.categories.update',
+            'destroy'   =>  'admin.categories.destroy',
+        ]);
+
+        Route::resource('responsibility', 'Admin\ResponsibilityController', ['except' => ['show']])->names([
+            'index'     =>  'admin.responsibility.index',
+            'create'    =>  'admin.responsibility.create',
+            'store'     =>  'admin.responsibility.store',
+            'edit'      =>  'admin.responsibility.edit',
+            'update'    =>  'admin.responsibility.update',
+            'destroy'   =>  'admin.responsibility.destroy',
+        ]);
+
+        Route::resource('tasks', 'Admin\TasksController')->names([
+            'index'     =>  'admin.tasks.index',
+            'create'    =>  'admin.tasks.create',
+            'store'     =>  'admin.tasks.store',
+            'edit'      =>  'admin.tasks.edit',
+            'update'    =>  'admin.tasks.update',
+            'show'      =>  'admin.tasks.show',
+            'destroy'   =>  'admin.tasks.destroy',
+        ]);
     });
 
 });
