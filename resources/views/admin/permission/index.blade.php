@@ -104,7 +104,7 @@
                 $.ajaxSetup({
                     headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                     type:"delete",
-                    url: '/admin/role/'+id,
+                    url: '/admin/permissions/'+id,
                     success:function (res) {
                         if (res.status == 1){
                             swal(res.msg, "您已经永久删除了这条信息。", "success");

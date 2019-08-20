@@ -36,7 +36,7 @@ class AdminsController extends Controller
         $administrator = $administrator->create($data);
 
         $administrator->syncRoles($request->administrator_roles);
-        return redirect()->route('admin.admin.index');
+        return redirect()->route('admin.administrators.index');
     }
 
 
@@ -68,7 +68,7 @@ class AdminsController extends Controller
             ]);
         }
         $administrator->syncRoles($request->administrator_roles);
-        return redirect()->route('admin.admin.index');
+        return redirect()->route('admin.administrators.index');
     }
 
     public function destroy(Admin $administrator)
