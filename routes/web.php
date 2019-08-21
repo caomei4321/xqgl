@@ -79,14 +79,22 @@ Route::group(['prefix' => 'admin'], function () {
             'destroy'   =>  'admin.responsibility.destroy',
         ]);
 
-        Route::resource('tasks', 'Admin\TasksController')->names([
-            'index'     =>  'admin.tasks.index',
-            'create'    =>  'admin.tasks.create',
-            'store'     =>  'admin.tasks.store',
-            'edit'      =>  'admin.tasks.edit',
-            'update'    =>  'admin.tasks.update',
-            'show'      =>  'admin.tasks.show',
-            'destroy'   =>  'admin.tasks.destroy',
+        Route::resource('matters', 'Admin\MattersController', ['except' => ['show']])->names([
+            'index'     =>  'admin.matters.index',
+            'create'    =>  'admin.matters.create',
+            'store'     =>  'admin.matters.store',
+            'edit'      =>  'admin.matters.edit',
+            'update'    =>  'admin.matters.update',
+            'destroy'   =>  'admin.matters.destroy',
+        ]);
+
+        Route::resource('parts', 'Admin\CityPartsController', ['except' => ['show']])->names([
+            'index'     =>  'admin.parts.index',
+            'create'    =>  'admin.parts.create',
+            'store'     =>  'admin.parts.store',
+            'edit'      =>  'admin.parts.edit',
+            'update'    =>  'admin.parts.update',
+            'destroy'   =>  'admin.parts.destroy',
         ]);
     });
 

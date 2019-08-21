@@ -23,6 +23,7 @@ class ResponsibilityController extends Controller
 
     public function store(Request $request, Responsibility $responsibility)
     {
+        $this->rules($request);
         $data = $request->all();
         if ($data['subject_duty'] == 0) {
             $data['cooperate_duty'] = 1;
@@ -43,6 +44,7 @@ class ResponsibilityController extends Controller
 
     public function update(Request $request, Responsibility $responsibility)
     {
+        $this->rules($request);
         $data = $request->all();
         if ($data['subject_duty'] == 0) {
             $data['cooperate_duty'] = 1;
@@ -59,5 +61,23 @@ class ResponsibilityController extends Controller
         $responsibility->delete();
 
         return response()->json(['status' => '1', 'msg' => '删除成功']);
+    }
+
+    public function rules(Request $request)
+    {
+        $this->validate($request, [
+            'item' => 'required|string|min:2',
+            'county' => 'required|string|min:3',
+            'town' => 'required|string|min:3',
+            'legal_doc' => 'required|string',
+        ], [
+            'item.required' => '请输入具体事项',
+            'item.min' => '具体事项最少2个字符',
+            'county.required' => '请输入县级部门职责',
+            'county.min' => '县级部门职责最少3个字符',
+            'town.required' => '请输入乡镇街道职责',
+            'town.min' => '乡镇街道职责最少3个字符',
+            'legal_doc' => '请输入法律法规及文件依据',
+        ]);
     }
 }

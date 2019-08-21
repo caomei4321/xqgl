@@ -74,7 +74,13 @@
                 <ul class="nav nav-second-level">
                     <li><a class="J_menuItem" href="{{ route('admin.categories.index') }}">责任类别</a></li>
                     <li><a class="J_menuItem" href="{{ route('admin.responsibility.index') }}">责任清单指导</a></li>
-                    <li><a class="J_menuItem" href="{{ route('admin.tasks.index') }}">任务清单</a></li>
+                    <li><a class="J_menuItem" href="{{ route('admin.matters.index') }}">问题清单</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">城市部件</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a class="J_menuItem" href="{{ route('admin.parts.index') }}">城市部件信息</a></li>
                 </ul>
             </li>
         </ul>
