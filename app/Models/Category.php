@@ -12,4 +12,8 @@ class Category extends Model
 
     public $timestamps = false;
 
+    public function situation()
+    {
+        return $this->hasMany('App\Models\Situation');
+    }
 }

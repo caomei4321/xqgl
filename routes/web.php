@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
+
 Route::group(['prefix' => 'admin'], function () {
 
     Route::get('login', 'Admin\Auth\LoginController@showLoginForm')->name('admin.index');
@@ -87,14 +88,32 @@ Route::group(['prefix' => 'admin'], function () {
             'update'    =>  'admin.matters.update',
             'destroy'   =>  'admin.matters.destroy',
         ]);
-
-        Route::resource('parts', 'Admin\CityPartsController', ['except' => ['show']])->names([
+        // 出 BUG 城市部件信息，留存寻找删除
+        Route::resource('parts', 'Admin\CityPartsController')->names([
             'index'     =>  'admin.parts.index',
             'create'    =>  'admin.parts.create',
             'store'     =>  'admin.parts.store',
             'edit'      =>  'admin.parts.edit',
             'update'    =>  'admin.parts.update',
             'destroy'   =>  'admin.parts.destroy',
+        ]);
+        // 城市部件信息
+        Route::resource('part', 'Admin\PartsController')->names([
+            'index'     =>  'admin.part.index',
+            'create'    =>  'admin.part.create',
+            'store'     =>  'admin.part.store',
+            'edit'      =>  'admin.part.edit',
+            'update'    =>  'admin.part.update',
+            'destroy'   =>  'admin.part.destroy',
+        ]);
+
+        Route::resource('situations', 'Admin\SituationsController')->names([
+            'index'     =>  'admin.situations.index',
+            'create'    =>  'admin.situations.create',
+            'store'     =>  'admin.situations.store',
+            'edit'      =>  'admin.situations.edit',
+            'update'    =>  'admin.situations.update',
+            'destroy'   =>  'admin.situations.destroy',
         ]);
     });
 

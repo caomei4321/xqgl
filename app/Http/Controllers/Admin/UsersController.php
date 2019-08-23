@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -12,7 +13,6 @@ class UsersController extends Controller
     public function index(User $user)
     {
         $users = $user->paginate(15);
-
         return view('admin.user.index', compact('users'));
     }
 
@@ -24,7 +24,7 @@ class UsersController extends Controller
 
     public function store(Request $request, User $user)
     {
-        $data = $request->only(['name', 'phone', 'password', 'role']);
+        $data = $request->only(['name', 'phone', 'password', 'age', 'duty', 'from']);
         $data['password'] = Hash::make($data['password']);
         $user->fill($data);
         $user->save();
@@ -47,13 +47,15 @@ class UsersController extends Controller
     {
 
         if (Hash::check($request->password,$user->password)) {
-            $user->update($request->only(['phone', 'name', 'role']));
+            $user->update($request->only(['phone', 'name', 'age', 'duty', 'from']));
         } else {
             $user->update([
                 'name' => $request->name,
                 'phone' => $request->phone,
                 'password' => Hash::make($request->password),
-                'role' => $request->role
+                'age' => $request->age,
+                'duty' => $request->duty,
+                'from' => $request->from,
             ]);
         }
         return redirect()->route('admin.users.index');

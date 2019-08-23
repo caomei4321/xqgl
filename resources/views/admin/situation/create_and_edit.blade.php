@@ -5,7 +5,7 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    @if($cityPart->id)
+                    @if($matter->id)
                         <h5>修改问题</h5>
                     @else
                         <h5>添加问题</h5>
@@ -29,10 +29,10 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    @if(empty($cityPart->id))
-                        <form method="post" action="{{ route('admin.parts.store') }}" class="form-horizontal" enctype="multipart/form-data">
+                    @if(empty($matter->id))
+                        <form method="post" action="{{ route('admin.matters.store') }}" class="form-horizontal" enctype="multipart/form-data">
                             @else
-                                <form method="POST" action="{{ route('admin.parts.update',$matter->id) }}" class="form-horizontal" enctype="multipart/form-data">
+                                <form method="POST" action="{{ route('admin.matters.update',$matter->id) }}" class="form-horizontal" enctype="multipart/form-data">
                                     <input type="hidden" name="_method" value="PUT">
                                     @endif
                                     <div class="form-group">
@@ -44,44 +44,42 @@
                                     </div>
                                     {{ csrf_field() }}
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">物品：</label>
+                                        <label class="col-sm-2 control-label">标题：</label>
 
                                         <div class="col-sm-6">
-                                            <input name="things"  type="text" class="form-control" value="{{ old('things',$cityPart->things) }}">
+                                            <input name="title"  type="text" class="form-control" value="{{ old('title',$matter->title) }}">
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">编号：</label>
+                                        <label class="col-sm-2 control-label">地址：</label>
 
                                         <div class="col-sm-6">
-                                            <input name="num"  type="text" class="form-control" value="{{ old('num',$cityPart->num) }}">
+                                            <input name="address"  type="text" class="form-control" value="{{ old('address',$matter->address) }}">
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">种类：</label>
+                                        <label class="col-sm-2 control-label">内容：</label>
 
                                         <div class="col-sm-6">
-                                            <select class="form-control" name="kind_id" required>
-                                                <option value="" hidden disabled selected>请选择种类</option>
-                                                <option value="1">物品种类1</option>
-                                                <option value="2">物品种类2</option>
-                                                <option value="3">物品种类3</option>
-                                                {{--@foreach ($category as $value)--}}
-                                                    {{--<option value="{{ $value->id }}" {{ $responsibility->category_id == $value->id ? 'selected': '' }}>{{ $value->name }}</option>--}}
-                                                {{--@endforeach--}}
-                                            </select>
+                                            <textarea name="content" class="form-control" id="editor"  rows="6" placeholder="请输入至少三个字符的内容">{{ old('content', $matter->content) }}</textarea>
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">物品信息：</label>
+                                        <label class="col-sm-2 control-label">图片依据：</label>
 
                                         <div class="col-sm-6">
-                                            <textarea name="info" class="form-control" id="editor"  rows="6" placeholder="请输入至少三个字符的内容">{{ old('info', $cityPart->info) }}</textarea>
+                                            <div id="file-pretty">
+                                                <div id="prompt3">
+                                                    <input type="file" name="image" class="form-control" id="file" onchange="changepic(this)" accept="image/*">
+                                                </div>
+                                                <img src="{{ old('image', $matter->image) }}" id="img3" style="width: 160px;" />
+                                            </div>
                                         </div>
                                     </div>
+
                                     <div class="hr-line-dashed"></div>
                                     <div class="form-group">
                                         <div class="col-sm-4 col-sm-offset-2">

@@ -44,6 +44,7 @@
                             <th>内容</th>
                             <th>图片</th>
                             <th>现场查看</th>
+                            <th>添加时间</th>
                             <th>操作</th>
                         </tr>
                         </thead>
@@ -64,8 +65,9 @@
                                         </button>
                                     @endif
                                 </td>
+                                <td>{{ $matter->created_at }}</td>
                                 <td class="center">
-                                    <a href="{{ route('admin.matters.edit',['task' => $matter->id]) }}"><button type="button" class="btn btn-primary btn-xs">编辑</button></a>
+                                    <a href="{{ route('admin.matters.edit',['matter' => $matter->id]) }}"><button type="button" class="btn btn-primary btn-xs">编辑</button></a>
                                     <button class="btn btn-warning btn-xs delete" data-id="{{ $matter->id }}">删除</button>
                                 </td>
                             </tr>
@@ -79,6 +81,7 @@
                             <th>内容</th>
                             <th>图片</th>
                             <th>现场查看</th>
+                            <th>添加时间</th>
                             <th>操作</th>
                         </tr>
                         </tfoot>

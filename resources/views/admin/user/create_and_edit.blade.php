@@ -2,6 +2,7 @@
 
 @section('styles')
     <link href="{{ asset('assets/admin/css/plugins/chosen/chosen.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/admin/css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -68,15 +69,33 @@
                                             <input name="password" id="password" type="password" class="form-control" value="{{ old('password',$user->password) }}">
                                         </div>
                                     </div>
+                                    <div class="hr-line-dashed"></div>
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">用户角色：</label>
+                                        <label class="col-sm-2 control-label">出生日期：</label>
+
                                         <div class="col-sm-6">
-                                            {{--multiple--}}
-                                            <select class="chosen-select" data-placement="选择用户角色" name="role" style="width: 350px;" tabindex="2">
-                                                <option value="">选择角色</option>
-                                                <option value="1" @if($user->role == 1) selected="selected" @endif>小区管理员</option>
-                                                <option value="2" @if($user->role == 2) selected="selected" @endif>小区住户</option>
-                                            </select>
+                                            <div class="form-group" id="data_2">
+                                                <div class="input-group date">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    <input name="age" type="text" class="form-control" value="{{ old('age', $user->age) }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">职务：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="duty" id="duty" type="text" class="form-control" value="{{ old('duty',$user->duty) }}">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">派驻结构：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="from" id="from" type="text" class="form-control" value="{{ old('from',$user->from) }}">
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>
@@ -95,6 +114,10 @@
 @section('scripts')
     <!-- Chosen -->
     <script src="{{ asset('assets/admin/js/plugins/chosen/chosen.jquery.js') }}"></script>
+    <!-- Date -->
+    <script src="{{ asset('assets/admin/js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/plugins/cropper/cropper.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/demo/form-advanced-demo.js') }}"></script>
 @endsection
 <!-- 自定义js -->
 {{--<script src="{{ asset('assets/admin/js/content.js?v=1.0.0') }}"></script>--}}

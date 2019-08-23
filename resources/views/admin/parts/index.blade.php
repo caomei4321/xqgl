@@ -5,6 +5,7 @@
     <link href="{{ asset('assets/admin/css/plugins/dataTables/dataTables.bootstrap.css') }}" rel="stylesheet">
     <!-- Sweet Alert -->
     <link href="{{ asset('assets/admin/css/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet">
+
 @endsection
 
 @section('content')
@@ -12,7 +13,7 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>责任类别 <small>分类</small></h5>
+                    <h5>基本 <small>分类，查找</small></h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -32,26 +33,32 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <a href="{{ route('admin.categories.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加分类</button>
+                    <a href="{{ route('admin.part.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加部件</button>
                     </a>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>分类名</th>
-                            <th>分类描述</th>
+                            <th>物品</th>
+                            <th>编号</th>
+                            <th>种类</th>
+                            <th>物品信息</th>
+                            <th>添加时间</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($categories as $category)
+                        @foreach($parts as $part)
                             <tr class="gradeC">
-                                <td>{{ $category->id }}</td>
-                                <td>{{ $category->name }}</td>
-                                <td>{{ $category->description }}</td>
+                                <td>{{ $part->id }}</td>
+                                <td>{{ $part->things }}</td>
+                                <td>{{ $part->num }}</td>
+                                <td>{{ $part->kind_id }}</td>
+                                <td>{{ $part->info }}</td>
+                                <td>{{ $part->created_at }}</td>
                                 <td class="center">
-                                    <a href="{{ route('admin.categories.edit',['category' => $category->id]) }}"><button type="button" class="btn btn-primary btn-xs">编辑</button></a>
-                                    <button class="btn btn-warning btn-xs delete" data-id="{{ $category->id }}">删除</button>
+                                    <a href="{{ route('admin.part.edit',['part' => $part->id]) }}"><button type="button" class="btn btn-primary btn-xs">编辑</button></a>
+                                    <button class="btn btn-warning btn-xs delete" data-id="{{ $part->id }}">删除</button>
                                 </td>
                             </tr>
                         @endforeach
@@ -59,8 +66,11 @@
                         <tfoot>
                         <tr>
                             <th>ID</th>
-                            <th>分类名</th>
-                            <th>分类描述</th>
+                            <th>物品</th>
+                            <th>编号</th>
+                            <th>种类</th>
+                            <th>物品信息</th>
+                            <th>添加时间</th>
                             <th>操作</th>
                         </tr>
                         </tfoot>
@@ -78,6 +88,7 @@
 
     <!-- Sweet alert -->
     <script src="{{ asset('assets/admin/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
+
 @endsection
 
 @section('javascript')
@@ -86,7 +97,7 @@
             var id = $(this).data('id');
             swal({
                 title: "您确定要删除这条信息吗",
-                text: "删除后会把该分类下的责任清单同时删除，请谨慎操作！",
+                text: "删除后将无法恢复，请谨慎操作！",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
@@ -97,7 +108,7 @@
                 $.ajaxSetup({
                     headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                     type:"delete",
-                    url: '/admin/categories/'+id,
+                    url: '/admin/part/'+id,
                     success:function (res) {
                         if (res.status == 1){
                             swal(res.msg, "您已经永久删除了这条信息。", "success");

@@ -5,6 +5,7 @@
     <link href="{{ asset('assets/admin/css/plugins/dataTables/dataTables.bootstrap.css') }}" rel="stylesheet">
     <!-- Sweet Alert -->
     <link href="{{ asset('assets/admin/css/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet">
+
 @endsection
 
 @section('content')
@@ -12,7 +13,7 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>责任类别 <small>分类</small></h5>
+                    <h5>基本 <small>分类，查找</small></h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -32,26 +33,36 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <a href="{{ route('admin.categories.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加分类</button>
-                    </a>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>分类名</th>
-                            <th>分类描述</th>
-                            <th>操作</th>
+                            <th>任务</th>
+                            <th>执行人</th>
+                            <th>分类</th>
+                            <th>现场处理图片</th>
+                            <th>处理信息</th>
+                            <th>时间</th>
+                            <th>状态</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($categories as $category)
+                        @foreach($situations as $situation)
                             <tr class="gradeC">
-                                <td>{{ $category->id }}</td>
-                                <td>{{ $category->name }}</td>
-                                <td>{{ $category->description }}</td>
-                                <td class="center">
-                                    <a href="{{ route('admin.categories.edit',['category' => $category->id]) }}"><button type="button" class="btn btn-primary btn-xs">编辑</button></a>
-                                    <button class="btn btn-warning btn-xs delete" data-id="{{ $category->id }}">删除</button>
+                                <td>{{ $situation->id }}</td>
+                                <td>{{ $situation->matter->title }}</td>
+                                <td>{{ $situation->user->name }}</td>
+                                <td>{{ $situation->category->name }}</td>
+                                <td><image src="{{ $situation->see_image }}"  style="width: 40px;"/></td>
+                                <td>{{ $situation->information }}</td>
+                                <td>{{ $situation->created_at }}</td>
+                                <td>
+                                    @if( $situation->status  == 1)
+                                        <button class="btn btn-sm btn-warning " type="button"><i class="fa fa-warning"></i> <span class="bold">无权</span>
+                                        </button>
+                                    @else
+                                        <button class="btn btn-sm btn-info " type="button"><i class="fa fa-paste"></i> 完成</button>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -59,9 +70,13 @@
                         <tfoot>
                         <tr>
                             <th>ID</th>
-                            <th>分类名</th>
-                            <th>分类描述</th>
-                            <th>操作</th>
+                            <th>任务</th>
+                            <th>执行人</th>
+                            <th>分类</th>
+                            <th>现场处理图片</th>
+                            <th>处理信息</th>
+                            <th>时间</th>
+                            <th>状态</th>
                         </tr>
                         </tfoot>
                     </table>
@@ -78,6 +93,7 @@
 
     <!-- Sweet alert -->
     <script src="{{ asset('assets/admin/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
+
 @endsection
 
 @section('javascript')
@@ -86,7 +102,7 @@
             var id = $(this).data('id');
             swal({
                 title: "您确定要删除这条信息吗",
-                text: "删除后会把该分类下的责任清单同时删除，请谨慎操作！",
+                text: "删除后将无法恢复，请谨慎操作！",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
@@ -97,7 +113,7 @@
                 $.ajaxSetup({
                     headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                     type:"delete",
-                    url: '/admin/categories/'+id,
+                    url: '/admin/situation/'+id,
                     success:function (res) {
                         if (res.status == 1){
                             swal(res.msg, "您已经永久删除了这条信息。", "success");

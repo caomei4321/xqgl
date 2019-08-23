@@ -18,7 +18,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'phone', 'password', 'open_id', 'weixin_session_key', 'role'
+        'name', 'phone', 'password', 'age', 'duty', 'from',  'open_id', 'weixin_session_key', 'role'
     ];
 
     /**
@@ -49,8 +49,9 @@ class User extends Authenticatable implements JWTSubject
         }
     }
 
-    public function repairs()
+    public function situation()
     {
-        return $this->hasMany(Repair::class);
+        return $this->hasMany('App\Models\Situation');
     }
+
 }

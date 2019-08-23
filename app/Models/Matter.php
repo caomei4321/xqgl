@@ -9,4 +9,9 @@ class Matter extends Model
     protected $fillable = [
         'title', 'address', 'content', 'image'
     ];
+
+    public function situation()
+    {
+        return $this->hasOne('App\Models\Situation', 'matter_id');
+    }
 }

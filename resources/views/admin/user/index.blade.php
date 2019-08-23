@@ -40,7 +40,9 @@
                             <th>ID</th>
                             <th>姓名</th>
                             <th>手机号</th>
-                            <th>角色</th>
+                            <th>年龄</th>
+                            <th>职务</th>
+                            <th>派驻机构</th>
                             <th>添加时间</th>
                             <th>操作</th>
                         </tr>
@@ -51,8 +53,10 @@
                                 <td>{{ $user->id }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->phone }}</td>
-                                <td>{{ $user->role_name }}</td>
-                                <td>{{ $user->created_at }}</td>
+                                <td>{{ $user->age }}</td>
+                                <td>{{ $user->duty }}</td>
+                                <td>{{ $user->from }}</td>
+                                <td>{{ $user->created_at->diffForHumans() }}</td>
                                 <td class="center">
                                     <a href="{{ route('admin.users.edit',['user' => $user->id]) }}"><button type="button" class="btn btn-primary btn-xs">编辑</button></a>
                                     <button class="btn btn-warning btn-xs delete" data-id="{{ $user->id }}">删除</button>
@@ -65,7 +69,9 @@
                             <th>ID</th>
                             <th>姓名</th>
                             <th>手机号</th>
-                            <th>角色</th>
+                            <th>年龄</th>
+                            <th>职务</th>
+                            <th>派驻机构</th>
                             <th>添加时间</th>
                             <th>操作</th>
                         </tr>

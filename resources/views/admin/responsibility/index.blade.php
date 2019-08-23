@@ -12,7 +12,7 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>基本 <small>分类，查找</small></h5>
+                    <h5>事项责任指导 <small>查找</small></h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -40,6 +40,9 @@
                             <th>ID</th>
                             <th>所属分类</th>
                             <th>具体事项</th>
+                            <th>县级部门职责</th>
+                            <th>乡镇（街道）职责</th>
+                            <th>法律依据</th>
                             <th>主体责任</th>
                             <th>配合责任</th>
                             <th>操作</th>
@@ -49,10 +52,13 @@
                         @foreach($responsibility as $res)
                             <tr class="gradeC">
                                 <td>{{ $res->id }}</td>
-                                <td>{{ $res->category->name }}</td>
+                                <td style="width: 70px">{{ $res->category->name }}</td>
                                 <td>{{ $res->item }}</td>
-                                <td>{{ $res->subject_duty ===0 ? '部门' : '镇街' }}</td>
-                                <td>{{ $res->cooperate_duty ===1 ? '镇街' : '部门' }}</td>
+                                <td>{{ $res->county }}</td>
+                                <td>{{ $res->town }}</td>
+                                <td>{{ $res->legal_doc }}</td>
+                                <td style="width: 70px">{{ $res->subject_duty ===0 ? '部门' : '镇街' }}</td>
+                                <td style="width: 70px">{{ $res->cooperate_duty ===1 ? '镇街' : '部门' }}</td>
                                 <td class="center">
                                     <a href="{{ route('admin.responsibility.edit',['responsibility' => $res->id]) }}"><button type="button" class="btn btn-primary btn-xs">编辑</button></a>
                                     <button class="btn btn-warning btn-xs delete" data-id="{{ $res->id }}">删除</button>

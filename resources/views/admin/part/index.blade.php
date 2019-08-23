@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <a href="{{ route('admin.parts.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加部件</button>
+                    <a href="{{ route('admin.parts.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加任务</button>
                     </a>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
@@ -42,12 +42,12 @@
                             <th>物品</th>
                             <th>编号</th>
                             <th>种类</th>
-                            <th>信息</th>
+                            <th>物品信息</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($parts as $part)
+                        @foreach($cityParts as $part)
                             <tr class="gradeC">
                                 <td>{{ $part->id }}</td>
                                 <td>{{ $part->things }}</td>
@@ -55,7 +55,7 @@
                                 <td>{{ $part->kind_id }}</td>
                                 <td>{{ $part->info }}</td>
                                 <td class="center">
-                                    <a href="{{ route('admin.parts.edit',['task' => $part->id]) }}"><button type="button" class="btn btn-primary btn-xs">编辑</button></a>
+                                    <a href="{{ route('admin.parts.edit',['part' => $part->id]) }}"><button type="button" class="btn btn-primary btn-xs">编辑</button></a>
                                     <button class="btn btn-warning btn-xs delete" data-id="{{ $part->id }}">删除</button>
                                 </td>
                             </tr>
@@ -67,7 +67,7 @@
                             <th>物品</th>
                             <th>编号</th>
                             <th>种类</th>
-                            <th>信息</th>
+                            <th>物品信息</th>
                             <th>操作</th>
                         </tr>
                         </tfoot>
@@ -92,6 +92,7 @@
     <script>
         $('.delete').click(function () {
             var id = $(this).data('id');
+            console.log(4)
             swal({
                 title: "您确定要删除这条信息吗",
                 text: "删除后将无法恢复，请谨慎操作！",
@@ -105,7 +106,7 @@
                 $.ajaxSetup({
                     headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                     type:"delete",
-                    url: '/admin/parts/'+id,
+                    url: '/admin/parts/'+ id,
                     success:function (res) {
                         if (res.status == 1){
                             swal(res.msg, "您已经永久删除了这条信息。", "success");
