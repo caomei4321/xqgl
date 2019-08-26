@@ -55,6 +55,34 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                        <label class="col-sm-2 control-label">年龄：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="age" id="age" type="number" class="form-control" value="{{ old('age',$user->age) }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">职务：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="position" id="position" type="text" class="form-control" value="{{ old('position',$user->position) }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">责任网络：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="responsible_area" id="responsible_area" type="text" class="form-control" value="{{ old('responsible_area',$user->responsible_area) }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">派驻机构：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="resident_institution" id="resident_institution" type="text" class="form-control" value="{{ old('resident_institution',$user->resident_institution) }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label class="col-sm-2 control-label">手机号：</label>
 
                                         <div class="col-sm-6">
@@ -68,14 +96,22 @@
                                             <input name="password" id="password" type="password" class="form-control" value="{{ old('password',$user->password) }}">
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">用户角色：</label>
+                                    {{--<div class="form-group">
+                                        <label class="col-sm-2 control-label">使用设备：</label>
+
                                         <div class="col-sm-6">
-                                            {{--multiple--}}
-                                            <select class="chosen-select" data-placement="选择用户角色" name="role" style="width: 350px;" tabindex="2">
-                                                <option value="">选择角色</option>
-                                                <option value="1" @if($user->role == 1) selected="selected" @endif>小区管理员</option>
-                                                <option value="2" @if($user->role == 2) selected="selected" @endif>小区住户</option>
+                                            <input name="entity_name" id="entity_name" type="text" class="form-control" value="{{ old('entity_name',$user->entity_name) }}">
+                                        </div>
+                                    </div>--}}
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">使用设备：</label>
+                                        <div class="col-sm-6">
+                                            <select class="chosen-select" data-placement="选择用户设备" name="entity_name" style="width: 350px;" tabindex="2">
+                                                <option value="">选择用户设备</option>
+                                                @foreach($entities as $entity)
+                                                <option value="{{ $entity->entity_name }}" @if($user->entity_name == $entity->entity_name) selected="selected" @endif >{{ $entity->entity_name }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
