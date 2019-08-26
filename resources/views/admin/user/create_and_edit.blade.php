@@ -110,8 +110,11 @@
                                         <div class="col-sm-6">
                                             <select class="chosen-select" data-placement="选择用户设备" name="entity_name" style="width: 350px;" tabindex="2">
                                                 <option value="">选择用户设备</option>
-                                                @foreach($entities as $entity)
-                                                <option value="{{ $entity->entity_name }}" @if($user->entity_name == $entity->entity_name) selected="selected" @endif >{{ $entity->entity_name }}</option>
+                                                @if($user->id)
+                                                    <option value="{{ $user->entity_name }}" selected="selected">{{ $user->entity_name }}</option>
+                                                @endif
+                                                @foreach($entities as $entity_name)
+                                                <option value="{{ $entity_name }}">{{ $entity_name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

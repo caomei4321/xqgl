@@ -26,6 +26,14 @@ class UsersController extends Controller
         $entityList = $curl->curl('http://yingyan.baidu.com/api/v3/entity/list', $data);
         $entityList = json_decode($entityList);
         $entities = $entityList->entities;
+
+        //dd(array_column($entities,'entity_name'));
+        $userHasEntities = $user->all()->pluck('entity_name')->toArray();
+        //dd($userHasEntities);
+        //dd(array_diff_assoc($userHasEntities,array_column($entities,'entity_name')));
+        // 未分配用户的设备
+        $entities = array_diff(array_column($entities,'entity_name'),$userHasEntities);
+
         return view('admin.user.create_and_edit', compact('user',  'entities'));
     }
 
@@ -55,6 +63,12 @@ class UsersController extends Controller
         $entityList = $curl->curl('http://yingyan.baidu.com/api/v3/entity/list', $data);
         $entityList = json_decode($entityList);
         $entities = $entityList->entities;
+
+        $userHasEntities = $user->all()->pluck('entity_name')->toArray();
+        //dd($userHasEntities);
+        //dd(array_diff_assoc($userHasEntities,array_column($entities,'entity_name')));
+        // 未分配用户的设备
+        $entities = array_diff(array_column($entities,'entity_name'),$userHasEntities);
         return view('admin.user.create_and_edit', compact('user', 'entities'));
     }
 
