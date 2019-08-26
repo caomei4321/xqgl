@@ -40,7 +40,7 @@
     <!-- Chosen -->
     <script src="{{ asset('assets/admin/js/plugins/chosen/chosen.jquery.js') }}"></script>
     <!-- 百度地图js -->
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=F6subxg8j4A1f28mhgryfUs0dxO8PQ8o"></script>
+    <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=F6subxg8j4A1f28mhgryfUs0dxO8PQ8o"></script>
 
 @endsection
 <!-- 自定义js -->
