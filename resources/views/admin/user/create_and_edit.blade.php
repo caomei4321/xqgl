@@ -2,6 +2,7 @@
 
 @section('styles')
     <link href="{{ asset('assets/admin/css/plugins/chosen/chosen.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/admin/css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -131,6 +132,10 @@
 @section('scripts')
     <!-- Chosen -->
     <script src="{{ asset('assets/admin/js/plugins/chosen/chosen.jquery.js') }}"></script>
+    <!-- Date -->
+    <script src="{{ asset('assets/admin/js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/plugins/cropper/cropper.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/demo/form-advanced-demo.js') }}"></script>
 @endsection
 <!-- 自定义js -->
 {{--<script src="{{ asset('assets/admin/js/content.js?v=1.0.0') }}"></script>--}}

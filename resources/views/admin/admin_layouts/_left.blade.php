@@ -72,6 +72,22 @@
                     </li>
                 </ul>
             </li>
+            <li>
+                <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">基础数据管理</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a class="J_menuItem" href="{{ route('admin.categories.index') }}">责任类别</a></li>
+                    <li><a class="J_menuItem" href="{{ route('admin.responsibility.index') }}">责任清单指导</a></li>
+                    <li><a class="J_menuItem" href="{{ route('admin.matters.index') }}">任务清单</a></li>
+                    <li><a class="J_menuItem" href="{{ route('admin.situations.index') }}">任务情况</a></li>
+                    <li><a class="J_menuItem" href="{{ route('admin.part.index') }}">部件信息</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">BUG部件</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a class="J_menuItem" href="{{ route('admin.parts.index') }}">BUG部件信息</a></li>
+                </ul>
+            </li>
         </ul>
     </div>
 </nav>
