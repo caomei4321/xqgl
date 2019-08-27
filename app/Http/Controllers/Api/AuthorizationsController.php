@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthorizationsController extends Controller
 {
-    public function store(AuthorizationRequest $request)
+    public function store(Request $request)
     {
         $credentials['phone'] = $request->phone;
         $credentials['password'] = $request->password;
