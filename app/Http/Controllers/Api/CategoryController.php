@@ -11,6 +11,6 @@ class CategoryController extends Controller
 {
     public function categories()
     {
-        return new CategoryResource(Category::all());
+        return CategoryResource::collection(Category::all());
     }
 }
