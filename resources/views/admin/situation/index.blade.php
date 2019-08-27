@@ -57,7 +57,11 @@
                                 <td>{{ $situation->information }}</td>
                                 <td>{{ $situation->created_at }}</td>
                                 <td>
-                                    @if( $situation->status  == 1)
+                                    @if($situation->status  == 0)
+                                        <button class="btn btn-default " type="button"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;未处理</button>
+                                        </button>
+                                        </button>
+                                    @elseif( $situation->status  == 2)
                                         <button class="btn btn-sm btn-warning " type="button"><i class="fa fa-warning"></i> <span class="bold">无权</span>
                                         </button>
                                     @else

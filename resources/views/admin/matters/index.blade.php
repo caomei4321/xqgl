@@ -35,6 +35,41 @@
                 <div class="ibox-content">
                     <a href="{{ route('admin.matters.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加任务</button>
                     </a>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" onclick="fun()" id="fp-btn">分配给人</button>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="form1" action="{{ route('admin.matters.mtu') }}"  method="post">
+                                        {{ csrf_field() }}
+                                        <div class="form-group">
+                                            <label for="matter_id" class="control-label">ID:</label>
+                                            <input type="text" class="form-control" id="matter_id" name="matter_id" value="" placeholder="请选择id" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="message-text" class="control-label">任务执行人:</label>
+                                            <select class="form-control" name="user_id" id="userId">
+                                                <option disabled>请选择</option>
+                                            </select>
+                                        </div>
+                                        <button type="reset" id="model_reset" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="submit" onclick="submit()" class="btn btn-primary">Send message</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @if( count($errors) >0)
+                            @foreach($errors->all() as $error)
+                                <p class="text-danger text-center">{{ $error }}</p>
+                            @endforeach
+                        @endif
+                    </div>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                         <tr>
@@ -51,7 +86,10 @@
                         <tbody>
                         @foreach($matters as $matter)
                             <tr class="gradeC">
-                                <td>{{ $matter->id }}</td>
+                                <td class="check_id">
+                                    {{ $matter->id }}
+                                    <input type="checkbox" name="matter" value="{{ $matter->id }}">
+                                </td>
                                 <td>{{ $matter->title }}</td>
                                 <td>{{ $matter->address }}</td>
                                 <td>{{ $matter->content }}</td>
@@ -86,6 +124,9 @@
                         </tr>
                         </tfoot>
                     </table>
+                    <div style="float: right">
+                        {{ $matters->appends($matter->id)->links() }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -104,6 +145,37 @@
 
 @section('javascript')
     <script>
+        $('#fp-btn').click(function () {
+            $.ajax({
+                headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                type: 'GET',
+                url: 'matters/users',
+                datatype: 'json',
+                success: function (data) {
+                    for (var i = 0; i < data.length; i++) {
+                        var option = document.createElement("option");
+                        $(option).val(data[i].id);
+                        $(option).text(data[i].name);
+                        $('#userId').append(option);
+                    }
+                }
+            });
+        });
+
+        $('#model_reset').click(function () {
+           location.reload();
+        });
+
+        function fun(){
+            obj = document.getElementsByName("matter");
+            check_val = [];
+            for(k in obj){
+                if(obj[k].checked)
+                    check_val.push(obj[k].value);
+            }
+            $("#matter_id").val(check_val.join(","));
+        }
+
         $('.delete').click(function () {
             var id = $(this).data('id');
             swal({

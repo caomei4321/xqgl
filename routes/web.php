@@ -61,7 +61,7 @@ Route::group(['prefix' => 'admin'], function () {
             'show' => 'admin.roles.show',
             'edit' => 'admin.roles.edit',
         ]);
-
+        // 责任类别
         Route::resource('categories', 'Admin\CategoriesController', ['except' => ['show']])->names([
             'index'     =>  'admin.categories.index',
             'create'    =>  'admin.categories.create',
@@ -70,7 +70,7 @@ Route::group(['prefix' => 'admin'], function () {
             'update'    =>  'admin.categories.update',
             'destroy'   =>  'admin.categories.destroy',
         ]);
-
+        // 责任清单
         Route::resource('responsibility', 'Admin\ResponsibilityController', ['except' => ['show']])->names([
             'index'     =>  'admin.responsibility.index',
             'create'    =>  'admin.responsibility.create',
@@ -79,7 +79,7 @@ Route::group(['prefix' => 'admin'], function () {
             'update'    =>  'admin.responsibility.update',
             'destroy'   =>  'admin.responsibility.destroy',
         ]);
-
+        // 任务清单
         Route::resource('matters', 'Admin\MattersController', ['except' => ['show']])->names([
             'index'     =>  'admin.matters.index',
             'create'    =>  'admin.matters.create',
@@ -106,7 +106,7 @@ Route::group(['prefix' => 'admin'], function () {
             'update'    =>  'admin.part.update',
             'destroy'   =>  'admin.part.destroy',
         ]);
-
+        // 任务情况
         Route::resource('situations', 'Admin\SituationsController')->names([
             'index'     =>  'admin.situations.index',
             'create'    =>  'admin.situations.create',
@@ -115,6 +115,10 @@ Route::group(['prefix' => 'admin'], function () {
             'update'    =>  'admin.situations.update',
             'destroy'   =>  'admin.situations.destroy',
         ]);
+
+        // 分配任务到人
+        Route::get('matters/users', 'Admin\MattersController@getUser')->name('admin.matters.users');
+        Route::post('matters/mtu', 'Admin\MattersController@mattersToUser')->name('admin.matters.mtu');
     });
 
 });

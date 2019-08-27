@@ -44,6 +44,126 @@
                                     </div>
                                     {{ csrf_field() }}
                                     <div class="form-group">
+                                        <label class="col-sm-2 control-label">受理员编号：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="accept_num"  type="text" class="form-control" value="{{ old('accept_num',$matter->accept_num) }}">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">办结时限：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="time_limit"  type="text" class="form-control" value="{{ old('time_limit',$matter->time_limit) }}">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">工单编号：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="work_num"  type="text" class="form-control" value="{{ old('work_num',$matter->work_num) }}">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">紧急程度：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="level"  type="text" class="form-control" value="{{ old('level',$matter->level) }}">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">来电类别：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="type"  type="text" class="form-control" value="{{ old('type',$matter->type) }}">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">信息来源：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="source"  type="text" class="form-control" value="{{ old('source',$matter->source) }}">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">是否回复：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="is_reply"  type="text" class="form-control" value="{{ old('is_reply',$matter->is_reply) }}">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">是否保密：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="is_secret"  type="text" class="form-control" value="{{ old('is_secret',$matter->is_secret) }}">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">联系人：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="contact_name"  type="text" class="form-control" value="{{ old('contact_name',$matter->contact_name) }}">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">联系电话：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="contact_phone"  type="text" class="form-control" value="{{ old('contact_phone',$matter->contact_phone) }}">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">回复备注：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="reply_remark"  type="text" class="form-control" value="{{ old('reply_remark',$matter->reply_remark) }}">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">问题分类：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="category_id"  type="text" class="form-control" value="{{ old('category_id',$matter->category_id) }}">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">转办意见：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="suggestion"  type="text" class="form-control" value="{{ old('suggestion',$matter->suggestion) }}">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">转办单位领导批示：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="approval"  type="text" class="form-control" value="{{ old('approval',$matter->approval) }}">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">办理结果：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="result"  type="text" class="form-control" value="{{ old('result',$matter->result) }}">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
                                         <label class="col-sm-2 control-label">标题：</label>
 
                                         <div class="col-sm-6">
@@ -52,7 +172,7 @@
                                     </div>
                                     <div class="hr-line-dashed"></div>
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">地址：</label>
+                                        <label class="col-sm-2 control-label">联系地址：</label>
 
                                         <div class="col-sm-6">
                                             <input name="address"  type="text" class="form-control" value="{{ old('address',$matter->address) }}">
@@ -60,7 +180,7 @@
                                     </div>
                                     <div class="hr-line-dashed"></div>
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">内容：</label>
+                                        <label class="col-sm-2 control-label">问题描述：</label>
 
                                         <div class="col-sm-6">
                                             <textarea name="content" class="form-control" id="editor"  rows="6" placeholder="请输入至少三个字符的内容">{{ old('content', $matter->content) }}</textarea>
