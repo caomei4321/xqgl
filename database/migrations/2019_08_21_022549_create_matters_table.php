@@ -15,10 +15,10 @@ class CreateMattersTable extends Migration
     {
         Schema::create('matters', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title')->comment('标题');
-            $table->string('address')->comment('地址');
-            $table->text('content')->comment('内容');
-            $table->string('image')->comment('问题图片');
+            $table->string('title')->nullable()->comment('标题');
+            $table->string('address')->nullable()->comment('地址');
+            $table->text('content')->nullable()->comment('内容');
+            $table->string('image')->nullable()->comment('问题图片');
             $table->unsignedTinyInteger('status')->default('0')->comment('现场查看? 0=No 1=Yes');
             $table->timestamps();
         });

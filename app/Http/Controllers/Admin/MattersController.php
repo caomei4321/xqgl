@@ -4,14 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use App\Handlers\ImageUploadHandler;
 use App\Models\Matter;
+use App\Models\Situation;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class MattersController extends Controller
 {
-    public function index(Matter $matter)
+    public function index(Matter $matter, Request $request)
     {
-        $matters = $matter->paginate(15);
+        $matters = $matter->orderBy('status', 'asc')->paginate(10);
 
         return view('admin.matters.index', compact('matters'));
     }
@@ -62,6 +65,40 @@ class MattersController extends Controller
         $matter->delete();
 
         return response()->json(['status' => '1', 'msg'=> '删除成功']);
+    }
+
+    public function getUser(User $user)
+    {
+        $users = $user->get();
+        return response()->json($users);
+    }
+
+    public function mattersToUser(Request $request, Situation $situation, Matter $matter)
+    {
+        $this->validate($request, [
+            'user_id' => 'required',
+            'matter_id' => 'required'
+        ], [
+            'matter_id.required' => '没选中任务， 请选中任务再分配',
+            'user_id.required' => '分配请选择人员',
+        ]);
+
+        $data = $request->only(['user_id', 'matter_id']);
+        $mt_id = explode(',', $data['matter_id']);
+        $newArr = [];
+        foreach ($mt_id as $item) {
+            $newArr[] = [
+                'user_id' => $data['user_id'],
+                'matter_id' => $item,
+                'category_id' => $matter->where('id', $item)->value('category_id'),
+                'created_at' => date('Y-m-d H:i:s', time()),
+                'updated_at' => date('Y-m-d H:i:s', time()),
+            ];
+        }
+        DB::table('user_has_matters')->insert($newArr);
+
+        return redirect()->route('admin.matters.index');
+
     }
 
     public function rules(Request $request)
