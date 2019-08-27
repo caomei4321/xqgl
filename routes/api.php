@@ -51,5 +51,8 @@ $api->version('v1', [
 
         $api->post('completeRepair', 'RepairsController@completeRepair'); //完成报修
 
+        $api->get('userHasMatters', 'MattersController@userHasMatters');
+
+        $api->get('matter', 'MattersController@matter');
     });
 });
