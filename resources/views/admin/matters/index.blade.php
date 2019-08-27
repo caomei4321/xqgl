@@ -36,7 +36,32 @@
                     <a href="{{ route('admin.matters.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加任务</button>
                     </a>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" onclick="fun()" id="fp-btn">分配给人</button>
-                    <a href=""> <button class="btn btn-warning " type="button"><i class="fa fa-paste"></i> Excel导入</button></a>
+                    <button class="btn btn-warning " type="button" data-toggle="modal" data-target="#importModal" data-whatever="@mdo"><i class="fa fa-paste"></i> Excel导入</button>
+                    <a href="{{ route('admin.matters.export') }}"> <button class="btn btn-warning " type="button"><i class="fa fa-paste"></i> Excel导出</button></a>
+                    {{--导入model start--}}
+                    <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form id="form1" action="{{ route('admin.matters.import') }}"  method="post" enctype="multipart/form-data">
+                                        {{ csrf_field() }}
+                                        <div class="form-group">
+                                            <label for="import_file" class="control-label">选择指定格式Excel文件</label>
+                                            <input type="file" class="form-control"  name="import_file" value=""  >
+                                        </div>
+                                        <button type="reset" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="submit" onclick="submit()" class="btn btn-primary">确定</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{--导入model end--}}
+                    {{--分配model start--}}
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
@@ -57,13 +82,14 @@
                                                 <option disabled>请选择</option>
                                             </select>
                                         </div>
-                                        <button type="reset" id="model_reset" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        <button type="submit" onclick="submit()" class="btn btn-primary">Send message</button>
+                                        <button type="reset" id="model_reset" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="submit" onclick="submit()" class="btn btn-primary">确定</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    {{--分配model end--}}
                     <div class="form-group">
                         @if( count($errors) >0)
                             @foreach($errors->all() as $error)
@@ -89,7 +115,9 @@
                             <tr class="gradeC">
                                 <td class="check_id">
                                     {{ $matter->id }}
-                                    <input type="checkbox" name="matter" value="{{ $matter->id }}">
+                                    @if( $matter->allocate == 0)
+                                        <input type="checkbox" name="matter" value="{{ $matter->id }}">
+                                    @endif
                                 </td>
                                 <td>{{ $matter->title }}</td>
                                 <td>{{ $matter->address }}</td>

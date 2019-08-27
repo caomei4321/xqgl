@@ -140,6 +140,10 @@ Route::group(['prefix' => 'admin'], function () {
         // 分配任务到人
         Route::get('matters/users', 'Admin\MattersController@getUser')->name('admin.matters.users');
         Route::post('matters/mtu', 'Admin\MattersController@mattersToUser')->name('admin.matters.mtu');
+
+        // 导入导出
+        Route::get('matters/export', 'Admin\MattersController@export')->name('admin.matters.export');
+        Route::post('matters/import', 'Admin\MattersController@import')->name('admin.matters.import');
     });
 
 });

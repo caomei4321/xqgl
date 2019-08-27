@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Handlers\ImageUploadHandler;
+use App\Models\Category;
 use App\Models\Matter;
 use App\Models\Situation;
 use App\Models\User;
+use function foo\func;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Excel;
 
 class MattersController extends Controller
 {
@@ -21,7 +24,8 @@ class MattersController extends Controller
 
     public function create(Matter $matter)
     {
-        return view('admin.matters.create_and_edit', compact('matter'));
+        $category = Category::all();
+        return view('admin.matters.create_and_edit', compact('matter', 'category'));
     }
 
     public function store(Request $request, Matter $matter, ImageUploadHandler $uploader)
@@ -42,7 +46,8 @@ class MattersController extends Controller
 
     public function edit(Matter $matter)
     {
-        return view('admin.matters.create_and_edit', compact('matter'));
+        $category = Category::all();
+        return view('admin.matters.create_and_edit', compact('matter', 'category'));
     }
 
     public function update(Request $request, Matter $matter, ImageUploadHandler $uploader)
@@ -95,6 +100,13 @@ class MattersController extends Controller
                 'updated_at' => date('Y-m-d H:i:s', time()),
             ];
         }
+
+        foreach ($mt_id as $item) {
+            $allocate = [
+                'allocate' => 1,
+            ];
+            $matter->where('id', $item)->update($allocate);
+        }
         DB::table('user_has_matters')->insert($newArr);
 
         return redirect()->route('admin.matters.index');
@@ -118,5 +130,86 @@ class MattersController extends Controller
             'image.mimes' => '必须是jpeg, bmp, png, gif格式的图片',
             'image.dimensions' => '图片清晰度不够， 宽和高需要 200px 以上'
         ]);
+    }
+
+    public function export(Matter $matter, Excel $excel)
+    {
+        $matters = $matter->all()->toArray();
+        $cellData = [
+            ['受理员编号','办结时限','工单编号','紧急程度','来电类别','信息来源','是否回复','是否保密','联系人','联系电话','回复备注','问题分类','特办意见','领导批示','办理结果','标题', '地址', '内容', '创建时间']
+        ];
+        foreach ($matters as $matter) {
+            $data = [
+                $matter['accept_num'],
+                $matter['time_limit'],
+                $matter['work_num'],
+                $matter['level'],
+                $matter['type'],
+                $matter['source'],
+                $matter['is_reply'],
+                $matter['is_secret'],
+                $matter['contact_name'],
+                $matter['contact_phone'],
+                $matter['reply_remark'],
+                $matter['category_id'],
+                $matter['suggestion'],
+                $matter['approval'],
+                $matter['result'],
+                $matter['title'],
+                $matter['address'],
+                $matter['content'],
+                $matter['created_at']
+            ];
+            array_push($cellData, $data);
+        }
+        $excel->create(iconv('UTF-8', 'GBK', '任务清单'), function ($excel) use ($cellData) {
+            $excel->sheet('matter', function ($sheet) use ($cellData) {
+                $sheet->rows($cellData);
+            });
+        })->export('xls');
+    }
+
+    public function import(Request $request, Excel $excel)
+    {
+        $filePath = $this->uploadFile($request->import_file, 'import', 'im');
+        $path = $filePath['path'];
+        $excel->load($path, function ($reader) {
+            dd($reader);
+            //            $reader->noHeading()
+            //            $reader = $reader->getSheet(0);
+            //            $result = $reader->toArray();
+            //            unset($result[0]);
+            $data = $reader->all();
+            dd($data);
+            $value = [];
+            $count = '';
+            foreach ($data as $k => $v) {
+                $count++;
+                $value['accept_num'] = $v['0'];
+            }
+
+            throw  new \Exception("成功导入了".$count."条数据");
+        });
+    }
+
+    public function uploadFile($file, $folder, $file_prefix)
+    {
+        $folder_name = "uploads/file/$folder/" . date("Ym/d", time());
+
+        $upload_path = public_path() . '/' . $folder_name;
+
+        $extension = strtolower($file->getClientOriginalExtension()) ?: 'xls';
+
+        $filename = $file_prefix . '_' . time() . '_' . str_random(10) . '.' . $extension;
+
+        if ( ! in_array($extension, ['xls', 'xlsx'])) {
+            return false;
+        }
+
+        $file->move($upload_path, $filename);
+
+        return [
+            'path' => "$folder_name/$filename"
+        ];
     }
 }

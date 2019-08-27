@@ -96,8 +96,8 @@
 
                                         <div class="col-sm-6">
                                             <select name="is_reply" class="form-control" id="">
-                                                <option value="0">未回复</option>
-                                                <option value="1">已回复</option>
+                                                <option value="0" {{ $matter->is_reply == 0 ? 'selected': '' }}>未回复</option>
+                                                <option value="1" {{ $matter->is_reply == 1 ? 'selected': '' }}>已回复</option>
                                             </select>
                                         </div>
                                     </div>
@@ -107,8 +107,8 @@
 
                                         <div class="col-sm-6">
                                             <select name="is_secret" class="form-control" id="">
-                                                <option value="0">公开</option>
-                                                <option value="1">保密</option>
+                                                <option value="0" {{ $matter->is_secret == 0 ? 'selected': '' }}>公开</option>
+                                                <option value="1" {{ $matter->is_secret == 1 ? 'selected': '' }}>保密</option>
                                             </select>
                                         </div>
                                     </div>
@@ -141,14 +141,11 @@
                                         <label class="col-sm-2 control-label">问题分类：</label>
 
                                         <div class="col-sm-6">
-                                            <select name="category_id" class="form-control" id="">
-                                                <option value="1">自然资源</option>
-                                                <option value="2">生态环境</option>
-                                                <option value="3">城乡建设</option>
-                                                <option value="4">应急管理</option>
-                                                <option value="5">市场监督</option>
-                                                <option value="6">综合执法</option>
-                                                <option value="7">重点工作</option>
+                                            <select class="form-control" name="category_id" required>
+                                                <option value="" hidden disabled selected>请选择分类</option>
+                                                @foreach ($category as $value)
+                                                    <option value="{{ $value->id }}" {{ $matter->category_id == $value->id ? 'selected': '' }}>{{ $value->name }}</option>
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
