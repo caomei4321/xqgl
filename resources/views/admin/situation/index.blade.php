@@ -37,7 +37,7 @@
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>任务</th>
+                            <th>任务地址</th>
                             <th>执行人</th>
                             <th>分类</th>
                             <th>现场处理图片</th>
@@ -50,7 +50,7 @@
                         @foreach($situations as $situation)
                             <tr class="gradeC">
                                 <td>{{ $situation->id }}</td>
-                                <td>{{ $situation->matter->title }}</td>
+                                <td>{{ $situation->matter->address }}</td>
                                 <td>{{ $situation->user->name }}</td>
                                 <td>{{ $situation->category->name }}</td>
                                 <td><image src="{{ $situation->see_image }}"  style="width: 40px;"/></td>
@@ -74,7 +74,7 @@
                         <tfoot>
                         <tr>
                             <th>ID</th>
-                            <th>任务</th>
+                            <th>任务地址</th>
                             <th>执行人</th>
                             <th>分类</th>
                             <th>现场处理图片</th>
