@@ -36,6 +36,7 @@
                     <a href="{{ route('admin.matters.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加任务</button>
                     </a>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" onclick="fun()" id="fp-btn">分配给人</button>
+                    <a href=""> <button class="btn btn-warning " type="button"><i class="fa fa-paste"></i> Excel导入</button></a>
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">

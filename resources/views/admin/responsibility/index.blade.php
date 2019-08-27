@@ -43,8 +43,8 @@
                             <th>县级部门职责</th>
                             <th>乡镇（街道）职责</th>
                             <th>法律依据</th>
-                            <th>主体责任</th>
-                            <th>配合责任</th>
+                            <th>部门</th>
+                            <th>镇街</th>
                             <th>操作</th>
                         </tr>
                         </thead>
@@ -57,8 +57,8 @@
                                 <td>{{ $res->county }}</td>
                                 <td>{{ $res->town }}</td>
                                 <td>{{ $res->legal_doc }}</td>
-                                <td style="width: 70px">{{ $res->subject_duty ===0 ? '部门' : '镇街' }}</td>
-                                <td style="width: 70px">{{ $res->cooperate_duty ===1 ? '镇街' : '部门' }}</td>
+                                <td style="width: 70px">{{ $res->subject_duty ===0 ? '主体责任' : '配合责任' }}</td>
+                                <td style="width: 70px">{{ $res->cooperate_duty ===1 ? '配合责任' : '主体责任' }}</td>
                                 <td class="center">
                                     <a href="{{ route('admin.responsibility.edit',['responsibility' => $res->id]) }}"><button type="button" class="btn btn-primary btn-xs">编辑</button></a>
                                     <button class="btn btn-warning btn-xs delete" data-id="{{ $res->id }}">删除</button>
