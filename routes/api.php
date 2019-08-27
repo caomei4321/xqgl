@@ -54,5 +54,7 @@ $api->version('v1', [
         $api->get('userHasMatters', 'MattersController@userHasMatters');
 
         $api->get('matter', 'MattersController@matter');
+
+        //$api->get('categories', '')
     });
 });
