@@ -126,7 +126,7 @@
                         </tfoot>
                     </table>
                     <div style="float: right">
-                        {{ $matters->appends($matter->id)->links() }}
+                        {{ $matters->links() }}
                     </div>
                 </div>
             </div>
