@@ -55,7 +55,7 @@
                                         <label class="col-sm-2 control-label">办结时限：</label>
 
                                         <div class="col-sm-6">
-                                            <input name="time_limit"  type="text" class="form-control" value="{{ old('time_limit',$matter->time_limit) }}">
+                                            <input name="time_limit"  type="date" class="form-control" value="{{ old('time_limit',$matter->time_limit) }}">
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>
@@ -95,7 +95,10 @@
                                         <label class="col-sm-2 control-label">是否回复：</label>
 
                                         <div class="col-sm-6">
-                                            <input name="is_reply"  type="text" class="form-control" value="{{ old('is_reply',$matter->is_reply) }}">
+                                            <select name="is_reply" class="form-control" id="">
+                                                <option value="0">未回复</option>
+                                                <option value="1">已回复</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>
@@ -103,7 +106,10 @@
                                         <label class="col-sm-2 control-label">是否保密：</label>
 
                                         <div class="col-sm-6">
-                                            <input name="is_secret"  type="text" class="form-control" value="{{ old('is_secret',$matter->is_secret) }}">
+                                            <select name="is_secret" class="form-control" id="">
+                                                <option value="0">公开</option>
+                                                <option value="1">保密</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>
@@ -135,7 +141,15 @@
                                         <label class="col-sm-2 control-label">问题分类：</label>
 
                                         <div class="col-sm-6">
-                                            <input name="category_id"  type="text" class="form-control" value="{{ old('category_id',$matter->category_id) }}">
+                                            <select name="category_id" class="form-control" id="">
+                                                <option value="1">自然资源</option>
+                                                <option value="2">生态环境</option>
+                                                <option value="3">城乡建设</option>
+                                                <option value="4">应急管理</option>
+                                                <option value="5">市场监督</option>
+                                                <option value="6">综合执法</option>
+                                                <option value="7">重点工作</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>
