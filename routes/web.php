@@ -17,7 +17,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-
 Route::group(['prefix' => 'admin'], function () {
 
     Route::get('login', 'Admin\Auth\LoginController@showLoginForm')->name('admin.index');
@@ -33,6 +32,28 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('user', 'Admin\UsersController@store')->name('admin.users.store');
         Route::put('user/{user}', 'Admin\UsersController@update')->name('admin.users.update');
         Route::get('user/create', 'Admin\UsersController@create')->name('admin.users.create');
+        Route::get('user/{user}', 'Admin\UsersController@show')->name('admin.users.show');
+        Route::get('users/address', 'Admin\UsersController@address')->name('admin.users.address');
+
+
+        Route::get('convenientTask','Admin\ConvenientTaskController@index')->name('admin.convenientTask.index');
+        Route::get('convenientTask/create','Admin\ConvenientTaskController@create')->name('admin.convenientTask.create');
+
+        Route::resource('entities', 'Admin\EntitiesController',  ['except' => ['destroy', 'show', 'create', 'update', 'edit']])->names([
+            'index' => 'admin.entities.index',
+            'store' => 'admin.entities.store',
+            //'create' => 'admin.entities.create',
+            //'update' => 'admin.entities.update',
+            //'show' => 'admin.entities.show',
+            //'edit' => 'admin.entities.edit',
+        ]);
+
+        Route::get('entities/{entity_name}/destroy', 'Admin\EntitiesController@destroy')->name('admin.entities.destroy');
+
+
+
+
+
 
         Route::resource('administrators', 'Admin\AdminsController')->names([
             'index' => 'admin.administrators.index',

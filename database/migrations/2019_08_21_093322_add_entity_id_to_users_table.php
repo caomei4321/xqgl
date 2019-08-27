@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddAgeAndDutyAndFromToUsersTable extends Migration
+class AddEntityIdToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,7 @@ class AddAgeAndDutyAndFromToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->date('age')->comment('出生日期');
-            $table->string('duty')->comment('职务');
-            $table->string('from')->comment('派驻机构');
+            $table->unsignedInteger('entity_id')->nullable(true)->unique();
         });
     }
 
@@ -28,9 +26,7 @@ class AddAgeAndDutyAndFromToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('age');
-            $table->dropColumn('duty');
-            $table->dropColumn('from');
+            $table->dropColumn('entity_id');
         });
     }
 }

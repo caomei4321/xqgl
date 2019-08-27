@@ -34,15 +34,16 @@
                 <div class="ibox-content">
                     <a href="{{ route('admin.users.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加人员</button>
                     </a>
+                    <a href="{{ route('admin.users.address') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 人员位置分布</button>
+                    </a>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                         <tr>
                             <th>ID</th>
                             <th>姓名</th>
                             <th>手机号</th>
-                            <th>年龄</th>
-                            <th>职务</th>
-                            <th>派驻机构</th>
+                            <th>责任网络</th>
+                            <th>设备名</th>
                             <th>添加时间</th>
                             <th>操作</th>
                         </tr>
@@ -53,12 +54,12 @@
                                 <td>{{ $user->id }}</td>
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->phone }}</td>
-                                <td>{{ $user->age }}</td>
-                                <td>{{ $user->duty }}</td>
-                                <td>{{ $user->from }}</td>
-                                <td>{{ $user->created_at->diffForHumans() }}</td>
+                                <td>{{ $user->responsible_area }}</td>
+                                <td>{{ $user->entity_name }}</td>
+                                <td>{{ $user->created_at }}</td>
                                 <td class="center">
                                     <a href="{{ route('admin.users.edit',['user' => $user->id]) }}"><button type="button" class="btn btn-primary btn-xs">编辑</button></a>
+                                    <a href="{{ route('admin.users.show',['user' => $user->id]) }}"><button type="button" class="btn btn-danger btn-xs">查看</button></a>
                                     <button class="btn btn-warning btn-xs delete" data-id="{{ $user->id }}">删除</button>
                                 </td>
                             </tr>
@@ -69,9 +70,8 @@
                             <th>ID</th>
                             <th>姓名</th>
                             <th>手机号</th>
-                            <th>年龄</th>
-                            <th>职务</th>
-                            <th>派驻机构</th>
+                            <th>责任网络</th>
+                            <th>设备名</th>
                             <th>添加时间</th>
                             <th>操作</th>
                         </tr>
