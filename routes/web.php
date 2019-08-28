@@ -109,17 +109,8 @@ Route::group(['prefix' => 'admin'], function () {
             'update'    =>  'admin.matters.update',
             'destroy'   =>  'admin.matters.destroy',
         ]);
-        // 出 BUG 城市部件信息，留存寻找删除
-        Route::resource('parts', 'Admin\CityPartsController')->names([
-            'index'     =>  'admin.parts.index',
-            'create'    =>  'admin.parts.create',
-            'store'     =>  'admin.parts.store',
-            'edit'      =>  'admin.parts.edit',
-            'update'    =>  'admin.parts.update',
-            'destroy'   =>  'admin.parts.destroy',
-        ]);
         // 城市部件信息
-        Route::resource('part', 'Admin\PartsController')->names([
+        Route::resource('part', 'Admin\PartsController', ['except' => ['show']])->names([
             'index'     =>  'admin.part.index',
             'create'    =>  'admin.part.create',
             'store'     =>  'admin.part.store',
@@ -127,6 +118,7 @@ Route::group(['prefix' => 'admin'], function () {
             'update'    =>  'admin.part.update',
             'destroy'   =>  'admin.part.destroy',
         ]);
+        Route::get('part/grid', 'Admin\PartsController@grid')->name('admin.part.grid');
         // 任务情况
         Route::resource('situations', 'Admin\SituationsController')->names([
             'index'     =>  'admin.situations.index',
@@ -139,11 +131,16 @@ Route::group(['prefix' => 'admin'], function () {
 
         // 分配任务到人
         Route::get('matters/users', 'Admin\MattersController@getUser')->name('admin.matters.users');
+        // 此路由为分配到人，表格头的按钮，以注释，后面不需要则删除
         Route::post('matters/mtu', 'Admin\MattersController@mattersToUser')->name('admin.matters.mtu');
+
+        Route::get('matters/allocate', 'Admin\MattersController@allocate')->name('admin.matters.allocate');
+        Route::post('matters/allocates', 'Admin\MattersController@allocates')->name('admin.matters.allocates');
 
         // 导入导出
         Route::get('matters/export', 'Admin\MattersController@export')->name('admin.matters.export');
         Route::post('matters/import', 'Admin\MattersController@import')->name('admin.matters.import');
+        Route::get('matters/download', 'Admin\MattersController@download')->name('admin.matters.download');
     });
 
 });

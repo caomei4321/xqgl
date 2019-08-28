@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Handler\Curl;
 use App\Models\Part;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -67,5 +68,10 @@ class PartsController extends Controller
             'info.required' => '请输入物品信息',
             'info.min' => '物品信息至少三个字符'
         ]);
+    }
+
+    public function grid()
+    {
+        return view('admin.parts.grid');
     }
 }

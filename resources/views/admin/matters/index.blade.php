@@ -35,8 +35,8 @@
                 <div class="ibox-content">
                     <a href="{{ route('admin.matters.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加任务</button>
                     </a>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" onclick="fun()" id="fp-btn">分配给人</button>
-                    <button class="btn btn-warning " type="button" data-toggle="modal" data-target="#importModal" data-whatever="@mdo"><i class="fa fa-paste"></i> Excel导入</button>
+                    {{--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" onclick="fun()" id="fp-btn">分配到人</button>--}}
+                    <button class="btn btn-info " type="button" data-toggle="modal" data-target="#importModal" data-whatever="@mdo"><i class="fa fa-paste"></i> Excel导入</button>
                     <a href="{{ route('admin.matters.export') }}"> <button class="btn btn-warning " type="button"><i class="fa fa-paste"></i> Excel导出</button></a>
                     {{--导入model start--}}
                     <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
@@ -47,6 +47,10 @@
                                     <h4 class="modal-title" id="exampleModalLabel">New message</h4>
                                 </div>
                                 <div class="modal-body">
+                                    <div class="form-group">
+                                        <span style="font-size: 12px; color: red; opacity: 0.5; margin-bottom: 5px;">***导入之前请先下载模板，按指定格式填写数据***</span> <br>
+                                        <a href="{{ route('admin.matters.download') }}">《Excel导入模板》下载</a>
+                                    </div>
                                     <form id="form1" action="{{ route('admin.matters.import') }}"  method="post" enctype="multipart/form-data">
                                         {{ csrf_field() }}
                                         <div class="form-group">
@@ -107,6 +111,7 @@
                             <th>图片</th>
                             <th>现场查看</th>
                             <th>添加时间</th>
+                            <th>是否分配</th>
                             <th>操作</th>
                         </tr>
                         </thead>
@@ -115,9 +120,9 @@
                             <tr class="gradeC">
                                 <td class="check_id">
                                     {{ $matter->id }}
-                                    @if( $matter->allocate == 0)
-                                        <input type="checkbox" name="matter" value="{{ $matter->id }}">
-                                    @endif
+                                    {{--@if( $matter->allocate == 0)--}}
+                                        {{--<input type="checkbox" name="matter" value="{{ $matter->id }}">--}}
+                                    {{--@endif--}}
                                 </td>
                                 <td>{{ $matter->title }}</td>
                                 <td>{{ $matter->address }}</td>
@@ -133,6 +138,13 @@
                                     @endif
                                 </td>
                                 <td>{{ $matter->created_at }}</td>
+                                <td>
+                                    @if($matter->allocate == 0)
+                                        <a href="{{ route('admin.matters.allocate', ['id' => $matter->id]) }}"><button type="button" class="btn btn-warning btn-xs">未分配</button></a>
+                                    @else
+                                        <button type="button" class="btn btn-primary btn-xs" disabled>已分配</button>
+                                    @endif
+                                </td>
                                 <td class="center">
                                     <a href="{{ route('admin.matters.edit',['matter' => $matter->id]) }}"><button type="button" class="btn btn-primary btn-xs">编辑</button></a>
                                     <button class="btn btn-warning btn-xs delete" data-id="{{ $matter->id }}">删除</button>
@@ -149,6 +161,7 @@
                             <th>图片</th>
                             <th>现场查看</th>
                             <th>添加时间</th>
+                            <th>是否分配</th>
                             <th>操作</th>
                         </tr>
                         </tfoot>

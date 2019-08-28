@@ -35,6 +35,8 @@
                 <div class="ibox-content">
                     <a href="{{ route('admin.part.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加部件</button>
                     </a>
+                    <a href="{{ route('admin.part.grid') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 网格绘制</button>
+                    </a>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                         <tr>

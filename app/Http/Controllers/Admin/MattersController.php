@@ -11,10 +11,13 @@ use function foo\func;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Excel;
 
 class MattersController extends Controller
 {
+    protected  $table = "user_ has_matters";
+
     public function index(Matter $matter, Request $request)
     {
         $matters = $matter->orderBy('status', 'asc')->paginate(10);
@@ -78,40 +81,75 @@ class MattersController extends Controller
         return response()->json($users);
     }
 
-    public function mattersToUser(Request $request, Situation $situation, Matter $matter)
+    public function allocate(Request $request, Matter $matter, User $user)
     {
-        $this->validate($request, [
-            'user_id' => 'required',
-            'matter_id' => 'required'
-        ], [
-            'matter_id.required' => '没选中任务， 请选中任务再分配',
-            'user_id.required' => '分配请选择人员',
-        ]);
-
-        $data = $request->only(['user_id', 'matter_id']);
-        $mt_id = explode(',', $data['matter_id']);
-        $newArr = [];
-        foreach ($mt_id as $item) {
-            $newArr[] = [
-                'user_id' => $data['user_id'],
-                'matter_id' => $item,
-                'category_id' => $matter->where('id', $item)->value('category_id'),
-                'created_at' => date('Y-m-d H:i:s', time()),
-                'updated_at' => date('Y-m-d H:i:s', time()),
-            ];
-        }
-
-        foreach ($mt_id as $item) {
-            $allocate = [
-                'allocate' => 1,
-            ];
-            $matter->where('id', $item)->update($allocate);
-        }
-        DB::table('user_has_matters')->insert($newArr);
-
-        return redirect()->route('admin.matters.index');
-
+        $matterInfo =  $matter->find($request->id);
+        $users = $user->all();
+        return view('admin.matters.allocate', compact('matterInfo', 'users'));
     }
+
+    public function allocates(Request $request)
+    {
+        $data = $request->only(['matter_id', 'user_id', 'category_id']);
+        // 将matters表中数据allocate更新为1， 代表已分配
+        $matters = [
+            'id' => $data['matter_id'],
+            'allocate' => '1'
+        ];
+        DB::beginTransaction();
+        $ret = DB::table('matters')->where('id', $data['matter_id'])->update($matters);
+        // 分配信息存入user_has_matters表中
+        $allocate = [
+            'matter_id' => $data['matter_id'],
+            'user_id' => $data['user_id'],
+            'category_id' => $data['category_id'],
+            'created_at' => date('Y-m-d H:i:s', time()),
+            'updated_at' => date('Y-m-d H:i:s', time()),
+        ];
+        $res = DB::table('user_has_matters')->insert($allocate);
+        if ($ret && $res) {
+            DB::commit();
+        }else {
+            DB::rollBack();
+        }
+        return redirect()->route('admin.matters.index');
+    }
+
+    // 分配到人逻辑， 页面上隐藏了分配到人按钮
+//    public function mattersToUser(Request $request, Situation $situation, Matter $matter)
+//    {
+//        $this->validate($request, [
+//            'user_id' => 'required',
+//            'matter_id' => 'required'
+//        ], [
+//            'matter_id.required' => '没选中任务， 请选中任务再分配',
+//            'user_id.required' => '分配请选择人员',
+//        ]);
+//
+//        $data = $request->only(['user_id', 'matter_id']);
+//        $mt_id = explode(',', $data['matter_id']);
+//        $newArr = [];
+//        foreach ($mt_id as $item) {
+//            $newArr[] = [
+//                'user_id' => $data['user_id'],
+//                'matter_id' => $item,
+//                'category_id' => $matter->where('id', $item)->value('category_id'),
+//                'created_at' => date('Y-m-d H:i:s', time()),
+//                'updated_at' => date('Y-m-d H:i:s', time()),
+//            ];
+//        }
+//
+//        foreach ($mt_id as $item) {
+//            $allocate = [
+//                'allocate' => 1,
+//            ];
+//            $matter->where('id', $item)->update($allocate);
+//        }
+//        DB::table('user_has_matters')->insert($newArr);
+//
+//        return redirect()->route('admin.matters.index');
+//
+//    }
 
     public function rules(Request $request)
     {
@@ -132,6 +170,7 @@ class MattersController extends Controller
         ]);
     }
 
+    // 导出
     public function export(Matter $matter, Excel $excel)
     {
         $matters = $matter->all()->toArray();
@@ -162,47 +201,70 @@ class MattersController extends Controller
             ];
             array_push($cellData, $data);
         }
-        $excel->create(iconv('UTF-8', 'GBK', '任务清单'), function ($excel) use ($cellData) {
+        $excel->create('data', function ($excel) use ($cellData) {
             $excel->sheet('matter', function ($sheet) use ($cellData) {
                 $sheet->rows($cellData);
             });
-        })->export('xls');
+        })->store('xls')->export('xls');
     }
-
+    // 导入
     public function import(Request $request, Excel $excel)
     {
-        $filePath = $this->uploadFile($request->import_file, 'import', 'im');
+        $filePath = $this->uploadFile($request->import_file);
         $path = $filePath['path'];
-        $excel->load($path, function ($reader) {
-            dd($reader);
-            //            $reader->noHeading()
-            //            $reader = $reader->getSheet(0);
-            //            $result = $reader->toArray();
-            //            unset($result[0]);
-            $data = $reader->all();
-            dd($data);
-            $value = [];
-            $count = '';
-            foreach ($data as $k => $v) {
-                $count++;
-                $value['accept_num'] = $v['0'];
-            }
-
-            throw  new \Exception("成功导入了".$count."条数据");
-        });
+        iconv('UTF-8', 'GBK', $path);
+        try {
+            $excel->load($path, function ($reader) {
+                $reader->noHeading();
+                $reader = $reader->getSheet(0);
+                $result = $reader->toArray();
+//                unset($result[0]);    // 删除表头
+                $allDate = [];
+                $value = [];
+                $count = '';
+                foreach ($result as $k => $v) {
+                    $count++;
+                    $value['accept_num'] = $v['0'];
+                    $value['time_limit'] = $v['1'];
+                    $value['work_num'] = $v['2'];
+                    $value['level'] = $v['3'];
+                    $value['type'] = $v['4'];
+                    $value['source'] = $v['5'];
+                    $value['is_reply'] = $v['6'];
+                    $value['is_secret'] = $v['7'];
+                    $value['contact_name'] = $v['8'];
+                    $value['contact_phone'] = $v['9'];
+                    $value['reply_remark'] = $v['10'];
+                    $value['category_id'] = $v['11'];
+                    $value['suggestion'] = $v['12'];
+                    $value['approval'] = $v['13'];
+                    $value['result'] = $v['14'];
+                    $value['title'] = $v['15'];
+                    $value['address'] = $v['16'];
+                    $value['content'] = $v['17'];
+                    $value['created_at'] = date('Y-m-d H:i:s', time());
+                    $value['updated_at']= date('Y-m-d H:i:s', time());
+                    array_push($allDate, $value);
+                }
+                DB::table('matters')->insert($allDate);
+            });
+        }catch (\Exception $e) {
+            return redirect()->route('admin.matters.index')->withErrors('导入失败，请选择正确的文件和按正确的文件填写方式导入');
+        }
+        return redirect()->route('admin.matters.index')->withErrors('导入成功');
     }
-
-    public function uploadFile($file, $folder, $file_prefix)
+    // 导入上传文件
+    public function uploadFile($file)
     {
-        $folder_name = "uploads/file/$folder/" . date("Ym/d", time());
+        $folder_name = "uploads/import/" . date("Ym/d", time());
 
         $upload_path = public_path() . '/' . $folder_name;
 
         $extension = strtolower($file->getClientOriginalExtension()) ?: 'xls';
 
-        $filename = $file_prefix . '_' . time() . '_' . str_random(10) . '.' . $extension;
+        $filename =   time() . '_' . str_random(10) . '.' . $extension;
 
-        if ( ! in_array($extension, ['xls', 'xlsx'])) {
+        if ( ! in_array($extension, ['xls', 'xlsl'])) {
             return false;
         }
 
@@ -211,5 +273,12 @@ class MattersController extends Controller
         return [
             'path' => "$folder_name/$filename"
         ];
+    }
+
+    // 导入下载模板
+    public function download()
+    {
+        $filePath = 'excel/excel.xls';
+        return response()->download($filePath, 'Excel导入模板');
     }
 }

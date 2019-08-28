@@ -9,7 +9,7 @@ class Part extends Model
     protected $table = 'city_parts';
 
     protected $fillable = [
-        'things', 'num', 'kind_id', 'info',
+        'things', 'num', 'kind_id', 'info', 'address', 'longitude', 'latitude', 'image'
     ];
 
 }
