@@ -19,7 +19,7 @@ class CategoryResource extends Resource
             'name' => $this->name,
             'description' => $this->description,
             'count' => $this->count,
-            'responsibilities' => $this->responsibility()
+            'responsibilities' => $this->responsibility
         ];
     }
 }
