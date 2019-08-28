@@ -39,8 +39,8 @@ class MattersController extends Controller
         $situation = $situation->where('matter_id', $request->id)->first();
 
         $imgdata = $request->img;
-        $base64_str = substr($imgdata, strpos($imgdata, ",") + 1);
-        $image = base64_decode($base64_str);
+        //$base64_str = substr($imgdata, strpos($imgdata, ",") + 1);
+        $image = base64_decode($imgdata);
 
         $imgname = 'mt' . '_' . time() . '_' . str_random(10) . '.jpg';
         Storage::disk('public')->put($imgname, $image);
