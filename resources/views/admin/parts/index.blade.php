@@ -35,7 +35,9 @@
                 <div class="ibox-content">
                     <a href="{{ route('admin.part.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加部件</button>
                     </a>
-                    <a href="{{ route('admin.part.grid') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 网格绘制</button>
+                    <a href="{{ route('admin.part.marker') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 部件地图标注</button>
+                        <a href="{{ route('admin.part.mapInfo') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 标注信息</button>
+                    {{--<a href="{{ route('admin.part.grid') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 网格绘制</button>--}}
                     </a>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
@@ -43,7 +45,9 @@
                             <th>ID</th>
                             <th>物品</th>
                             <th>编号</th>
-                            <th>种类</th>
+                            <th>位置</th>
+                            <th>经度</th>
+                            <th>纬度</th>
                             <th>物品信息</th>
                             <th>添加时间</th>
                             <th>操作</th>
@@ -55,7 +59,9 @@
                                 <td>{{ $part->id }}</td>
                                 <td>{{ $part->things }}</td>
                                 <td>{{ $part->num }}</td>
-                                <td>{{ $part->kind_id }}</td>
+                                <td>{{ $part->address }}</td>
+                                <td>{{ $part->longitude }}</td>
+                                <td>{{ $part->latitude }}</td>
                                 <td>{{ $part->info }}</td>
                                 <td>{{ $part->created_at }}</td>
                                 <td class="center">
@@ -70,7 +76,9 @@
                             <th>ID</th>
                             <th>物品</th>
                             <th>编号</th>
-                            <th>种类</th>
+                            <th>位置</th>
+                            <th>经度</th>
+                            <th>经度</th>
                             <th>物品信息</th>
                             <th>添加时间</th>
                             <th>操作</th>

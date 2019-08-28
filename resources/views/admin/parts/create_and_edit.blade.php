@@ -60,14 +60,36 @@
                                     </div>
                                     <div class="hr-line-dashed"></div>
                                     <div class="form-group">
+                                        <label class="col-sm-2 control-label">位置：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="address"  type="text" class="form-control" value="{{ old('address',$part->address) }}">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">经度：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="longitude"  type="text" class="form-control" value="{{ old('longitude',$part->longitude) }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">纬度：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="latitude"  type="text" class="form-control" value="{{ old('latitude',$part->latitude) }}">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
                                         <label class="col-sm-2 control-label">种类：</label>
 
                                         <div class="col-sm-6">
                                             <select class="form-control" name="kind_id" required>
                                                 <option value="" hidden disabled selected>请选择种类</option>
-                                                <option value="1">物品种类1</option>
-                                                <option value="2">物品种类2</option>
-                                                <option value="3">物品种类3</option>
+                                                <option value="1" {{ $part->kind_id == 1 ? 'selected' : '' }}>生活类</option>
+                                                <option value="2" {{ $part->kind_id == 2 ? 'selected' : '' }}>建筑类</option>
                                             </select>
                                         </div>
                                     </div>
@@ -77,6 +99,19 @@
 
                                         <div class="col-sm-6">
                                             <textarea name="info" class="form-control" id="editor"  rows="6" placeholder="请输入至少三个字符的内容">{{ old('info', $part->info) }}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">物品图片：</label>
+
+                                        <div class="col-sm-6">
+                                            <div id="file-pretty">
+                                                <div id="prompt3">
+                                                    <input type="file" name="image" class="form-control" id="file" onchange="changepic(this)" accept="image/*">
+                                                </div>
+                                                <img src="{{ old('image', $part->image) }}" id="img3" style="width: 160px;" />
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>
@@ -94,7 +129,16 @@
 
 @section('javascript')
     <script>
-
+        function changepic() {
+            // $("#prompt3").css("display", "none");
+            var reads = new FileReader();
+            f = document.getElementById('file').files[0];
+            reads.readAsDataURL(f);
+            reads.onload = function(e) {
+                document.getElementById('img3').src = this.result;
+                $("#img3").css("display", "block");
+            };
+        }
     </script>
 @endsection
 
