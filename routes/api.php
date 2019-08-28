@@ -56,5 +56,7 @@ $api->version('v1', [
         $api->get('matter', 'MattersController@matter');
 
         $api->get('categories', 'CategoryController@categories');
+
+        $api->post('endMatter', 'MattersController@endImportMatter');
     });
 });
