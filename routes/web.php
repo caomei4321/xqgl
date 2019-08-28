@@ -119,8 +119,6 @@ Route::group(['prefix' => 'admin'], function () {
             'destroy'   =>  'admin.part.destroy',
         ]);
         // 城市部件地图路由
-        Route::get('part/grid', 'Admin\PartsController@grid')->name('admin.part.grid');
-        Route::get('part/marker', 'Admin\PartsController@marker')->name('admin.part.marker');
         Route::get('part/mapInfo', 'Admin\PartsController@mapInfo')->name('admin.part.mapInfo');
 
         // 任务情况

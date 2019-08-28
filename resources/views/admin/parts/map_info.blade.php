@@ -32,12 +32,13 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <div id="data">
+                    <div id="data" style="display: none">
                         <table class="table table-striped table-bordered table-hover dataTables-example">
                             <thead>
                             <tr>
                                 <th>经度</th>
                                 <th>纬度</th>
+                                <th>信息</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -45,6 +46,13 @@
                             <tr class="data">
                                 <td class="t1">{{ $part->longitude }}</td>
                                 <td class="t2">{{ $part->latitude }}</td>
+                                <td class="t3">
+                                    物品：{{ $part->things }} <br>
+                                    编号：{{ $part->num }} <br>
+                                    地址：{{ $part->address }} <br>
+                                    描述：{{ $part->info }} <br>
+                                    图片：<image width="40" src="{{ $part->image }}" />
+                                </td>
                             </tr>
                             @endforeach
                             </tbody>
@@ -52,6 +60,7 @@
                             <tr>
                                 <th>经度</th>
                                 <th>纬度</th>
+                                <th>信息</th>
                             </tr>
                             </tfoot>
                         </table>
@@ -75,14 +84,25 @@
         // 百度地图API功能
         map = new BMap.Map("allmap");
         map.centerAndZoom(new BMap.Point(120.7777399679,31.3505530086), 14);
-        var data_info = [[120.7777399679,31.3505530086,"公厕"],
-            [120.7711588605,31.3505530086,"垃圾桶"],
-            [120.785287,31.3505530086,"井盖"],
-            [120.61990711,31.31798731,"石墩"]
-        ];
+        var lng = $('.t1'); // 经度
+        var lat = $('.t2'); // 纬度
+        var info = $('.t3'); // 信息
+        var lenght = $('.t1').length;
+        var data_info = [];
+        for (var i = 0; i < lenght; i++) {
+            var data_array = [lng[i].innerHTML, lat[i].innerHTML, info[i].innerHTML];
+            data_info.push(data_array);
+        }
+
+
+        // var data_info = [[120.7777399679,31.3505530086,"公厕"],
+        //     [120.7711588605,31.3505530086,"垃圾桶"],
+        //     [120.785287,31.3505530086,"井盖"],
+        //     [120.61990711,31.31798731,"石墩"]
+        // ];
         var opts = {
             width : 250,     // 信息窗口宽度
-            height: 80,     // 信息窗口高度
+            height: 150,     // 信息窗口高度
             title : "信息窗口" , // 信息窗口标题
             enableMessage:true//设置允许信息窗发送短息
         };

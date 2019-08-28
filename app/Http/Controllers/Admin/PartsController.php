@@ -88,19 +88,8 @@ class PartsController extends Controller
         ]);
     }
 
-
-    public function grid()
-    {
-        return view('admin.parts.grid');
-    }
-
-    public function marker(Request $request, Part $part)
-    {
-        $parts = Part::all();
-        return view('admin.parts.marker', compact('parts'));
-    }
-
-    public function mapInfo(Request $request, Part $part)
+    // 地图标注
+    public function mapInfo()
     {
         $parts = Part::all();
         return view('admin.parts.map_info', compact('parts'));
