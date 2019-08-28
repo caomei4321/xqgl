@@ -16,4 +16,9 @@ class Category extends Model
     {
         return $this->hasMany('App\Models\Situation');
     }
+
+    public function responsibility()
+    {
+        return $this->hasMany(Responsibility::class);
+    }
 }
