@@ -51,12 +51,14 @@ $api->version('v1', [
 
         $api->post('completeRepair', 'RepairsController@completeRepair'); //完成报修
 
-        $api->get('userHasMatters', 'MattersController@userHasMatters');
+        $api->get('userHasMatters', 'MattersController@userHasMatters'); //用户任务
 
-        $api->get('matter', 'MattersController@matter');
+        $api->get('matter', 'MattersController@matter');   //任务详情
 
-        $api->get('categories', 'CategoryController@categories');
+        $api->get('categories', 'CategoryController@categories');  //责任清单分类
 
-        $api->post('endMatter', 'MattersController@endImportMatter');
+        $api->post('endMatter', 'MattersController@endImportMatter');   //完成12345任务
+
+        $api->post('importMatter', 'MattersController@findMatterAndEnd');  //发现并提交问题
     });
 });

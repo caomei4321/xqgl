@@ -22,7 +22,8 @@ class UserResource extends Resource
             'position' => $this->position,
             'responsible_area' => $this->responsible_area,
             'entity_name' => $this->entity_name,
-            'matters' => $this->situation()->paginate(15),
+            //'matters' => $this->situation()->paginate(15),
+            'matters' => MatterCollection::collection($this->situation)
        ];
     }
 }
