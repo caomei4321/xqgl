@@ -23,17 +23,19 @@ class MattersController extends Controller
         return new MatterResource($matter);
     }
 
+
+    /*
+     * 巡查发现的问题处理
+     * */
     public function endMatter(Request $request)
     {
-        if ('是巡查员发现问题') {
 
-        } elseif ('后台添加') {
-
-        } elseif ('12345导入') {
-
-        }
     }
 
+
+    /*
+     * 12345导入的问题处理
+     * */
     public function endImportMatter(Request $request, Situation $situation)
     {
         $situation = $situation->where('matter_id', $request->id)->first();
@@ -56,6 +58,10 @@ class MattersController extends Controller
             'see_image' => $imagePath,
             'information' => $request->suggest,
             'status' => $status
+        ]);
+
+        Matter::find($request->id)->update([
+            'status' => 1
         ]);
 
         return $this->success('提交成功');
