@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Handler\Curl;
+use App\Handlers\ImageUploadHandler;
 use App\Models\Part;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class PartsController extends Controller
@@ -22,10 +24,18 @@ class PartsController extends Controller
         return view('admin.parts.create_and_edit', compact('part'));
     }
 
-    public function store(Request $request, Part $part)
+    public function store(Request $request, Part $part, ImageUploadHandler $uploader)
     {
         $this->rules($request, $part);
-        $part->fill($request->all());
+        $data = $request->all();
+        if (!empty($request->image)){
+            $result = $uploader->save($request->image, 'parts', 'pt');
+            if ($result) {
+                $data['image'] = $result['path'];
+            }
+        }
+//        经纬度 120.61990712,31.31798737
+        $part->fill($data);
         $part->save();
 
         return redirect()->route('admin.part.index');
@@ -58,11 +68,19 @@ class PartsController extends Controller
             'num' => [
                 'required',
                 'string',
-                Rule::unique('city_parts')->ignore($part->id)
+                Rule::unique('parts')->ignore($part->id)
             ],
+            'address' => 'string|min:2',
+            'longitude' => 'required|numeric',
+            'latitude' => 'required|numeric',
             'info' => 'required|string|min:3',
         ], [
             'things.required' => '请输入物品',
+            'address.min' => '地址至少两个字符',
+            'longitude.required' => '请输入经度',
+            'longitude.numeric' => '经度格式错误',
+            'latitude.required' => '请输入维度',
+            'latitude.numeric' => '纬度格式错误',
             'num.required' => '请输入编号',
             'num.unique' => '编号重复，请修改',
             'info.required' => '请输入物品信息',
@@ -70,8 +88,10 @@ class PartsController extends Controller
         ]);
     }
 
-    public function grid()
+    // 地图标注
+    public function mapInfo()
     {
-        return view('admin.parts.grid');
+        $parts = Part::all();
+        return view('admin.parts.map_info', compact('parts'));
     }
 }

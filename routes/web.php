@@ -118,7 +118,9 @@ Route::group(['prefix' => 'admin'], function () {
             'update'    =>  'admin.part.update',
             'destroy'   =>  'admin.part.destroy',
         ]);
-        Route::get('part/grid', 'Admin\PartsController@grid')->name('admin.part.grid');
+        // 城市部件地图路由
+        Route::get('part/mapInfo', 'Admin\PartsController@mapInfo')->name('admin.part.mapInfo');
+
         // 任务情况
         Route::resource('situations', 'Admin\SituationsController')->names([
             'index'     =>  'admin.situations.index',

@@ -81,6 +81,7 @@ class MattersController extends Controller
         return response()->json($users);
     }
 
+    // 分配到人
     public function allocate(Request $request, Matter $matter, User $user)
     {
         $matterInfo =  $matter->find($request->id);

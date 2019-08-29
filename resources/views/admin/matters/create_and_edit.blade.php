@@ -227,7 +227,7 @@
 @section('javascript')
     <script>
         function changepic() {
-            $("#prompt3").css("display", "none");
+            // $("#prompt3").css("display", "none");
             var reads = new FileReader();
             f = document.getElementById('file').files[0];
             reads.readAsDataURL(f);

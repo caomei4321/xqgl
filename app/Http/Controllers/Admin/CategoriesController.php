@@ -6,6 +6,7 @@ use App\Http\Requests\Admin\CategoriesRequest;
 use App\Models\Category;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CategoriesController extends Controller
 {
@@ -52,10 +53,15 @@ class CategoriesController extends Controller
         return response()->json(['status' => 1, 'msg' => '删除成功' ]);
     }
 
-    public function rules(Request $request)
+    public function rules(Request $request, Category $category)
     {
         $this->validate($request, [
-            'name' => 'required|unique:categories|string|min:2',
+            'name' => [
+                'required',
+                'string',
+                'min:2',
+                Rule::unique('categories')->ignore($category->id)
+            ],
             'description' => 'string|nullable'
         ], [
             'name.required' => '分类名不能为空',
