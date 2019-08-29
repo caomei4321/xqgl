@@ -3,7 +3,8 @@
 @section('styles')
     <style type="text/css">
         body, html {width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
-        #allmap{width:100%;height:500px;}
+        #allmap{width:100%;height:600px;}
+        p{margin-left:5px; font-size:14px;}
     </style>
 @endsection
 
@@ -38,7 +39,11 @@
                             <tr>
                                 <th>经度</th>
                                 <th>纬度</th>
-                                <th>信息</th>
+                                <th>物品+编号</th>
+                                <th>地址</th>
+                                <th>描述</th>
+                                <th>图片</th>
+                                <th>图标</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -47,11 +52,13 @@
                                 <td class="t1">{{ $part->longitude }}</td>
                                 <td class="t2">{{ $part->latitude }}</td>
                                 <td class="t3">
-                                    物品：{{ $part->things }} <br>
-                                    编号：{{ $part->num }} <br>
-                                    地址：{{ $part->address }} <br>
-                                    描述：{{ $part->info }} <br>
-                                    图片：<image width="40" src="{{ $part->image }}" />
+                                    {{ $part->things }} {{ $part->num }}
+                                </td>
+                                <td class="t4">{{ $part->address }}</td>
+                                <td class="t5">{{ $part->info }}</td>
+                                <td class="t6"><image style='width: 324px;height: 101px; margin-left: 13px; margin-bottom: 5px;' src="{{ $part->image }}" /></td>
+                                <td class="t7">
+                                    {{ $part->things }}
                                 </td>
                             </tr>
                             @endforeach
@@ -60,13 +67,22 @@
                             <tr>
                                 <th>经度</th>
                                 <th>纬度</th>
-                                <th>信息</th>
+                                <th>物品+编号</th>
+                                <th>地址</th>
+                                <th>描述</th>
+                                <th>图片</th>
+                                <th>图标</th>
                             </tr>
                             </tfoot>
                         </table>
                     </div>
 
                     <div id="allmap"></div>
+                    <div id="r-result">
+                        <input type="button" class="btn-info" onclick="add_control();" value="添加控件" />
+                        <input type="button" class="btn-info" onclick="delete_control();" value="删除控件" />
+                        <span class="img"><img src="{{ asset('assets/admin/img/1.png') }}" alt=""></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -77,38 +93,57 @@
     <!-- 百度地图js -->
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=HzdI6uW2xAsdwGmxQbdWitq0ZGGhO02G"></script>
     <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=HzdI6uW2xAsdwGmxQbdWitq0ZGGhO02G"></script>
 @endsection
 
 @section('javascript')
     <script type="text/javascript">
         // 百度地图API功能
         map = new BMap.Map("allmap");
-        map.centerAndZoom(new BMap.Point(120.7777399679,31.3505530086), 14);
+        map.centerAndZoom(new BMap.Point(120.7777399679,31.3505530086), 11);
+
+        var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
+        var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
+        var top_right_navigation = new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL}); //右上角，仅包含平移和缩放按钮
+        /*缩放控件type有四种类型:
+        BMAP_NAVIGATION_CONTROL_SMALL：仅包含平移和缩放按钮；BMAP_NAVIGATION_CONTROL_PAN:仅包含平移按钮；BMAP_NAVIGATION_CONTROL_ZOOM：仅包含缩放按钮*/
+
+
         var lng = $('.t1'); // 经度
         var lat = $('.t2'); // 纬度
-        var info = $('.t3'); // 信息
+        var things = $('.t3'); // 物品+编号
+        var address = $('.t4'); // 地址
+        var info = $('.t5'); // 信息
+        var img = $('.t6'); //图片
         var lenght = $('.t1').length;
         var data_info = [];
         for (var i = 0; i < lenght; i++) {
-            var data_array = [lng[i].innerHTML, lat[i].innerHTML, info[i].innerHTML];
+            var data_array = [lng[i].innerHTML, lat[i].innerHTML, things[i].innerHTML, address[i].innerHTML, info[i].innerHTML, img[i].innerHTML];
             data_info.push(data_array);
         }
-
-
-        // var data_info = [[120.7777399679,31.3505530086,"公厕"],
-        //     [120.7711588605,31.3505530086,"垃圾桶"],
-        //     [120.785287,31.3505530086,"井盖"],
-        //     [120.61990711,31.31798731,"石墩"]
-        // ];
+        console.log(data_info);
         var opts = {
-            width : 250,     // 信息窗口宽度
-            height: 150,     // 信息窗口高度
-            title : "信息窗口" , // 信息窗口标题
-            enableMessage:true//设置允许信息窗发送短息
+            width : 350,     // 信息窗口宽度
+            height: 200,     // 信息窗口高度
+            // title : "信息窗口" , // 信息窗口标题
+            enableMessage:true, //设置允许信息窗发送短息
         };
+
+        var host = window.location.protocol+"//"+window.location.host;
+        var myIcon = new BMap.Icon(host+"/assets/admin/img/1.png", new BMap.Size(20,35));
         for(var i=0;i<data_info.length;i++){
-            var marker = new BMap.Marker(new BMap.Point(data_info[i][0],data_info[i][1]));  // 创建标注
-            var content = data_info[i][2];
+            var marker = new BMap.Marker(new BMap.Point(data_info[i][0],data_info[i][1]), {
+                icon: myIcon
+            });  // 创建标注
+            // src='/uploads/images/parts/201908/28/pt_1566980337_ZS9ZPQ0RAn.png'
+            console.log(marker);
+            var content =
+                "<h4 style='margin-left: 13px; margin-bottom: 5px;'>"+ data_info[i][2] +" </h4>" +
+                "<p style='margin-left: 0px; margin-bottom:0px; '>"+  data_info[i][5] +"</p>" +
+                "<p style='margin: 0 12px; font-size: 12px; color: rgb(77,77,77);'>"+"地址："+  data_info[i][3] +"</p>" +
+                "<p style=' margin: 0 12px;font-size: 12px; color: rgb(127,127,127); overflow: hidden;text-overflow: ellipsis;'>"+"物品信息："+ data_info[i][4] +"</p>" +
+                "</div>";
+            // var content = data_info[i][2];
             map.addOverlay(marker);               // 将标注添加到地图中
             addClickHandler(content,marker);
         }
@@ -123,5 +158,30 @@
             var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象
             map.openInfoWindow(infoWindow,point); //开启信息窗口
         }
+
+
+        //添加控件和比例尺
+        function add_control(){
+            map.addControl(top_left_control);
+            map.addControl(top_left_navigation);
+            map.addControl(top_right_navigation);
+        }
+        //移除控件和比例尺
+        function delete_control(){
+            map.removeControl(top_left_control);
+            map.removeControl(top_left_navigation);
+            map.removeControl(top_right_navigation);
+        }
+
+        // 点击方法
+        map.enableScrollWheelZoom(); // 启用滚轮放大缩小
+        map.enableInertialDragging();
+        map.enableContinuousZoom();  // 启用地图惯性拖拽
+
+        var size = new BMap.Size(10, 20);
+        map.addControl(new BMap.CityListControl({
+            anchor: BMAP_ANCHOR_TOP_LEFT,
+            offset: size,
+        }));
     </script>
 @endsection
