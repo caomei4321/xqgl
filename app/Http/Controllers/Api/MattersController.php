@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\Api\MatterCollection;
 use App\Http\Resources\Api\MatterResource;
 use App\Http\Resources\Api\UserResource;
 use App\Models\Matter;
@@ -13,7 +14,10 @@ class MattersController extends Controller
 {
     public function userHasMatters()
     {
-        return new UserResource($this->user());
+        /*return $this->user()->whereHas('situation', function ($query) {
+            $query->where('user_has_matters.status','0');
+        })->get();*/
+        return new MatterCollection($this->user()->situation()->where('user_has_matters.status',0)->get());
     }
 
     public function matter(Request $request)
@@ -27,9 +31,24 @@ class MattersController extends Controller
     /*
      * 巡查发现的问题处理
      * */
-    public function endMatter(Request $request)
+    public function findMatterAndEnd(Request $request,Matter $matter)
     {
+        $imgdata = $request->img;
+        //$base64_str = substr($imgdata, strpos($imgdata, ",") + 1);
+        $image = base64_decode($imgdata);
 
+        $imgname = 'mt' . '_' . time() . '_' . str_random(10) . '.jpg';
+        Storage::disk('public')->put($imgname, $image);
+        $imagePath = '/storage/' . $imgname;
+
+        $data = $request->only(['title', 'content', 'latitude', 'longitude', 'suggest']);
+
+        $data['image'] = $imagePath;
+        $data['status'] = $request->result;
+
+        $this->user()->patrolMatters()->create($data);
+
+        return $this->success('提交成功');
     }
 
 

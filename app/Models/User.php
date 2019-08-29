@@ -54,4 +54,9 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsToMany('App\Models\Matter', 'user_has_matters', 'user_id', 'matter_id');
     }
 
+    public function patrolMatters()
+    {
+        return $this->hasMany(PatrolMatter::class);
+    }
+
 }
