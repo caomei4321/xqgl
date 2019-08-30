@@ -1,5 +1,5 @@
 <?php
-namespace App\Handler;
+namespace App\Handlers;
 
 class Curl
 {
@@ -30,7 +30,7 @@ class Curl
         } else {
             if ($params) {
                 if (is_array($params)) {
-                    $params = http_build_query($params);
+                    $params = urldecode(http_build_query($params));
                 }
                 curl_setopt($ch, CURLOPT_URL, $url . '?' . $params);
             } else {

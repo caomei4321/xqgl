@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Validator;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Handler\Curl;
+use App\Handlers\Curl;
 
 class EntitiesController extends Controller
 {
@@ -13,10 +13,12 @@ class EntitiesController extends Controller
     {
         $data = [
             'ak' => env('BAIDU_MAP_AK',''),
-            'service_id' => env('BAIDU_MAP_SERVICE_ID', '')
+            'service_id' => env('BAIDU_MAP_SERVICE_ID', ''),
+            'mcode'     => (string)env('BAIDU_MAP_MCODE')
         ];
         $entityList = $curl->curl('http://yingyan.baidu.com/api/v3/entity/list',$data);
         $entityList = json_decode($entityList);
+        dd($entityList);
         if ($entityList->status === 0) {
             $entities = $entityList->entities;
             return view('admin.entity.index', compact('entities'));
@@ -32,6 +34,7 @@ class EntitiesController extends Controller
         $data = [
             'ak' => env('BAIDU_MAP_AK',''),
             'service_id' => env('BAIDU_MAP_SERVICE_ID', ''),
+            'mcode'     => env('BAIDU_MAP_MCODE'),
             'entity_name' => $request->entity_name
         ];
         $result = $curl->curl('http://yingyan.baidu.com/api/v3/entity/delete', $data, true);
@@ -63,6 +66,7 @@ class EntitiesController extends Controller
         $data = [
             'ak' => env('BAIDU_MAP_AK',''),
             'service_id' => env('BAIDU_MAP_SERVICE_ID', ''),
+            'mcode'     => env('BAIDU_MAP_MCODE'),
             'entity_name' => $request->entity_name,
             'entity_desc' => $request->entity_desc
         ];

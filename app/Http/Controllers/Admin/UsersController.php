@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Handler\Curl;
+use App\Handlers\Curl;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Handler\Curl;
 use App\Handlers\ImageUploadHandler;
 use App\Models\Part;
 use Illuminate\Http\Request;

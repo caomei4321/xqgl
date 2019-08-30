@@ -36,8 +36,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('users/address', 'Admin\UsersController@address')->name('admin.users.address');
 
 
-        Route::get('convenientTask','Admin\ConvenientTaskController@index')->name('admin.convenientTask.index');
-        Route::get('convenientTask/create','Admin\ConvenientTaskController@create')->name('admin.convenientTask.create');
+        //Route::get('convenientTask','Admin\ConvenientTaskController@index')->name('admin.convenientTask.index');
+        //Route::get('convenientTask/create','Admin\ConvenientTaskController@create')->name('admin.convenientTask.create');
 
         Route::resource('entities', 'Admin\EntitiesController',  ['except' => ['destroy', 'show', 'create', 'update', 'edit']])->names([
             'index' => 'admin.entities.index',
@@ -149,6 +149,7 @@ Route::group(['prefix' => 'admin'], function () {
             'destroy'   =>  'admin.situations.destroy',
         ]);
 
+
         // 网格划分图
         Route::resource('coordinates', 'Admin\CoordinatesController', ['except' => ['show','edit', 'update']])->names([
             'index'     =>  'admin.coordinates.index',
@@ -156,6 +157,13 @@ Route::group(['prefix' => 'admin'], function () {
             'store'     =>  'admin.coordinates.store',
             'destroy'   =>  'admin.coordinates.destroy',
         ]);
+        // 巡查上报事件
+        Route::resource('patrolMatter', 'Admin\PatrolMattersController', ['except' => ['create', 'store', 'edit', 'update']])->names([
+            'index'     =>  'admin.patrolMatters.index',
+            'show'      =>  'admin.patrolMatters.show',
+            'destroy'   =>  'admin.patrolMatters.destroy',
+        ]);
+        
 
     });
 
