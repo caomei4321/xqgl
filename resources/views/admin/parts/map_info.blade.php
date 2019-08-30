@@ -58,7 +58,7 @@
                                 <td class="t5">{{ $part->info }}</td>
                                 <td class="t6"><image style='width: 324px;height: 101px; margin-left: 13px; margin-bottom: 5px;' src="{{ $part->image }}" /></td>
                                 <td class="t7">
-                                    {{ $part->things }}
+                                    {{ $part->kind_id }}
                                 </td>
                             </tr>
                             @endforeach
@@ -81,7 +81,10 @@
                     <div id="r-result">
                         <input type="button" class="btn-info" onclick="add_control();" value="添加控件" />
                         <input type="button" class="btn-info" onclick="delete_control();" value="删除控件" />
-                        <span class="img"><img src="{{ asset('assets/admin/img/1.png') }}" alt=""></span>
+                        <span class="img">石墩<img src="{{ asset('assets/admin/img/al1.png') }}" alt=""></span>
+                        <span class="img">垃圾桶<img src="{{ asset('assets/admin/img/al2.png') }}" alt=""></span>
+                        <span class="img">井盖<img src="{{ asset('assets/admin/img/al3.png') }}" alt=""></span>
+                        <span class="img">公厕<img src="{{ asset('assets/admin/img/al5.png') }}" alt=""></span>
                     </div>
                 </div>
             </div>
@@ -100,7 +103,7 @@
     <script type="text/javascript">
         // 百度地图API功能
         map = new BMap.Map("allmap");
-        map.centerAndZoom(new BMap.Point(120.7777399679,31.3505530086), 11);
+        map.centerAndZoom(new BMap.Point(120.7777399679,31.3505530086), 12);
 
         var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
         var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
@@ -115,10 +118,11 @@
         var address = $('.t4'); // 地址
         var info = $('.t5'); // 信息
         var img = $('.t6'); //图片
+        var kind = $('.t7'); // 种类
         var lenght = $('.t1').length;
         var data_info = [];
         for (var i = 0; i < lenght; i++) {
-            var data_array = [lng[i].innerHTML, lat[i].innerHTML, things[i].innerHTML, address[i].innerHTML, info[i].innerHTML, img[i].innerHTML];
+            var data_array = [lng[i].innerHTML, lat[i].innerHTML, things[i].innerHTML, address[i].innerHTML, info[i].innerHTML, img[i].innerHTML, kind[i].innerHTML];
             data_info.push(data_array);
         }
         console.log(data_info);
@@ -130,12 +134,21 @@
         };
 
         var host = window.location.protocol+"//"+window.location.host;
-        var myIcon = new BMap.Icon(host+"/assets/admin/img/1.png", new BMap.Size(20,35));
+
         for(var i=0;i<data_info.length;i++){
+            console.log(data_info[i][2].indexOf('垃圾桶'));
+            if ( data_info[i][6].indexOf('1') != '-1') {
+                var myIcon = new BMap.Icon(host+"/assets/admin/img/al2.png", new BMap.Size(35,35));
+            }else if (data_info[i][6].indexOf('2') != '-1'){
+                var myIcon = new BMap.Icon(host+"/assets/admin/img/al3.png", new BMap.Size(35,35));
+            } else if(data_info[i][6].indexOf('3') != '-1') {
+                var myIcon = new BMap.Icon(host+"/assets/admin/img/al5.png", new BMap.Size(35,35));
+            } else {
+                var myIcon = new BMap.Icon(host+"/assets/admin/img/al1.png", new BMap.Size(35,35));
+            }
             var marker = new BMap.Marker(new BMap.Point(data_info[i][0],data_info[i][1]), {
                 icon: myIcon
             });  // 创建标注
-            // src='/uploads/images/parts/201908/28/pt_1566980337_ZS9ZPQ0RAn.png'
             console.log(marker);
             var content =
                 "<h4 style='margin-left: 13px; margin-bottom: 5px;'>"+ data_info[i][2] +" </h4>" +
