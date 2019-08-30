@@ -12,7 +12,7 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>基本 <small>分类，查找</small></h5>
+                    <h5>巡查上报问题</small></h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -32,35 +32,38 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <a href="{{ route('admin.users.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加人员</button>
-                    </a>
-                    <a href="{{ route('admin.users.address') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 人员位置分布</button>
-                    </a>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>姓名</th>
-                            <th>手机号</th>
-                            <th>责任网络</th>
-                            <th>设备名</th>
+                            <th>标题</th>
+                            <th>问题描述</th>
+                            <th>现场图片</th>
                             <th>添加时间</th>
+                            <th>是否处理完成</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($users as $user)
+                        @foreach($patrolMatters as $patrolMatter)
                             <tr class="gradeC">
-                                <td>{{ $user->id }}</td>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->phone }}</td>
-                                <td>{{ $user->responsible_area }}</td>
-                                <td>{{ $user->entity_name }}</td>
-                                <td>{{ $user->created_at }}</td>
+                                <td>{{ $patrolMatter->id }}</td>
+                                <td>{{ $patrolMatter->title }}</td>
+                                <td>{{ $patrolMatter->content }}</td>
+                                <td><image src="{{ $patrolMatter->img_url }}"  style="width: 40px;"/></td>
+                                <td class="center">{{ $patrolMatter->created_at }}</td>
                                 <td class="center">
-                                    <a href="{{ route('admin.users.edit',['user' => $user->id]) }}"><button type="button" class="btn btn-primary btn-xs">编辑</button></a>
-                                    <a href="{{ route('admin.users.show',['user' => $user->id]) }}"><button type="button" class="btn btn-danger btn-xs">查看</button></a>
-                                    <button class="btn btn-warning btn-xs delete" data-id="{{ $user->id }}">删除</button>
+                                    @if( $patrolMatter->status  === 0)
+                                        <button class="btn btn-sm btn-warning btn-circle" type="button"><i class="fa fa-times"></i>
+                                        </button>
+                                    @else
+                                        <button class="btn btn-sm btn-info btn-circle" type="button"><i class="fa fa-check"></i>
+                                        </button>
+                                    @endif
+                                </td>
+                                <td class="center">
+                                    <a href="{{ route('admin.patrolMatters.show',['patrolMatters' => $patrolMatter->id]) }}"><button type="button" class="btn btn-danger btn-xs">查看</button></a>
+                                    <button class="btn btn-warning btn-xs delete" data-id="{{ $patrolMatter->id }}">删除</button>
                                 </td>
                             </tr>
                         @endforeach
@@ -68,17 +71,17 @@
                         <tfoot>
                         <tr>
                             <th>ID</th>
-                            <th>姓名</th>
-                            <th>手机号</th>
-                            <th>责任网络</th>
-                            <th>设备名</th>
+                            <th>标题</th>
+                            <th>问题描述</th>
+                            <th>现场图片</th>
                             <th>添加时间</th>
+                            <th>是否处理完成</th>
                             <th>操作</th>
                         </tr>
                         </tfoot>
                     </table>
                 </div>
-                {{ $users->links() }}
+                {{ $patrolMatters->links() }}
             </div>
         </div>
     </div>
@@ -110,7 +113,7 @@
                 $.ajaxSetup({
                     headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                     type:"delete",
-                    url: '/admin/user/'+id,
+                    url: '/admin/patrolMatter/'+id,
                     success:function (res) {
                         if (res.status == 1){
                             swal(res.msg, "您已经永久删除了这条信息。", "success");

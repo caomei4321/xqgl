@@ -10,4 +10,13 @@ class PatrolMatter extends Model
         'title', 'user_id', 'content', 'suggest', 'latitude', 'longitude', 'image', 'status'
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function getImgUrlAttribute()
+    {
+        return env('APP_URL').$this->image;
+    }
 }

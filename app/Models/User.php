@@ -51,7 +51,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function situation()
     {
-        return $this->belongsToMany('App\Models\Matter', 'user_has_matters', 'user_id', 'matter_id');
+        return $this->belongsToMany('App\Models\Matter', 'user_has_matters', 'user_id', 'matter_id')->withPivot('see_image', 'information', 'status');
     }
 
     public function patrolMatters()

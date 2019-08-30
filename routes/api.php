@@ -53,6 +53,8 @@ $api->version('v1', [
 
         $api->get('userHasMatters', 'MattersController@userHasMatters'); //用户任务
 
+        $api->get('userCompleteMatters', 'MattersController@userCompleteMatters'); //用户任务
+
         $api->get('matter', 'MattersController@matter');   //任务详情
 
         $api->get('categories', 'CategoryController@categories');  //责任清单分类
