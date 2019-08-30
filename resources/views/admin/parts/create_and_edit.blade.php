@@ -88,8 +88,10 @@
                                         <div class="col-sm-6">
                                             <select class="form-control" name="kind_id" required>
                                                 <option value="" hidden disabled selected>请选择种类</option>
-                                                <option value="1" {{ $part->kind_id == 1 ? 'selected' : '' }}>生活类</option>
-                                                <option value="2" {{ $part->kind_id == 2 ? 'selected' : '' }}>建筑类</option>
+                                                <option value="1" {{ $part->kind_id == 1 ? 'selected' : '' }}>垃圾桶</option>
+                                                <option value="2" {{ $part->kind_id == 2 ? 'selected' : '' }}>广告牌</option>
+                                                <option value="3" {{ $part->kind_id == 3 ? 'selected' : '' }}>公厕</option>
+                                                <option value="4" {{ $part->kind_id == 4 ? 'selected' : '' }}>路灯</option>
                                             </select>
                                         </div>
                                     </div>
