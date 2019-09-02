@@ -49,8 +49,9 @@
                             <tr class="gradeC">
                                 <td>{{ $coordinate->id }}</td>
                                 <td>{{ $coordinate->number }}</td>
-                                <td>{{ $coordinate->coordinates }}</td>
+                                <td><textarea name="" id="" cols="150" rows="5" style="border: none" readonly>{{ $coordinate->coordinates }}</textarea></td>
                                 <td class="center">
+                                    <a href="{{ route('admin.coordinates.show', ['coordinates' => $coordinate->id]) }}" class="btn btn-info btn-xs">显示地图</a>
                                     <button class="btn btn-warning btn-xs delete" data-id="{{ $coordinate->id }}">删除</button>
                                 </td>
                             </tr>

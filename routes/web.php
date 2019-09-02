@@ -121,8 +121,6 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('matters/import', 'Admin\MattersController@import')->name('admin.matters.import');
         Route::get('matters/download', 'Admin\MattersController@download')->name('admin.matters.download');
 
-        // 网格
-        Route::get('matters/grid', 'Admin\MattersController@grid')->name('admin.matters.grid');
         // 鼠标绘制点线面
         Route::get('matters/mouse', 'Admin\MattersController@mouse')->name('admin.matters.mouse');
         Route::post('matters/ajax', 'Admin\MattersController@ajaxData')->name('admin.matters.ajax');
@@ -151,10 +149,11 @@ Route::group(['prefix' => 'admin'], function () {
 
 
         // 网格划分图
-        Route::resource('coordinates', 'Admin\CoordinatesController', ['except' => ['show','edit', 'update']])->names([
+        Route::resource('coordinates', 'Admin\CoordinatesController', ['except' => ['edit', 'update']])->names([
             'index'     =>  'admin.coordinates.index',
             'create'    =>  'admin.coordinates.create',
             'store'     =>  'admin.coordinates.store',
+            'show'      =>  'admin.coordinates.show',
             'destroy'   =>  'admin.coordinates.destroy',
         ]);
         // 巡查上报事件
@@ -163,7 +162,7 @@ Route::group(['prefix' => 'admin'], function () {
             'show'      =>  'admin.patrolMatters.show',
             'destroy'   =>  'admin.patrolMatters.destroy',
         ]);
-        
+
 
     });
 

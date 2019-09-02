@@ -42,6 +42,18 @@ class CoordinatesController extends Controller
 
     }
 
+    public function show(Coordinate $coordinate)
+    {
+        $array = explode(',', $coordinate['coordinates']);
+        $data = [];
+        $count = count($array);
+        for ($i = 0; $i < $count; $i++) {
+            $single = explode(';',$array[$i]);
+            array_push($data, $single);
+        }
+        return view('admin.coordinates.line', compact('data'));
+    }
+
     public function destroy(Coordinate $coordinate)
     {
         $coordinate->delete();

@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.css" />
     <style type="text/css">
         body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
-        #allmap {width: 100%; height:500px; overflow: hidden;}
+        #allmap {width: 100%; height:600px; overflow: hidden;}
         #result {width:100%;font-size:12px;}
         dl,dt,dd,ul,li{
             margin:0;
@@ -35,7 +35,7 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Grid</h5>
+                    <h5>Mouse</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -111,8 +111,8 @@
     <script type="text/javascript">
         // 百度地图API功能
         var map = new BMap.Map('map');
-        var poi = new BMap.Point(116.307852,40.057031);
-        map.centerAndZoom(poi, 16);
+        var poi = new BMap.Point(117.008532,36.674077);
+        map.centerAndZoom(poi, 18);
         map.enableScrollWheelZoom();
         var overlays = [];
         var overlaycomplete = function(e){

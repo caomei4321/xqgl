@@ -39,7 +39,6 @@
                     <button class="btn btn-info " type="button" data-toggle="modal" data-target="#importModal" data-whatever="@mdo"><i class="fa fa-paste"></i> Excel导入</button>
                     <a href="{{ route('admin.matters.export') }}"> <button class="btn btn-warning" type="button"><i class="fa fa-paste"></i> Excel导出</button></a>
                     <a href="{{ route('admin.matters.mouse') }}"> <button class="btn btn-warning" type="button"><i class="fa fa-paste"></i> 鼠标点线面</button></a>
-                    <a href="{{ route('admin.matters.grid') }}" style="float: right;"> <button class="btn btn-primary " type="button"><i class="fa fa-paste"></i>划分网格</button></a>
                     {{--导入model start--}}
                     <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
                         <div class="modal-dialog" role="document">

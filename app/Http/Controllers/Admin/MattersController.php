@@ -283,12 +283,6 @@ class MattersController extends Controller
         return response()->download($filePath, 'Excel导入模板');
     }
 
-    // 划分网格
-    public function grid()
-    {
-        return view('admin.matters.grid');
-    }
-
     // 鼠标绘制点线面
     public function mouse()
     {

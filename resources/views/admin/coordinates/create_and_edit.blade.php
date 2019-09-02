@@ -59,17 +59,17 @@
                                             <input style="display: inline-block; width: 200px;" name="lat[]"  type="text" class="form-control" value="{{ old('lat') }}" placeholder="请输入维度坐标" required>
                                         </div>
 
-                                        <div class="col-sm-6" style="margin-left: 252px; margin-top: 10px;">
+                                        <div class="col-sm-6" style="margin-left: 275px; margin-top: 10px;">
                                             <input style="display: inline-block; width: 200px;" name="lng[]"  type="text" class="form-control" value="{{ old('lng') }}" placeholder="请输入经度坐标" required>
                                             <input style="display: inline-block; width: 200px;" name="lat[]"  type="text" class="form-control" value="{{ old('lat') }}" placeholder="请输入维度坐标" required>
                                         </div>
 
-                                        <div class="col-sm-6" style="margin-left: 252px; margin-top: 10px;">
+                                        <div class="col-sm-6" style="margin-left: 275px; margin-top: 10px;">
                                             <input style="display: inline-block; width: 200px;" name="lng[]"  type="text" class="form-control" value="{{ old('lng') }}" placeholder="请输入经度坐标" required>
                                             <input style="display: inline-block; width: 200px;" name="lat[]"  type="text" class="form-control" value="{{ old('lat') }}" placeholder="请输入维度坐标" required>
                                         </div>
 
-                                        <div class="col-sm-6" style="margin-left: 252px; margin-top: 10px;">
+                                        <div class="col-sm-6" style="margin-left: 275px; margin-top: 10px;">
                                             <input style="display: inline-block; width: 200px;" name="lng[]"  type="text" class="form-control" value="{{ old('lng') }}" placeholder="请输入经度坐标" required>
                                             <input style="display: inline-block; width: 200px;" name="lat[]"  type="text" class="form-control" value="{{ old('lat') }}" placeholder="请输入维度坐标" required>
                                             <button type="button" class="btn btn-info addInput">+</button>
@@ -99,7 +99,7 @@
         $(AddButton).click(function (e) {
             if (x <= MaxInput){
                 FieldCount ++;
-                $(InputArray).append('<div class="col-sm-6" style="margin-left: 252px; margin-top: 10px;">\n' +
+                $(InputArray).append('<div class="col-sm-6" style="margin-left: 275px; margin-top: 10px;">\n' +
                     '                                            <input style="display: inline-block; width: 200px;" name="lng[]"  type="text" class="form-control" value="{{ old("lng") }}" placeholder="请输入经度坐标" required>\n' +
                     '                                            <input style="display: inline-block; width: 200px;" name="lat[]"  type="text" class="form-control" value="{{ old("lat") }}" placeholder="请输入维度坐标" required>\n' +
                     '                                            <button type="button" class="btn btn-info removeInput">-</button>\n' +
