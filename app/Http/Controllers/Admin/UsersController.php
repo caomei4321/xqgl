@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Handlers\Curl;
+use App\Models\Coordinate;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -17,7 +18,7 @@ class UsersController extends Controller
         return view('admin.user.index', compact('users'));
     }
 
-    public function create(User $user, Curl $curl)
+    public function create(User $user, Curl $curl, Coordinate $coordinate)
     {
         $data = [
             'ak' => env('BAIDU_MAP_AK', ''),
@@ -34,7 +35,8 @@ class UsersController extends Controller
         // 未分配用户的设备
         $entities = array_diff(array_column($entities,'entity_name'),$userHasEntities);
 
-        return view('admin.user.create_and_edit', compact('user',  'entities'));
+        $coordinates = Coordinate::all();
+        return view('admin.user.create_and_edit', compact('user', 'entities', 'coordinates'));
     }
 
 
@@ -54,7 +56,7 @@ class UsersController extends Controller
     }
 
 
-    public function edit(User $user, Curl $curl)
+    public function edit(User $user, Curl $curl, Coordinate $coordinate)
     {
         $data = [
             'ak' => env('BAIDU_MAP_AK', ''),
@@ -69,7 +71,8 @@ class UsersController extends Controller
         //dd(array_diff_assoc($userHasEntities,array_column($entities,'entity_name')));
         // 未分配用户的设备
         $entities = array_diff(array_column($entities,'entity_name'),$userHasEntities);
-        return view('admin.user.create_and_edit', compact('user', 'entities'));
+        $coordinates = Coordinate::all();
+        return view('admin.user.create_and_edit', compact('user', 'entities', 'coordinates'));
     }
 
     public function update(Request $request, User $user)
