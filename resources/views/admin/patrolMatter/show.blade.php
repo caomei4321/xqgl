@@ -65,7 +65,7 @@
                             <label class="col-sm-2 control-label">是否已处理</label>
 
                             <div class="col-sm-10">
-                                @if( $patrolMatter->status === 1)
+                                @if( $patrolMatter->status == 1)
                                     <p class="form-control-static" style="color: red">已处理</p>
                                 @else
                                     <p class="form-control-static" style="color: red">未处理</p>

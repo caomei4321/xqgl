@@ -22,7 +22,7 @@ class PatrolsController extends Controller
         //   http://yingyan.baidu.com/api/v3/track/gettrack
 
         if ($patrol->end_at) {
-            $end_at = $patrol->end_at;
+            $end_at = strtotime($patrol->end_at);
         } else {
             // 没有点击结束，默认结束时间为第二天0点
             $date = date('Y-m-d',strtotime($patrol->created_at->toDateTimeString()));
@@ -42,24 +42,15 @@ class PatrolsController extends Controller
 
         $tracks = json_decode($result);
 
+        $tracks->distance = substr($tracks->distance/1000, '0','4').'km';
 
-        $distanceData = [
-            'ak' => env('BAIDU_MAP_AK',''),
-            'service_id' => env('BAIDU_MAP_SERVICE_ID', ''),
-            'mcode'     => env('BAIDU_MAP_MCODE'),
-            'entity_name' => $entity_name,
-            'start_time' => strtotime($patrol->created_at),
-            'end_time'  => $end_at,
-            'is_processed' => 1,
-        ];
+        //$result = $curl->curl('http://yingyan.baidu.com/api/v3/track/getdistance', $distanceData, false);
 
-        $result = $curl->curl('http://yingyan.baidu.com/api/v3/track/getdistance', $distanceData, false);
-
-        $distance = json_decode($result);
+        //$distance = json_decode($result);
         //$points = $tracks->points;
         //dd($patrol->patrol_matter);
-        $distance->distance = substr($distance->distance/1000, '0','4').'km';
-        return view('admin.patrol.show', compact('patrol', 'distance', 'tracks'));
+        //$distance->distance = substr($distance->distance/1000, '0','4').'km';
+        return view('admin.patrol.show', compact('patrol', 'tracks'));
     }
 
     public function destroy(Patrol $patrol)

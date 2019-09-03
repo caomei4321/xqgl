@@ -58,7 +58,7 @@
                             <label class="col-sm-2 control-label">总里程</label>
 
                             <div class="col-sm-10">
-                                <p class="form-control-static">{{ $distance->distance }}</p>
+                                <p class="form-control-static">{{ $tracks->distance }}</p>
                             </div>
                         </div>
 
@@ -162,6 +162,7 @@
             map.addOverlay(polyline);
 
 
+            @if(isset($patrol->patrol_matter))
             var point = new BMap.Point({{ $patrol->patrol_matter->longitude }}, {{ $patrol->patrol_matter->latitude }});
             var myIcon = new BMap.Icon("/assets/admin/img/icon_image.png", new BMap.Size(28,50));
             var marker2 = new BMap.Marker(point,{icon:myIcon});  // 创建标注
@@ -185,7 +186,7 @@
                     infoWindow.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
                 }
             });
-
+            @endif
             // 添加标注
             function addMarker(point,label){
                 var marker = new BMap.Marker(point);
