@@ -59,4 +59,9 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(PatrolMatter::class);
     }
 
+    public function patrols()
+    {
+        return $this->hasMany(Patrol::class);
+    }
+
 }

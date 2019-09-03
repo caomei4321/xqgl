@@ -62,5 +62,7 @@ $api->version('v1', [
         $api->post('endMatter', 'MattersController@endImportMatter');   //完成12345任务
 
         $api->post('importMatter', 'MattersController@findMatterAndEnd');  //发现并提交问题
+
+        $api->post('startAndEndPatrol', 'PatrolController@startAndEndPatrol');  //开始和结束巡逻
     });
 });

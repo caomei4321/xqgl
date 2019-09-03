@@ -138,6 +138,13 @@ Route::group(['prefix' => 'admin'], function () {
             'destroy'   =>  'admin.patrolMatters.destroy',
         ]);
 
+        // 巡查记录
+        Route::resource('patrol', 'Admin\PatrolsController', ['except' => ['create', 'store', 'edit', 'update']])->names([
+            'index'     =>  'admin.patrols.index',
+            'show'      =>  'admin.patrols.show',
+            'destroy'   =>  'admin.patrols.destroy',
+        ]);
+
         // 分配任务到人
         Route::get('matters/users', 'Admin\MattersController@getUser')->name('admin.matters.users');
         // 此路由为分配到人，表格头的按钮，以注释，后面不需要则删除

@@ -18,7 +18,7 @@ class EntitiesController extends Controller
         ];
         $entityList = $curl->curl('http://yingyan.baidu.com/api/v3/entity/list',$data);
         $entityList = json_decode($entityList);
-        dd($entityList);
+
         if ($entityList->status === 0) {
             $entities = $entityList->entities;
             return view('admin.entity.index', compact('entities'));
