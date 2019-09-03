@@ -47,7 +47,8 @@
                         @foreach($entities as $entity)
                             <tr class="gradeC">
                                 <td>{{ $entity->entity_name }}</td>
-                                <td>{{ $entity->entity_desc }}</td>
+                                    <td>{{ isset($entity->entity_desc) ? $entity->entity_desc : ''}}</td>
+
                                 <td>{{ $entity->modify_time }}</td>
                                 <td class="center">{{ $entity->create_time }}</td>
                                 <td class="center">
