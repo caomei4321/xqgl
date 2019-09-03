@@ -162,8 +162,7 @@ Route::group(['prefix' => 'admin'], function () {
             'show'      =>  'admin.patrolMatters.show',
             'destroy'   =>  'admin.patrolMatters.destroy',
         ]);
-
-<<<<<<< HEAD
+        
         // 巡查记录
         Route::resource('patrol', 'Admin\PatrolsController', ['except' => ['create', 'store', 'edit', 'update']])->names([
             'index'     =>  'admin.patrols.index',
@@ -175,8 +174,6 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('matters/users', 'Admin\MattersController@getUser')->name('admin.matters.users');
         // 此路由为分配到人，表格头的按钮，以注释，后面不需要则删除
         Route::post('matters/mtu', 'Admin\MattersController@mattersToUser')->name('admin.matters.mtu');
-=======
->>>>>>> fa58f84eaad4290551ad6af5d6626554217633be
 
     });
 
