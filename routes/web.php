@@ -109,6 +109,22 @@ Route::group(['prefix' => 'admin'], function () {
             'update'    =>  'admin.matters.update',
             'destroy'   =>  'admin.matters.destroy',
         ]);
+
+        // 此路由为分配到人，表格头的按钮，以注释，后面不需要则删除
+        Route::post('matters/mtu', 'Admin\MattersController@mattersToUser')->name('admin.matters.mtu');
+        // 分配
+        Route::get('matters/allocate', 'Admin\MattersController@allocate')->name('admin.matters.allocate');
+        Route::post('matters/allocates', 'Admin\MattersController@allocates')->name('admin.matters.allocates');
+
+        // 导入导出
+        Route::get('matters/export', 'Admin\MattersController@export')->name('admin.matters.export');
+        Route::post('matters/import', 'Admin\MattersController@import')->name('admin.matters.import');
+        Route::get('matters/download', 'Admin\MattersController@download')->name('admin.matters.download');
+
+        // 鼠标绘制点线面
+        Route::get('matters/mouse', 'Admin\MattersController@mouse')->name('admin.matters.mouse');
+        Route::post('matters/ajax', 'Admin\MattersController@ajaxData')->name('admin.matters.ajax');
+
         // 城市部件信息
         Route::resource('part', 'Admin\PartsController', ['except' => ['show']])->names([
             'index'     =>  'admin.part.index',
@@ -122,7 +138,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('part/mapInfo', 'Admin\PartsController@mapInfo')->name('admin.part.mapInfo');
 
         // 任务情况
-        Route::resource('situations', 'Admin\SituationsController')->names([
+        Route::resource('situations', 'Admin\SituationsController', ['except' => ['show']])->names([
             'index'     =>  'admin.situations.index',
             'create'    =>  'admin.situations.create',
             'store'     =>  'admin.situations.store',
@@ -131,6 +147,15 @@ Route::group(['prefix' => 'admin'], function () {
             'destroy'   =>  'admin.situations.destroy',
         ]);
 
+
+        // 网格划分图
+        Route::resource('coordinates', 'Admin\CoordinatesController', ['except' => ['edit', 'update']])->names([
+            'index'     =>  'admin.coordinates.index',
+            'create'    =>  'admin.coordinates.create',
+            'store'     =>  'admin.coordinates.store',
+            'show'      =>  'admin.coordinates.show',
+            'destroy'   =>  'admin.coordinates.destroy',
+        ]);
         // 巡查上报事件
         Route::resource('patrolMatter', 'Admin\PatrolMattersController', ['except' => ['create', 'store', 'edit', 'update']])->names([
             'index'     =>  'admin.patrolMatters.index',
@@ -138,6 +163,7 @@ Route::group(['prefix' => 'admin'], function () {
             'destroy'   =>  'admin.patrolMatters.destroy',
         ]);
 
+<<<<<<< HEAD
         // 巡查记录
         Route::resource('patrol', 'Admin\PatrolsController', ['except' => ['create', 'store', 'edit', 'update']])->names([
             'index'     =>  'admin.patrols.index',
@@ -149,14 +175,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('matters/users', 'Admin\MattersController@getUser')->name('admin.matters.users');
         // 此路由为分配到人，表格头的按钮，以注释，后面不需要则删除
         Route::post('matters/mtu', 'Admin\MattersController@mattersToUser')->name('admin.matters.mtu');
+=======
+>>>>>>> fa58f84eaad4290551ad6af5d6626554217633be
 
-        Route::get('matters/allocate', 'Admin\MattersController@allocate')->name('admin.matters.allocate');
-        Route::post('matters/allocates', 'Admin\MattersController@allocates')->name('admin.matters.allocates');
-
-        // 导入导出
-        Route::get('matters/export', 'Admin\MattersController@export')->name('admin.matters.export');
-        Route::post('matters/import', 'Admin\MattersController@import')->name('admin.matters.import');
-        Route::get('matters/download', 'Admin\MattersController@download')->name('admin.matters.download');
     });
 
 });

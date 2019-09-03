@@ -33,65 +33,41 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <a href="{{ route('admin.part.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加部件</button>
-                    </a>
-                        <a href="{{ route('admin.part.mapInfo') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 地图标注</button>
+                    <a href="{{ route('admin.coordinates.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加网格坐标</button>
                     </a>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>物品</th>
-                            <th>编号</th>
-                            <th>位置</th>
-                            <th>经度</th>
-                            <th>纬度</th>
-                            <th>物品信息</th>
-                            <th>添加时间</th>
-                            <th>状态</th>
+                            <th>区域编号</th>
+                            <th>坐标</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($parts as $part)
+                            @foreach($coordinates as $coordinate)
                             <tr class="gradeC">
-                                <td>{{ $part->id }}</td>
-                                <td>{{ $part->things }}</td>
-                                <td>{{ $part->num }}</td>
-                                <td>{{ $part->address }}</td>
-                                <td>{{ $part->longitude }}</td>
-                                <td>{{ $part->latitude }}</td>
-                                <td>{{ $part->info }}</td>
-                                <td>{{ $part->created_at }}</td>
-                                <td>
-                                    @if($part->status == 0)
-                                        使用中
-                                    @else
-                                        损坏
-                                    @endif
-                                </td>
+                                <td>{{ $coordinate->id }}</td>
+                                <td>{{ $coordinate->number }}</td>
+                                <td><textarea name="" id="" cols="150" rows="5" style="border: none" readonly>{{ $coordinate->coordinates }}</textarea></td>
                                 <td class="center">
-                                    <a href="{{ route('admin.part.edit',['part' => $part->id]) }}"><button type="button" class="btn btn-primary btn-xs">编辑</button></a>
-                                    <button class="btn btn-warning btn-xs delete" data-id="{{ $part->id }}">删除</button>
+                                    <a href="{{ route('admin.coordinates.show', ['coordinates' => $coordinate->id]) }}" class="btn btn-info btn-xs">显示地图</a>
+                                    <button class="btn btn-warning btn-xs delete" data-id="{{ $coordinate->id }}">删除</button>
                                 </td>
                             </tr>
-                        @endforeach
+                            @endforeach
                         </tbody>
                         <tfoot>
                         <tr>
                             <th>ID</th>
-                            <th>物品</th>
-                            <th>编号</th>
-                            <th>位置</th>
-                            <th>经度</th>
-                            <th>经度</th>
-                            <th>物品信息</th>
-                            <th>添加时间</th>
-                            <th>状态</th>
+                            <th>区域编号</th>
+                            <th>坐标</th>
                             <th>操作</th>
                         </tr>
                         </tfoot>
                     </table>
+                    <div style="float: right">
+                    </div>
                 </div>
             </div>
         </div>
@@ -125,7 +101,7 @@
                 $.ajaxSetup({
                     headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                     type:"delete",
-                    url: '/admin/part/'+id,
+                    url: '/admin/coordinates/'+id,
                     success:function (res) {
                         if (res.status == 1){
                             swal(res.msg, "您已经永久删除了这条信息。", "success");

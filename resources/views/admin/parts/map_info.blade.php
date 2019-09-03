@@ -44,6 +44,7 @@
                                 <th>描述</th>
                                 <th>图片</th>
                                 <th>图标</th>
+                                <th>状态</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -53,6 +54,13 @@
                                 <td class="t2">{{ $part->latitude }}</td>
                                 <td class="t3">
                                     {{ $part->things }} {{ $part->num }}
+                                    <span style="float: right; margin-right: 20px;">
+                                    @if($part->status == 0)
+                                        正在使用
+                                    @else
+                                        已损坏
+                                    @endif
+                                    </span>
                                 </td>
                                 <td class="t4">{{ $part->address }}</td>
                                 <td class="t5">{{ $part->info }}</td>
@@ -81,10 +89,10 @@
                     <div id="r-result">
                         <input type="button" class="btn-info" onclick="add_control();" value="添加控件" />
                         <input type="button" class="btn-info" onclick="delete_control();" value="删除控件" />
-                        <span class="img">石墩<img src="{{ asset('assets/admin/img/al1.png') }}" alt=""></span>
-                        <span class="img">垃圾桶<img src="{{ asset('assets/admin/img/al2.png') }}" alt=""></span>
-                        <span class="img">井盖<img src="{{ asset('assets/admin/img/al3.png') }}" alt=""></span>
-                        <span class="img">公厕<img src="{{ asset('assets/admin/img/al5.png') }}" alt=""></span>
+                        <span class="img">垃圾桶<img src="{{ asset('assets/admin/img/t1.png') }}" alt=""></span>
+                        <span class="img">公厕<img src="{{ asset('assets/admin/img/t2.png') }}" alt=""></span>
+                        <span class="img">广告牌<img src="{{ asset('assets/admin/img/t3.png') }}" alt=""></span>
+                        <span class="img">路灯<img src="{{ asset('assets/admin/img/t4.png') }}" alt=""></span>
                     </div>
                 </div>
             </div>
@@ -103,7 +111,7 @@
     <script type="text/javascript">
         // 百度地图API功能
         map = new BMap.Map("allmap");
-        map.centerAndZoom(new BMap.Point(120.7777399679,31.3505530086), 12);
+        map.centerAndZoom(new BMap.Point(117.009475,36.668982), 18);
 
         var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
         var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
@@ -136,15 +144,14 @@
         var host = window.location.protocol+"//"+window.location.host;
 
         for(var i=0;i<data_info.length;i++){
-            console.log(data_info[i][2].indexOf('垃圾桶'));
             if ( data_info[i][6].indexOf('1') != '-1') {
-                var myIcon = new BMap.Icon(host+"/assets/admin/img/al2.png", new BMap.Size(35,35));
+                var myIcon = new BMap.Icon(host+"/assets/admin/img/t1.png", new BMap.Size(35,35));
             }else if (data_info[i][6].indexOf('2') != '-1'){
-                var myIcon = new BMap.Icon(host+"/assets/admin/img/al3.png", new BMap.Size(35,35));
+                var myIcon = new BMap.Icon(host+"/assets/admin/img/t3.png", new BMap.Size(35,35));
             } else if(data_info[i][6].indexOf('3') != '-1') {
-                var myIcon = new BMap.Icon(host+"/assets/admin/img/al5.png", new BMap.Size(35,35));
+                var myIcon = new BMap.Icon(host+"/assets/admin/img/t2.png", new BMap.Size(35,35));
             } else {
-                var myIcon = new BMap.Icon(host+"/assets/admin/img/al1.png", new BMap.Size(35,35));
+                var myIcon = new BMap.Icon(host+"/assets/admin/img/t4.png", new BMap.Size(35,35));
             }
             var marker = new BMap.Marker(new BMap.Point(data_info[i][0],data_info[i][1]), {
                 icon: myIcon
@@ -196,5 +203,11 @@
             anchor: BMAP_ANCHOR_TOP_LEFT,
             offset: size,
         }));
+
+        // 覆盖区域图层测试
+        // map.addTileLayer(new BMap.PanoramaCoverageLayer());
+        var stCtrl = new BMap.PanoramaControl(); //构造全景控件
+        stCtrl.setOffset(new BMap.Size(20, 20));
+        map.addControl(stCtrl);//添加全景控件
     </script>
 @endsection

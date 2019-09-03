@@ -73,7 +73,12 @@
                                         <label class="col-sm-2 control-label">责任网络：</label>
 
                                         <div class="col-sm-6">
-                                            <input name="responsible_area" id="responsible_area" type="text" class="form-control" value="{{ old('responsible_area',$user->responsible_area) }}">
+                                            <select class="form-control" name="responsible_area" required>
+                                                <option value="" hidden disabled selected>请选择网络</option>
+                                                @foreach ($coordinates as $coordinate)
+                                                    <option value="{{ $coordinate->id }}" {{ $user->responsible_area == $coordinate->id ? 'selected': '' }}>{{ $coordinate->number }}号网格</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -105,20 +110,20 @@
                                         </div>
                                     </div>--}}
 
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">使用设备：</label>
-                                        <div class="col-sm-6">
-                                            <select class="chosen-select" data-placement="选择用户设备" name="entity_name" style="width: 350px;" tabindex="2">
-                                                <option value="">选择用户设备</option>
-                                                @if($user->id)
-                                                    <option value="{{ $user->entity_name }}" selected="selected">{{ $user->entity_name }}</option>
-                                                @endif
-                                                @foreach($entities as $entity_name)
-                                                <option value="{{ $entity_name }}">{{ $entity_name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
+                                    {{--<div class="form-group">--}}
+                                        {{--<label class="col-sm-2 control-label">使用设备：</label>--}}
+                                        {{--<div class="col-sm-6">--}}
+                                            {{--<select class="chosen-select" data-placement="选择用户设备" name="entity_name" style="width: 350px;" tabindex="2">--}}
+                                                {{--<option value="">选择用户设备</option>--}}
+                                                {{--@if($user->id)--}}
+                                                    {{--<option value="{{ $user->entity_name }}" selected="selected">{{ $user->entity_name }}</option>--}}
+                                                {{--@endif--}}
+                                                {{--@foreach($entities as $entity_name)--}}
+                                                {{--<option value="{{ $entity_name }}">{{ $entity_name }}</option>--}}
+                                                {{--@endforeach--}}
+                                            {{--</select>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
                                     <div class="hr-line-dashed"></div>
                                     <div class="form-group">
                                         <div class="col-sm-4 col-sm-offset-2">

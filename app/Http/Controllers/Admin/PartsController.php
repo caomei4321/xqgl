@@ -45,10 +45,17 @@ class PartsController extends Controller
         return view('admin.parts.create_and_edit', compact('part'));
     }
 
-    public function update(Request $request, Part $part)
+    public function update(Request $request, Part $part, ImageUploadHandler $uploader)
     {
         $this->rules($request, $part);
-        $part->update($request->all());
+        $data = $request->all();
+        if (!empty($request->image)) {
+            $result = $uploader->save($request->image,'parts', 'pt');
+            if ($result) {
+                $data['image'] = $result['path'];
+            }
+        }
+        $part->update($data);
 
         return redirect()->route('admin.part.index');
     }

@@ -86,6 +86,7 @@
                     <li><a class="J_menuItem" href="{{ route('admin.matters.index') }}">任务清单</a></li>
                     <li><a class="J_menuItem" href="{{ route('admin.situations.index') }}">任务情况</a></li>
                     <li><a class="J_menuItem" href="{{ route('admin.part.index') }}">部件信息</a></li>
+                    <li><a class="J_menuItem" href="{{ route('admin.coordinates.index') }}">网格划分图</a></li>
                 </ul>
             </li>
         </ul>
