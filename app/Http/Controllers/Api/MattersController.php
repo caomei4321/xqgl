@@ -83,8 +83,9 @@ class MattersController extends Controller
 
         $data = $request->only(['title', 'content', 'latitude', 'longitude', 'suggest']);
 
+        //$request->result; 0表示无法处理
         $data['image'] = $imagePath;
-        $data['status'] = $request->result;
+        $data['status'] = 1;
 
         $this->user()->patrolMatters()->create($data);
 
