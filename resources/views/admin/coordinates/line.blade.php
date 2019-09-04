@@ -69,6 +69,7 @@
     <!-- 百度地图js -->
     <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=HzdI6uW2xAsdwGmxQbdWitq0ZGGhO02G"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=HzdI6uW2xAsdwGmxQbdWitq0ZGGhO02G"></script>
+    <script type="text/javascript" src="//api.map.baidu.com/api?v=3.0&ak=HzdI6uW2xAsdwGmxQbdWitq0ZGGhO02G"></script>
 @endsection
 
 @section('javascript')
@@ -77,6 +78,11 @@
         var map = new BMap.Map("allmap");    // 创建Map实例
         map.centerAndZoom(new BMap.Point(117.005693, 36.674489), 18);  // 初始化地图,设置中心点坐标和地图级别
         map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+
+        map.setMapStyleV2({
+            styleId: '4164dc3852e0db5655f892b8f46d98d6'
+        });
+
         // 创建polyline对象
         var lng = $('.t1');
         var lat = $('.t2');
