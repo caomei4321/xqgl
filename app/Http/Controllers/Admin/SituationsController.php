@@ -10,7 +10,7 @@ class SituationsController extends Controller
 {
     public function index(Situation  $situation)
     {
-        $situations = Situation::with(['Matter', 'User', 'Category'])->paginate(15);
+        $situations = Situation::with(['Matter', 'User', 'Category'])->paginate(10);
 
         return view('admin.situation.index', compact('situations'));
     }

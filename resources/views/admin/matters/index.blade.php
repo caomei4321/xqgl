@@ -167,10 +167,8 @@
                         </tr>
                         </tfoot>
                     </table>
-                    <div style="float: right">
-                        {{ $matters->links() }}
-                    </div>
                 </div>
+                {{ $matters->links() }}
             </div>
         </div>
     </div>
