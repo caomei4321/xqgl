@@ -70,7 +70,4 @@ $api->version('v1', [
 
     });
 
-    $api->get('jpush', 'JPushController@index');
-    $api->post('testJpush', 'JPushController@testJpush');
-
 });

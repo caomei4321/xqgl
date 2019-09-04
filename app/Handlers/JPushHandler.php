@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Handlers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use JPush\Client as JPushClient;
 
-class JPushController extends Controller
+class JPushHandler
 {
     protected $appKey;
 
@@ -18,23 +17,6 @@ class JPushController extends Controller
     {
         $this->appKey = "a9130ea0662310ca82d5eeb7";
         $this->masterSecret = "cceb7c94a2b6263ec41c9180";
-    }
-
-    /**
-     * Jpush example demo
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $jpush = new JPushClient($this->appKey, $this->masterSecret);
-        $response = $jpush->push()
-            ->setPlatform('all')
-            ->addRegistrationId('18071adc0372f8a8adf')
-            ->setNotificationAlert('Hi, JPush')
-            ->options(array('apns_production' => false))
-            ->send();
-        print_r($response);
     }
 
     public function androidPushByAlias($params)
@@ -91,12 +73,8 @@ class JPushController extends Controller
         return $response;
     }
 
-    public function testJpush(Request $request)
+    public function testJpush($reg_id)
     {
-        $id = $request['id'];
-        $info = DB::table('notices')->where(['user_id' => $id, 'status' => '0'])->get();
-        $count = count($info);
-        for($i = 0; $i < $count; $i++) {
         // 推送平台 ios android
         $params['platform'] = 'android';
         // 推送标题
@@ -111,20 +89,12 @@ class JPushController extends Controller
         ];
         // 推送类型 1-别名 2-注册id 3-全部
         $params['type'] = 2;
-        $params['registrationId'] = '18071adc0372f8a8adf';
-
+        $params['registrationId'] = $reg_id;
         $data = $this->androidPushByAlias($params);
-        }
 
         return $data;
 
     }
 
-//    public function getData(Request $request)
-//    {
-//        $rid = $request->only('id');
-//        $data = DB::table('notices')->where('user_id', $rid)->get();
-//        return $data;
-//    }
 
 }
