@@ -17,7 +17,7 @@ class MattersController extends Controller
         /*return $this->user()->whereHas('situation', function ($query) {
             $query->where('user_has_matters.status','0');
         })->get();*/
-        return new MatterCollection($this->user()->situation()->where('user_has_matters.status',0)->get());
+        return new MatterCollection($this->user()->situation()->where('user_has_matters.status',0)->orderBy('created_at', 'desc')->get());
     }
 
     public function userCompleteMatters()

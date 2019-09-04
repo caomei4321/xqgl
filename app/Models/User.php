@@ -18,7 +18,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'name', 'phone', 'password', 'age', 'position', 'responsible_area', 'resident_institution', 'open_id', 'weixin_session_key', 'entity_name'
+        'name', 'phone', 'password', 'age', 'position', 'responsible_area', 'resident_institution', 'open_id', 'weixin_session_key', 'entity_name', 'reg_id'
     ];
 
     /**
@@ -57,6 +57,11 @@ class User extends Authenticatable implements JWTSubject
     public function patrolMatters()
     {
         return $this->hasMany(PatrolMatter::class);
+    }
+
+    public function patrols()
+    {
+        return $this->hasMany(Patrol::class);
     }
 
 }
