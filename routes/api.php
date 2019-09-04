@@ -62,5 +62,10 @@ $api->version('v1', [
         $api->post('endMatter', 'MattersController@endImportMatter');   //完成12345任务
 
         $api->post('importMatter', 'MattersController@findMatterAndEnd');  //发现并提交问题
+
     });
+
+    $api->get('jpush', 'JPushController@index');
+    $api->post('testJpush', 'JPushController@testJpush');
+
 });

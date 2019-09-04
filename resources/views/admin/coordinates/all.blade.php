@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.css" />
     <style type="text/css">
         body, html {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
-        #allmap { height: 500px;}
+        #allmap { height: 700px;}
     </style>
 @endsection
 
@@ -42,14 +42,18 @@
                                 <th>纬度</th>
                             </tr>
                             </thead>
-                            <tbody>
-                                @foreach($data as $value)
+
+                                @for($i = 0; $i <  $len; $i++)
+                                <tbody class="tbody{{$i}} item">
+                                    @foreach($all[$i] as $value)
                                 <tr>
                                     <td class="t1">{{$value[0]}}</td>
                                     <td class="t2">{{$value[1]}}</td>
                                 </tr>
-                                @endforeach
-                            </tbody>
+                                    @endforeach
+                                </tbody>
+                                @endfor
+
                             <tfoot>
                             <tr>
                                 <th>经度</th>
@@ -77,27 +81,33 @@
         var map = new BMap.Map("allmap");    // 创建Map实例
         map.centerAndZoom(new BMap.Point(117.005693, 36.674489), 18);  // 初始化地图,设置中心点坐标和地图级别
         map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
-        // 创建polyline对象
-        var lng = $('.t1');
-        var lat = $('.t2');
-        var length = $('.t1').length;
-        var pois = [];
-        for (var i = 0; i < length; i++){
-            var longtitude = lng[i].innerHTML;
-            var latitude = lat[i].innerHTML;
-            pois.push(new BMap.Point(longtitude,latitude));
-        }
-        var polyline =new BMap.Polyline(pois, {
-            enableEditing: false,//是否启用线编辑，默认为false
-            enableClicking: true,//是否响应点击事件，默认为true
-            // icons:[icons],
-            strokeStyle: 'dashed',
-            strokeWeight:'2',//折线的宽度，以像素为单位
-            strokeOpacity: 0.8,//折线的透明度，取值范围0 - 1
-            strokeColor:"#f34747" //折线颜色
-        });
+        var item = $('.item').length;
+        for (var n = 0; n < item; n++) {
+            var poissss = [];
+            $('.table').find('.tbody'+ n).each(function (index, item) {
+                $(this).find('tr').each(function () {
+                    var tdArr = $(this).children();
+                    var lng = tdArr.eq(0).text();
+                    var lat = tdArr.eq(1).text();
+                    var length = lng.length;
+                    for (var i = 0; i < length; i++){
+                        poissss.push(new BMap.Point(lng,lat));
+                    }
+                })
+            });
 
-        map.addOverlay(polyline);          //增加折线
+            var polyliness =new BMap.Polyline(poissss, {
+                enableEditing: false,//是否启用线编辑，默认为false
+                enableClicking: true,//是否响应点击事件，默认为true
+                // icons:[icons],
+                strokeStyle: 'dashed',
+                strokeWeight:'2',//折线的宽度，以像素为单位
+                strokeOpacity: 0.8,//折线的透明度，取值范围0 - 1
+                strokeColor:"#f34747" //折线颜色
+            });
+
+            map.addOverlay(polyliness);
+        }
 
     </script>
 @endsection

@@ -35,6 +35,8 @@
                 <div class="ibox-content">
                     <a href="{{ route('admin.coordinates.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加网格坐标</button>
                     </a>
+                    <a href="{{ route('admin.coordinates.all') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 网格总览</button>
+                    </a>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                         <tr>
