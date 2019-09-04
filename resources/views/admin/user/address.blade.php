@@ -74,9 +74,11 @@
         //清除覆盖物 map.clearOverlays();
 
         @forEach($entities as $entity)
+            @if(isset($entity->latest_location))
             var point = new BMap.Point({{ $entity->latest_location->longitude }}, {{ $entity->latest_location->latitude }});
             var label = new BMap.Label("{{ $entity->entity_name.';'.'上次更新时间：'. date('Y-m-d H:i:s',$entity->latest_location->loc_time) }}", {offset:new BMap.Size(20,-30)});
             addMarker(point,label);
+            @endif
         @endforeach
 
 

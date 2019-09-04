@@ -51,9 +51,11 @@ $api->version('v1', [
 
         $api->post('completeRepair', 'RepairsController@completeRepair'); //完成报修
 
-        $api->get('userHasMatters', 'MattersController@userHasMatters'); //用户任务
+        $api->get('userHasMatters', 'MattersController@userHasMatters'); //用户未完成任务
 
-        $api->get('userCompleteMatters', 'MattersController@userCompleteMatters'); //用户任务
+        $api->get('userCompleteMatters', 'MattersController@userCompleteMatters'); //用户已完成任务
+
+        $api->get('userMatters', 'MattersController@userMatters'); //用户全部任务
 
         $api->get('matter', 'MattersController@matter');   //任务详情
 

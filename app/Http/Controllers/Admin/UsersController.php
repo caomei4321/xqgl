@@ -22,7 +22,8 @@ class UsersController extends Controller
     {
         $data = [
             'ak' => env('BAIDU_MAP_AK', ''),
-            'service_id' => env('BAIDU_MAP_SERVICE_ID', '')
+            'service_id' => env('BAIDU_MAP_SERVICE_ID', ''),
+            'mcode'     => (string)env('BAIDU_MAP_MCODE')
         ];
         $entityList = $curl->curl('http://yingyan.baidu.com/api/v3/entity/list', $data);
         $entityList = json_decode($entityList);
@@ -111,10 +112,17 @@ class UsersController extends Controller
         ];
         $entityList = $curl->curl('http://yingyan.baidu.com/api/v3/entity/list', $data);
         $entityList = json_decode($entityList);
-        $entities = $entityList->entities;
+        $entityList = $entityList->entities;
         $userHasEntities = $user->all()->pluck('entity_name')->toArray();
-        $entities = array_diff(array_column($entities,'entity_name'),$userHasEntities);
-
+        //$entities = array_diff(array_column($entities,'entity_name'),$userHasEntities);
+        //$entities = array_diff_assoc(array_column($entities,'entity_name'),$userHasEntities);
+//dd($entities);
+        $entities = [];
+        foreach ($entityList as $entity) {
+            if (in_array($entity->entity_name,$userHasEntities)) {
+                $entities[] = $entity;
+            }
+        }
         return view('admin.user.address', compact('entities'));
     }
 }
