@@ -156,6 +156,8 @@ Route::group(['prefix' => 'admin'], function () {
             'show'      =>  'admin.coordinates.show',
             'destroy'   =>  'admin.coordinates.destroy',
         ]);
+        Route::get('all', 'Admin\CoordinatesController@all')->name('admin.coordinates.all');
+
         // 巡查上报事件
         Route::resource('patrolMatter', 'Admin\PatrolMattersController', ['except' => ['create', 'store', 'edit', 'update']])->names([
             'index'     =>  'admin.patrolMatters.index',

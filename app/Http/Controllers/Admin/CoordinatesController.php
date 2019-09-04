@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Coordinate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class CoordinatesController extends Controller
 {
@@ -70,5 +71,24 @@ class CoordinatesController extends Controller
             'number.numeric' => '编号只能是数字',
             'number.unique' => '编号已存在，请重新输入',
         ]);
+    }
+
+    public function all()
+    {
+        $data = DB::table('coordinates')->where('status', '0')->pluck('coordinates');
+        $all = [];
+        foreach ($data as $key=>$value) {
+            $data[$key] = explode(',', $value);
+            $item = [];
+            $count = count($data[$key]);
+            for ($i = 0; $i < $count; $i++) {
+                $single = explode(';',$data[$key][$i]);
+                array_push($item, $single);
+            }
+            array_push($all, $item);
+        }
+        $len = count($all);
+        return view('admin.coordinates.all', compact('all', 'len'));
+
     }
 }

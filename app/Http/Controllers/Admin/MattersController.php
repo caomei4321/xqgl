@@ -97,7 +97,6 @@ class MattersController extends Controller
             'id' => $data['matter_id'],
             'allocate' => '1'
         ];
-        DB::beginTransaction();
         $ret = DB::table('matters')->where('id', $data['matter_id'])->update($matters);
         // 分配信息存入user_has_matters表中
         $allocate = [
@@ -108,11 +107,14 @@ class MattersController extends Controller
             'updated_at' => date('Y-m-d H:i:s', time()),
         ];
         $res = DB::table('user_has_matters')->insert($allocate);
-        if ($ret && $res) {
-            DB::commit();
-        }else {
-            DB::rollBack();
-        }
+        // 消息
+        $notice = [
+            'matter_id' => $data['matter_id'],
+            'user_id' => $data['user_id'],
+            'created_at' => date('Y-m-d H:i:s', time()),
+            'updated_at' => date('Y-m-d H:i:s', time()),
+        ];
+        DB::table('notices')->insert($notice);
         return redirect()->route('admin.matters.index');
     }
 

@@ -65,6 +65,12 @@ $api->version('v1', [
 
         $api->post('importMatter', 'MattersController@findMatterAndEnd');  //发现并提交问题
 
+
         $api->post('startAndEndPatrol', 'PatrolController@startAndEndPatrol');  //开始和结束巡逻
+
     });
+
+    $api->get('jpush', 'JPushController@index');
+    $api->post('testJpush', 'JPushController@testJpush');
+
 });
