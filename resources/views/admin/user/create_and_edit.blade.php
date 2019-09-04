@@ -110,7 +110,7 @@
                                         </div>
                                     </div>--}}
 
-                                    <div class="form-group">
+                                    {{--<div class="form-group">
                                         <label class="col-sm-2 control-label">使用设备：</label>
                                         <div class="col-sm-6">
                                             <select class="chosen-select" data-placement="选择用户设备" name="entity_name" style="width: 350px;" tabindex="2">
@@ -123,7 +123,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                    </div>
+                                    </div>--}}
                                     <div class="hr-line-dashed"></div>
                                     <div class="form-group">
                                         <div class="col-sm-4 col-sm-offset-2">

@@ -21,7 +21,8 @@ class AuthorizationsController extends Controller
         $user = Auth::guard('api')->getUser();
 
         $user->update([
-            'reg_id' => $request->reg_id
+            'reg_id' => $request->reg_id,
+            'entity_name' => $request->entity_name
         ]);
 
         $token = Auth::guard('api')->fromUser($user);
