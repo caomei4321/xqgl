@@ -31,10 +31,75 @@
                 <div class="ibox-content">
                     @if(empty($matter->id))
                         <form method="post" action="{{ route('admin.matters.store') }}" class="form-horizontal" enctype="multipart/form-data">
+                            <div class="form-group">
+                                @if( count($errors) >0)
+                                    @foreach($errors->all() as $error)
+                                        <p class="text-danger text-center">{{ $error }}</p>
+                                    @endforeach
+                                @endif
+                            </div>
+                            {{ csrf_field() }}
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">问题分类：</label>
+
+                                <div class="col-sm-6">
+                                    <select class="form-control" name="category_id" required>
+                                        <option value="" hidden disabled selected>请选择分类</option>
+                                        @foreach ($category as $value)
+                                            <option value="{{ $value->id }}" {{ $matter->category_id == $value->id ? 'selected': '' }}>{{ $value->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">标题：</label>
+
+                                <div class="col-sm-6">
+                                    <input name="title"  type="text" class="form-control" value="{{ old('title',$matter->title) }}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">联系地址：</label>
+
+                                <div class="col-sm-6">
+                                    <input name="address"  type="text" class="form-control" value="{{ old('address',$matter->address) }}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">问题描述：</label>
+
+                                <div class="col-sm-6">
+                                    <textarea name="content" class="form-control" id="editor"  rows="6" placeholder="请输入至少三个字符的内容">{{ old('content', $matter->content) }}</textarea>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">图片依据：</label>
+
+                                <div class="col-sm-6">
+                                    <div id="file-pretty">
+                                        <div id="prompt3">
+                                            <input type="file" name="image" class="form-control" id="file" onchange="changepic(this)" accept="image/*">
+                                        </div>
+                                        <img src="{{ old('image', $matter->image) }}" id="img3" style="width: 160px;" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <div class="col-sm-4 col-sm-offset-2">
+                                    <button class="btn btn-primary" id="add_device">提交</button>
+                                </div>
+                            </div>
+                        </form>
                             @else
                                 <form method="POST" action="{{ route('admin.matters.update',$matter->id) }}" class="form-horizontal" enctype="multipart/form-data">
                                     <input type="hidden" name="_method" value="PUT">
-                                    @endif
+
                                     <div class="form-group">
                                         @if( count($errors) >0)
                                             @foreach($errors->all() as $error)
@@ -138,19 +203,6 @@
                                     </div>
                                     <div class="hr-line-dashed"></div>
                                     <div class="form-group">
-                                        <label class="col-sm-2 control-label">问题分类：</label>
-
-                                        <div class="col-sm-6">
-                                            <select class="form-control" name="category_id" required>
-                                                <option value="" hidden disabled selected>请选择分类</option>
-                                                @foreach ($category as $value)
-                                                    <option value="{{ $value->id }}" {{ $matter->category_id == $value->id ? 'selected': '' }}>{{ $value->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group">
                                         <label class="col-sm-2 control-label">转办意见：</label>
 
                                         <div class="col-sm-6">
@@ -171,6 +223,19 @@
 
                                         <div class="col-sm-6">
                                             <input name="result"  type="text" class="form-control" value="{{ old('result',$matter->result) }}">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">问题分类：</label>
+
+                                        <div class="col-sm-6">
+                                            <select class="form-control" name="category_id" required>
+                                                <option value="" hidden disabled selected>请选择分类</option>
+                                                @foreach ($category as $value)
+                                                    <option value="{{ $value->id }}" {{ $matter->category_id == $value->id ? 'selected': '' }}>{{ $value->name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>
@@ -218,6 +283,7 @@
                                         </div>
                                     </div>
                                 </form>
+                    @endif
                 </div>
             </div>
         </div>
