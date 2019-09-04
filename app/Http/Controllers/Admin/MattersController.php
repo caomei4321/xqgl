@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Excel;
+use App\Handlers\JPushHandler;
 
 class MattersController extends Controller
 {
@@ -89,7 +90,7 @@ class MattersController extends Controller
         return view('admin.matters.allocate', compact('matterInfo', 'users'));
     }
 
-    public function allocates(Request $request)
+    public function allocates(Request $request, JPushHandler $JPushHandler)
     {
         $data = $request->only(['matter_id', 'user_id', 'category_id']);
         // 将matters表中数据allocate更新为1， 代表已分配
@@ -97,7 +98,7 @@ class MattersController extends Controller
             'id' => $data['matter_id'],
             'allocate' => '1'
         ];
-        $ret = DB::table('matters')->where('id', $data['matter_id'])->update($matters);
+        DB::table('matters')->where('id', $data['matter_id'])->update($matters);
         // 分配信息存入user_has_matters表中
         $allocate = [
             'matter_id' => $data['matter_id'],
@@ -106,15 +107,9 @@ class MattersController extends Controller
             'created_at' => date('Y-m-d H:i:s', time()),
             'updated_at' => date('Y-m-d H:i:s', time()),
         ];
-        $res = DB::table('user_has_matters')->insert($allocate);
-        // 消息
-        $notice = [
-            'matter_id' => $data['matter_id'],
-            'user_id' => $data['user_id'],
-            'created_at' => date('Y-m-d H:i:s', time()),
-            'updated_at' => date('Y-m-d H:i:s', time()),
-        ];
-        DB::table('notices')->insert($notice);
+        DB::table('user_has_matters')->insert($allocate);
+        $reg_id = DB::table('users')->where('id', $data['user_id'])->value('reg_id');
+        $JPushHandler->testJpush($reg_id);
         return redirect()->route('admin.matters.index');
     }
 
