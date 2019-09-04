@@ -25,7 +25,31 @@ class MattersController extends Controller
         /*return $this->user()->whereHas('situation', function ($query) {
             $query->where('user_has_matters.status','1');
         })->get();*/
-        return new MatterCollection($this->user()->situation()->where('user_has_matters.status',1)->get());
+        //return $this->user()->patrolMatters()->where('status', 1)->get();
+        $matters = $this->user()->situation()->where('user_has_matters.status',1)->get(['title', 'content', 'matters.created_at','user_has_matters.see_image'])->toArray();
+
+        $patrolMatters = $this->user()->patrolMatters()->where('status', 1)->get()->toArray();
+
+        foreach ($patrolMatters as $patrolMatter) {
+            $data = [
+                'title' => $patrolMatter['title'],
+                'content' => $patrolMatter['content'],
+                'created_at' => $patrolMatter['created_at'],
+                'pivot' => [
+                    'see_img' => $patrolMatter['image'],
+                ]
+            ];
+            $matters[] = $data;
+        }
+
+        $result = [
+            'data' => $matters
+        ];
+
+        return $result;
+
+        //return $matters;
+        //return new MatterCollection($this->user()->situation()->where('user_has_matters.status',1)->get());
     }
 
     public function userMatters()

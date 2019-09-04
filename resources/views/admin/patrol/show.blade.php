@@ -169,13 +169,19 @@
             map.addOverlay(marker2);              // 将标注添加到地图中
 
             var patrolImg = "{{ $patrol->patrol_matter->image }}";
+            var patrolTime = "{{ $patrol->patrol_matter->created_at }}";
             //窗口信息
             var sContent =
+                "<h4 style='margin-left: 13px; margin-bottom: 5px;'>"+ "处理记录" +" </h4>" +
+                "<img style='float: right;' id='patrol_img' src='" + patrolImg + "' width='139' height='104' title='处理记录'/>" +
+                "<p style='margin: 0 12px; font-size: 12px; color: rgb(77,77,77);'>"+"处理时间："+  patrolTime +"</p>" +
+                "<p style=' margin: 0 12px;font-size: 12px; color: rgb(127,127,127); overflow: hidden;text-overflow: ellipsis;'>";
                 /*"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>天安门</h4>" +*/
-                "<img id='patrol_img' src='" + patrolImg + "' width='139' height='104' title='处理记录'/>"/* +
+                /* +
                 "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>天安门坐落在中国北京市中心,故宫的南侧,与天安门广场隔长安街相望,是清朝皇城的大门...</p>" +
-                "</div>"*/;
+                "</div>"*/
 
+            /* "<img id='patrol_img' src='" + patrolImg + "' width='139' height='104' title='处理记录'/>" +*/
             var infoWindow = new BMap.InfoWindow(sContent);  // 创建信息窗口对象
 
             // 监听标注点击事件
