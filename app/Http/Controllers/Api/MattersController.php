@@ -36,7 +36,7 @@ class MattersController extends Controller
                 'content' => $patrolMatter['content'],
                 'created_at' => $patrolMatter['created_at'],
                 'pivot' => [
-                    'see_img' => $patrolMatter['image'],
+                    'see_image' => $patrolMatter['image'],
                 ]
             ];
             $matters[] = $data;
