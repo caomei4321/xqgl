@@ -35,6 +35,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('user/{user}', 'Admin\UsersController@show')->name('admin.users.show');
         Route::get('users/address', 'Admin\UsersController@address')->name('admin.users.address');
 
+        Route::get('users/ajaxAddress', 'Admin\UsersController@ajaxAddress')->name('admin.users.ajaxAddress');
+
 
         //Route::get('convenientTask','Admin\ConvenientTaskController@index')->name('admin.convenientTask.index');
         //Route::get('convenientTask/create','Admin\ConvenientTaskController@create')->name('admin.convenientTask.create');

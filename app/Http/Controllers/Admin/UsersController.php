@@ -20,30 +20,30 @@ class UsersController extends Controller
 
     public function create(User $user, Curl $curl, Coordinate $coordinate)
     {
-        $data = [
-            'ak' => env('BAIDU_MAP_AK', ''),
-            'service_id' => env('BAIDU_MAP_SERVICE_ID', ''),
-            'mcode'     => (string)env('BAIDU_MAP_MCODE')
-        ];
-        $entityList = $curl->curl('http://yingyan.baidu.com/api/v3/entity/list', $data);
-        $entityList = json_decode($entityList);
-        $entities = $entityList->entities;
+//        $data = [
+//            'ak' => env('BAIDU_MAP_AK', ''),
+//            'service_id' => env('BAIDU_MAP_SERVICE_ID', ''),
+//            'mcode'     => (string)env('BAIDU_MAP_MCODE')
+//        ];
+//        $entityList = $curl->curl('http://yingyan.baidu.com/api/v3/entity/list', $data);
+//        $entityList = json_decode($entityList);
+//        $entities = $entityList->entities;
 
         //dd(array_column($entities,'entity_name'));
-        $userHasEntities = $user->all()->pluck('entity_name')->toArray();
+        //$userHasEntities = $user->all()->pluck('entity_name')->toArray();
         //dd($userHasEntities);
         //dd(array_diff_assoc($userHasEntities,array_column($entities,'entity_name')));
         // 未分配用户的设备
-        $entities = array_diff(array_column($entities,'entity_name'),$userHasEntities);
+        //$entities = array_diff(array_column($entities,'entity_name'),$userHasEntities);
 
         $coordinates = Coordinate::all();
-        return view('admin.user.create_and_edit', compact('user', 'entities', 'coordinates'));
+        return view('admin.user.create_and_edit', compact('user', 'coordinates'));
     }
 
 
     public function store(Request $request, User $user)
     {
-        $data = $request->only(['name', 'phone', 'password', 'age', 'position', 'responsible_area', 'resident_institution', 'entity_name']);
+        $data = $request->only(['name', 'phone', 'password', 'age', 'position', 'responsible_area', 'resident_institution']);
         $data['password'] = Hash::make($data['password']);
         $user->fill($data);
         $user->save();
@@ -59,29 +59,29 @@ class UsersController extends Controller
 
     public function edit(User $user, Curl $curl, Coordinate $coordinate)
     {
-        $data = [
-            'ak' => env('BAIDU_MAP_AK', ''),
-            'service_id' => env('BAIDU_MAP_SERVICE_ID', ''),
-            'mcode'     => (string)env('BAIDU_MAP_MCODE')
-        ];
-        $entityList = $curl->curl('http://yingyan.baidu.com/api/v3/entity/list', $data);
-        $entityList = json_decode($entityList);
-        $entities = $entityList->entities;
+        //$data = [
+        //    'ak' => env('BAIDU_MAP_AK', ''),
+        //    'service_id' => env('BAIDU_MAP_SERVICE_ID', ''),
+        //    'mcode'     => (string)env('BAIDU_MAP_MCODE')
+        //];
+        //$entityList = $curl->curl('http://yingyan.baidu.com/api/v3/entity/list', $data);
+        //$entityList = json_decode($entityList);
+        //$entities = $entityList->entities;
 
-        $userHasEntities = $user->all()->pluck('entity_name')->toArray();
+        //$userHasEntities = $user->all()->pluck('entity_name')->toArray();
         //dd($userHasEntities);
         //dd(array_diff_assoc($userHasEntities,array_column($entities,'entity_name')));
         // 未分配用户的设备
-        $entities = array_diff(array_column($entities,'entity_name'),$userHasEntities);
+        //$entities = array_diff(array_column($entities,'entity_name'),$userHasEntities);
         $coordinates = Coordinate::all();
-        return view('admin.user.create_and_edit', compact('user', 'entities', 'coordinates'));
+        return view('admin.user.create_and_edit', compact('user', 'coordinates'));
     }
 
     public function update(Request $request, User $user)
     {
 
         if (Hash::check($request->password, $user->password)) {
-            $user->update($request->only(['phone', 'name', 'age', 'position', 'responsible_area', 'resident_institution', 'entity_name']));
+            $user->update($request->only(['phone', 'name', 'age', 'position', 'responsible_area', 'resident_institution']));
         } else {
             $user->update([
                 'name' => $request->name,
@@ -91,7 +91,6 @@ class UsersController extends Controller
                 'position' => $request->position,
                 'responsible_area' => $request->responsible_area,
                 'resident_institution' => $request->resident_institution,
-                'entity_name' => $request->entity_name
             ]);
         }
         return redirect()->route('admin.users.index');
@@ -124,5 +123,28 @@ class UsersController extends Controller
             }
         }
         return view('admin.user.address', compact('entities'));
+    }
+
+    public function ajaxAddress(Curl $curl, User $user)
+    {
+        $data = [
+            'ak' => env('BAIDU_MAP_AK', ''),
+            'service_id' => env('BAIDU_MAP_SERVICE_ID', ''),
+            'mcode'     => (string)env('BAIDU_MAP_MCODE')
+        ];
+        $entityList = $curl->curl('http://yingyan.baidu.com/api/v3/entity/list', $data);
+        $entityList = json_decode($entityList);
+        $entityList = $entityList->entities;
+        $userHasEntities = $user->all()->pluck('entity_name')->toArray();
+        //$entities = array_diff(array_column($entities,'entity_name'),$userHasEntities);
+        //$entities = array_diff_assoc(array_column($entities,'entity_name'),$userHasEntities);
+//dd($entities);
+        $entities = [];
+        foreach ($entityList as $entity) {
+            if (in_array($entity->entity_name,$userHasEntities)) {
+                $entities[] = $entity;
+            }
+        }
+        return $entities;
     }
 }
