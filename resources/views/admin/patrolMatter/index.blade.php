@@ -53,7 +53,7 @@
                                 <td><image src="{{ $patrolMatter->img_url }}"  style="width: 40px;"/></td>
                                 <td class="center">{{ $patrolMatter->created_at }}</td>
                                 <td class="center">
-                                    @if( $patrolMatter->status  === 0)
+                                    @if( $patrolMatter->status  == 0)
                                         <button class="btn btn-sm btn-warning btn-circle" type="button"><i class="fa fa-times"></i>
                                         </button>
                                     @else
