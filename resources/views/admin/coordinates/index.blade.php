@@ -68,9 +68,8 @@
                         </tr>
                         </tfoot>
                     </table>
-                    <div style="float: right">
-                    </div>
                 </div>
+                {{ $coordinates->links() }}
             </div>
         </div>
     </div>

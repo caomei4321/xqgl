@@ -11,7 +11,7 @@ class CoordinatesController extends Controller
 {
     public function index(Coordinate $coordinate)
     {
-        $coordinates = Coordinate::all();
+        $coordinates = $coordinate->paginate();
         return view('admin.coordinates.index', compact('coordinates'));
     }
 

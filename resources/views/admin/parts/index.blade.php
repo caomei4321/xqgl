@@ -93,6 +93,7 @@
                         </tfoot>
                     </table>
                 </div>
+                {{ $parts->links() }}
             </div>
         </div>
     </div>

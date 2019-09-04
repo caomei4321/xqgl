@@ -85,6 +85,7 @@
                         </tfoot>
                     </table>
                 </div>
+                {{ $situations->links() }}
             </div>
         </div>
     </div>

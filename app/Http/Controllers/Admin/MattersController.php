@@ -21,7 +21,7 @@ class MattersController extends Controller
 
     public function index(Matter $matter, Request $request)
     {
-        $matters = $matter->orderBy('status', 'asc')->paginate(10);
+        $matters = $matter->orderBy('allocate', 'asc')->paginate();
 
         return view('admin.matters.index', compact('matters'));
     }
