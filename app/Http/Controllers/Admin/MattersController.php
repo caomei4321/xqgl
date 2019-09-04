@@ -220,6 +220,7 @@ class MattersController extends Controller
                 $allDate = [];
                 $value = [];
                 $count = '';
+//                dd($result);
                 foreach ($result as $k => $v) {
                     $count++;
                     $value['accept_num'] = $v['0'];
@@ -242,7 +243,9 @@ class MattersController extends Controller
                     $value['content'] = $v['17'];
                     $value['created_at'] = date('Y-m-d H:i:s', time());
                     $value['updated_at']= date('Y-m-d H:i:s', time());
-                    array_push($allDate, $value);
+                    if ($value['title'] && $value['address'] && $value['content']) {
+                        array_push($allDate, $value);
+                    }
                 }
                 DB::table('matters')->insert($allDate);
             });
