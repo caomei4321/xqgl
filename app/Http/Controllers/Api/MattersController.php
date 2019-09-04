@@ -28,6 +28,14 @@ class MattersController extends Controller
         return new MatterCollection($this->user()->situation()->where('user_has_matters.status',1)->get());
     }
 
+    public function userMatters()
+    {
+        /*return $this->user()->whereHas('situation', function ($query) {
+            $query->where('user_has_matters.status','1');
+        })->get();*/
+        return new MatterCollection($this->user()->situation()->get());
+    }
+
     public function matter(Request $request)
     {
         $matter = Matter::find($request->id);

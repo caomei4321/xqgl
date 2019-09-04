@@ -78,6 +78,7 @@
                         </tfoot>
                     </table>
                 </div>
+                {{ $responsibility->links() }}
             </div>
         </div>
     </div>
