@@ -15,7 +15,7 @@ class AddNewFieldToMattersTable extends Migration
     {
         Schema::table('matters', function (Blueprint $table) {
             $table->string('accept_num')->nullable()->comment('受理员编号');
-            $table->dateTime('time_limit')->nullable()->comment('办结时限');
+            $table->string('time_limit')->nullable()->comment('办结时限');
             $table->string('work_num')->nullable()->comment('工单编号');
             $table->string('level')->nullable()->comment('紧急程度');
             $table->string('type')->nullable()->comment('来电类别');
