@@ -94,8 +94,8 @@
 
 
 
-        //setInterval('reloadMap()', 10000);  10秒
-        setInterval('reloadMap()',1000);
+        setInterval('reloadMap()', 10000);  //10秒
+        //setInterval('reloadMap()',1000);
 
         var data = [];
         function reloadMap() {
