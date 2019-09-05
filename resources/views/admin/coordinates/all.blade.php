@@ -73,7 +73,7 @@
     <!-- 百度地图js -->
     <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=HzdI6uW2xAsdwGmxQbdWitq0ZGGhO02G"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=HzdI6uW2xAsdwGmxQbdWitq0ZGGhO02G"></script>
-    {{--<script type="text/javascript" src="//api.map.baidu.com/api?v=3.0&ak=HzdI6uW2xAsdwGmxQbdWitq0ZGGhO02G"></script>--}}
+    <script type="text/javascript" src="//api.map.baidu.com/api?v=3.0&ak=HzdI6uW2xAsdwGmxQbdWitq0ZGGhO02G"></script>
 @endsection
 
 @section('javascript')
@@ -84,9 +84,9 @@
         map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
         var item = $('.item').length;
 
-        // map.setMapStyleV2({
-        //     styleId: '4164dc3852e0db5655f892b8f46d98d6'
-        // });
+        map.setMapStyleV2({
+            styleId: '4164dc3852e0db5655f892b8f46d98d6'
+        });
 
         for (var n = 0; n < item; n++) {
             var poissss = [];
