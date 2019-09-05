@@ -42,8 +42,8 @@
     <script src="{{ asset('assets/admin/js/plugins/chosen/chosen.jquery.js') }}"></script>
     <!-- 百度地图js -->
 
-
-    <script type="text/javascript" src="//api.map.baidu.com/api?v=3.0&ak=HzdI6uW2xAsdwGmxQbdWitq0ZGGhO02G"></script>
+    <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=F6subxg8j4A1f28mhgryfUs0dxO8PQ8o"></script>
+    {{--<script type="text/javascript" src="//api.map.baidu.com/api?v=3.0&ak=HzdI6uW2xAsdwGmxQbdWitq0ZGGhO02G"></script>--}}
 
 @endsection
 <!-- 自定义js -->
@@ -55,9 +55,9 @@
         var point = new BMap.Point(120.76938270267108, 31.279379881924105);
         map.centerAndZoom(point, 15);
         map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
-        map.setMapStyleV2({
+        /*map.setMapStyleV2({
             styleId: '4164dc3852e0db5655f892b8f46d98d6'
-        });
+        });*/
 
         var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
         var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
