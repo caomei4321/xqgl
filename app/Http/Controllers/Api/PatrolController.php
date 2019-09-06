@@ -8,13 +8,15 @@ class PatrolController extends Controller
 {
     public function startAndEndPatrol(Request $request)
     {
-        //return $request->all();
         if ($request->start_time) {
-            $this->user()->patrols()->create();
+            $patrol = $this->user()->patrols()->create();
 
-            return $this->success('开始巡查');
+            return $this->success([
+                'id' =>  $patrol->id
+            ]);
         } elseif ($request->end_time) {
-            $patrol = $this->user()->patrols()->orderBy('id', 'desc')->first();
+
+            $patrol = $this->user()->patrols()->find($request->id);
 
             $patrol->update([
                 'end_at' => $request->end_time,

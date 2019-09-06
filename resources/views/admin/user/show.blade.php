@@ -69,7 +69,7 @@
                             <div class="hr-line-dashed"></div>
                         </form>
                     </div>
-                    <div class="ibox-content">
+                    {{--<div class="ibox-content">
                         <h3>执行任务记录</h3>
                         <table class="table table-striped table-bordered table-hover dataTables-example">
                             <thead>
@@ -139,7 +139,7 @@
                             </tr>
                             </tfoot>
                         </table>
-                    </div>
+                    </div>--}}
                 </div>
             </div>
         </div>

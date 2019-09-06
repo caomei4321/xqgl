@@ -92,6 +92,7 @@
                 </div>
                 <div class="ibox-content">
                     <div style="height:600px" id="patrol"></div>
+                    <button class="btn btn-info " type="button" onclick="fullScreen()"><i class="fa fa-paste"></i> 全屏展示</button>
                 </div>
             </div>
         </div>
@@ -127,6 +128,9 @@
             var point = new BMap.Point({{ $tracks->start_point->longitude }}, {{ $tracks->start_point->latitude }});
             map.centerAndZoom(point, 15);
             map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+            /*map.setMapStyleV2({
+                styleId: '4164dc3852e0db5655f892b8f46d98d6'
+            });*/
 
             var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
             var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
@@ -162,7 +166,40 @@
             map.addOverlay(polyline);
 
 
-            @if(isset($patrol->patrol_matter))
+            var myIcon = new BMap.Icon("/assets/admin/img/icon_image.png", new BMap.Size(28,50));
+
+            var markers = [];
+            var sContent = [];
+            var infoWindow = [];
+            @foreach($patrolMatters as $patrolMatter)
+                var point = new BMap.Point({{ $patrolMatter->longitude }}, {{ $patrolMatter->latitude }});
+                markers[{{ $loop->index }}] = new BMap.Marker(point,{icon:myIcon});  // 创建标注
+                map.addOverlay(markers[{{ $loop->index }}]);              // 将标注添加到地图中
+
+                var patrolImg = "{{ $patrolMatter->image }}";
+                var patrolTime = "{{ $patrolMatter->created_at }}";
+
+
+                //窗口信息
+                sContent[{{ $loop->index }}] =
+                    "<h4 style='margin-left: 13px; margin-bottom: 5px;'>"+ "处理记录" +" </h4>" +
+                    "<img style='float: right;' id='patrol_img' src='" + patrolImg + "' width='139' height='104' title='处理记录'/>" +
+                    "<p style='margin: 0 12px; font-size: 12px; color: rgb(77,77,77);'>"+"处理时间："+  patrolTime +"</p>" +
+                    "<p style=' margin: 0 12px;font-size: 12px; color: rgb(127,127,127); overflow: hidden;text-overflow: ellipsis;'>";
+                infoWindow[{{ $loop->index }}] = new BMap.InfoWindow(sContent[{{ $loop->index }}]);  // 创建信息窗口对象
+
+                // 监听标注点击事件
+                markers[{{ $loop->index }}].addEventListener("click", function(){
+                    this.openInfoWindow(infoWindow[{{ $loop->index }}]);
+                    //图片加载完毕重绘infowindow
+                    /*document.getElementById('patrol_img').onload = function (){
+                        infoWindow.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
+                    }*/
+                });
+            @endforeach
+
+
+            {{--@if(isset($patrol->patrol_matter))
             var point = new BMap.Point({{ $patrol->patrol_matter->longitude }}, {{ $patrol->patrol_matter->latitude }});
             var myIcon = new BMap.Icon("/assets/admin/img/icon_image.png", new BMap.Size(28,50));
             var marker2 = new BMap.Marker(point,{icon:myIcon});  // 创建标注
@@ -176,12 +213,6 @@
                 "<img style='float: right;' id='patrol_img' src='" + patrolImg + "' width='139' height='104' title='处理记录'/>" +
                 "<p style='margin: 0 12px; font-size: 12px; color: rgb(77,77,77);'>"+"处理时间："+  patrolTime +"</p>" +
                 "<p style=' margin: 0 12px;font-size: 12px; color: rgb(127,127,127); overflow: hidden;text-overflow: ellipsis;'>";
-                /*"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>天安门</h4>" +*/
-                /* +
-                "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>天安门坐落在中国北京市中心,故宫的南侧,与天安门广场隔长安街相望,是清朝皇城的大门...</p>" +
-                "</div>"*/
-
-            /* "<img id='patrol_img' src='" + patrolImg + "' width='139' height='104' title='处理记录'/>" +*/
             var infoWindow = new BMap.InfoWindow(sContent);  // 创建信息窗口对象
 
             // 监听标注点击事件
@@ -192,7 +223,7 @@
                     infoWindow.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
                 }
             });
-            @endif
+            @endif--}}
             // 添加标注
             function addMarker(point,label){
                 var marker = new BMap.Marker(point);
@@ -225,5 +256,35 @@
 
 
         });
+
+        // 地图全屏
+        function fullScreen() {
+            var el = document.getElementById("patrol");
+            var rfs = el.requestFullScreen || el.webkitRequestFullScreen || el.mozRequestFullScreen || el.msRequestFullScreen;
+            if(typeof rfs != "undefined" && rfs) {
+                rfs.call(el);
+            } else if(typeof window.ActiveXObject != "undefined") {
+                //for IE，这里其实就是模拟了按下键盘的F11，使浏览器全屏
+                var wscript = new ActiveXObject("WScript.Shell");
+                if(wscript != null) {
+                    wscript.SendKeys("{F11}");
+                }
+            }
+        }
+
+        function exitFullScreen() {
+            var el = document;
+            var cfs = el.cancelFullScreen || el.webkitCancelFullScreen ||
+                el.mozCancelFullScreen || el.exitFullScreen;
+            if(typeof cfs != "undefined" && cfs) {
+                cfs.call(el);
+            } else if(typeof window.ActiveXObject != "undefined") {
+                //for IE，这里和fullScreen相同，模拟按下F11键退出全屏
+                var wscript = new ActiveXObject("WScript.Shell");
+                if(wscript != null) {
+                    wscript.SendKeys("{F11}");
+                }
+            }
+        }
     </script>
 @endsection

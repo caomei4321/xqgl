@@ -17,6 +17,6 @@ class Patrol extends Model
 
     public function patrol_matter()
     {
-        return $this->belongsTo(PatrolMatter::class, 'patrol_matter_id');
+        return $this->hasMany(PatrolMatter::class);
     }
 }

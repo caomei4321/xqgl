@@ -6,7 +6,6 @@ use App\Handlers\Curl;
 use App\Models\Patrol;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Carbon\Carbon;
 
 class PatrolsController extends Controller
 {
@@ -44,13 +43,8 @@ class PatrolsController extends Controller
 
         $tracks->distance = substr($tracks->distance/1000, '0','4').'km';
 
-        //$result = $curl->curl('http://yingyan.baidu.com/api/v3/track/getdistance', $distanceData, false);
-
-        //$distance = json_decode($result);
-        //$points = $tracks->points;
-        //dd($patrol->patrol_matter);
-        //$distance->distance = substr($distance->distance/1000, '0','4').'km';
-        return view('admin.patrol.show', compact('patrol', 'tracks'));
+        $patrolMatters = $patrol->patrol_matter()->get();
+        return view('admin.patrol.show', compact('patrol','patrolMatters',  'tracks'));
     }
 
     public function destroy(Patrol $patrol)
