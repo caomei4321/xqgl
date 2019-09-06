@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.css" />
     <style type="text/css">
         body, html{width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
-        #allmap {width: 100%; height:600px; overflow: hidden;}
+        #allmap {width: 100%; height:800px; overflow: hidden;}
         #result {width:100%;font-size:12px;}
         dl,dt,dd,ul,li{
             margin:0;
