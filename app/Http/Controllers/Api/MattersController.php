@@ -86,7 +86,7 @@ class MattersController extends Controller
         //$request->result; 0表示无法处理
         $data['image'] = $imagePath;
         $data['status'] = 1;
-        $data['patrol_id'] = $request->id ? $request->id : '';
+        $data['patrol_id'] = $request->id ? $request->id : null;
 
         $this->user()->patrolMatters()->create($data);
 
