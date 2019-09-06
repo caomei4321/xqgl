@@ -119,7 +119,6 @@
         /*缩放控件type有四种类型:
         BMAP_NAVIGATION_CONTROL_SMALL：仅包含平移和缩放按钮；BMAP_NAVIGATION_CONTROL_PAN:仅包含平移按钮；BMAP_NAVIGATION_CONTROL_ZOOM：仅包含缩放按钮*/
 
-
         var lng = $('.t1'); // 经度
         var lat = $('.t2'); // 纬度
         var things = $('.t3'); // 物品+编号
