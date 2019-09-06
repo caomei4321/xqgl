@@ -66,34 +66,11 @@
         add_control();
 
         var i = 0;
-        /*
-        var lng = "" ;
-        var lat = "" ;
-        var marker = new BMap.Marker(new BMap.Point(lng, lat)); */// 创建点
-        /*var marker2 = new BMap.Marker(new BMap.Point(116.399, 39.910)); // 创建点*/
-        // map.addOverlay(marker);            //增加点
-        /*map.addOverlay(marker2);            //增加点*/
-
-        /*marker.addEventListener("click", function(){
-            alert("您点击了标注");
-        });*/
-        //清除覆盖物 map.clearOverlays();
-
-        {{--@forEach($entities as $entity)
-            @if(isset($entity->latest_location))
-            var point = new BMap.Point({{ $entity->latest_location->longitude }}, {{ $entity->latest_location->latitude }});
-            var myIcon = new BMap.Icon("/assets/admin/img/user_icon.png", new BMap.Size(48,48));
-            var label = new BMap.Label("{{ $entity->entity_name.';'.'上次更新时间：'. date('Y-m-d H:i:s',$entity->latest_location->loc_time) }}", {offset:new BMap.Size(-30,-20)});
-            label.setStyle({ color : "red", fontSize : "15px" });
-            addMarker(point,myIcon,label);
-            @endif
-        @endforeach--}}
 
 
 
 
-
-
+        reloadMap();
         setInterval('reloadMap()', 10000);  //10秒
         //setInterval('reloadMap()',1000);
 
@@ -109,24 +86,6 @@
                     $.each(res,function (index,value) {
 
                         if(value.latest_location){
-                            //map.clearOverlays();
-                           //console.log(value);
-
-                           /*if (data.length != res.length) {
-                               data.push(value);
-                           }
-                            var allOverlay = map.getOverlays();
-                           if (data[index].entity_name == value.entity_name && data[index].latest_location.loc_time != value.latest_location.loc_time) {
-                               for (var i = 0; i < allOverlay.length -1; i++) {
-                                   if (allOverlay[i].getLabel().content == value.entity_name+';上次更新时间：'+UnixToDate(value.latest_location.loc_time));
-                                   map.removeOverlay(allOverlay[i]);
-                               }
-                           }*/
-
-
-                           /*if (data[index][latest_location][loc_time] != value.latest_location.loc_time) {
-
-                           }*/
                             var point = new BMap.Point(value.latest_location.longitude, value.latest_location.latitude);
                             var myIcon = new BMap.Icon("/assets/admin/img/user_icon.png", new BMap.Size(48,48));
                             var label = new BMap.Label(value.entity_name+';上次更新时间：'+UnixToDate(value.latest_location.loc_time), {offset:new BMap.Size(-30,-20)});

@@ -166,7 +166,40 @@
             map.addOverlay(polyline);
 
 
-            @if(isset($patrol->patrol_matter))
+            var myIcon = new BMap.Icon("/assets/admin/img/icon_image.png", new BMap.Size(28,50));
+
+            var markers = [];
+            var sContent = [];
+            var infoWindow = [];
+            @foreach($patrolMatters as $patrolMatter)
+                var point = new BMap.Point({{ $patrolMatter->longitude }}, {{ $patrolMatter->latitude }});
+                markers[{{ $loop->index }}] = new BMap.Marker(point,{icon:myIcon});  // 创建标注
+                map.addOverlay(markers[{{ $loop->index }}]);              // 将标注添加到地图中
+
+                var patrolImg = "{{ $patrolMatter->image }}";
+                var patrolTime = "{{ $patrolMatter->created_at }}";
+
+
+                //窗口信息
+                sContent[{{ $loop->index }}] =
+                    "<h4 style='margin-left: 13px; margin-bottom: 5px;'>"+ "处理记录" +" </h4>" +
+                    "<img style='float: right;' id='patrol_img' src='" + patrolImg + "' width='139' height='104' title='处理记录'/>" +
+                    "<p style='margin: 0 12px; font-size: 12px; color: rgb(77,77,77);'>"+"处理时间："+  patrolTime +"</p>" +
+                    "<p style=' margin: 0 12px;font-size: 12px; color: rgb(127,127,127); overflow: hidden;text-overflow: ellipsis;'>";
+                infoWindow[{{ $loop->index }}] = new BMap.InfoWindow(sContent[{{ $loop->index }}]);  // 创建信息窗口对象
+
+                // 监听标注点击事件
+                markers[{{ $loop->index }}].addEventListener("click", function(){
+                    this.openInfoWindow(infoWindow[{{ $loop->index }}]);
+                    //图片加载完毕重绘infowindow
+                    /*document.getElementById('patrol_img').onload = function (){
+                        infoWindow.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
+                    }*/
+                });
+            @endforeach
+
+
+            {{--@if(isset($patrol->patrol_matter))
             var point = new BMap.Point({{ $patrol->patrol_matter->longitude }}, {{ $patrol->patrol_matter->latitude }});
             var myIcon = new BMap.Icon("/assets/admin/img/icon_image.png", new BMap.Size(28,50));
             var marker2 = new BMap.Marker(point,{icon:myIcon});  // 创建标注
@@ -180,12 +213,6 @@
                 "<img style='float: right;' id='patrol_img' src='" + patrolImg + "' width='139' height='104' title='处理记录'/>" +
                 "<p style='margin: 0 12px; font-size: 12px; color: rgb(77,77,77);'>"+"处理时间："+  patrolTime +"</p>" +
                 "<p style=' margin: 0 12px;font-size: 12px; color: rgb(127,127,127); overflow: hidden;text-overflow: ellipsis;'>";
-                /*"<h4 style='margin:0 0 5px 0;padding:0.2em 0'>天安门</h4>" +*/
-                /* +
-                "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:2em'>天安门坐落在中国北京市中心,故宫的南侧,与天安门广场隔长安街相望,是清朝皇城的大门...</p>" +
-                "</div>"*/
-
-            /* "<img id='patrol_img' src='" + patrolImg + "' width='139' height='104' title='处理记录'/>" +*/
             var infoWindow = new BMap.InfoWindow(sContent);  // 创建信息窗口对象
 
             // 监听标注点击事件
@@ -196,7 +223,7 @@
                     infoWindow.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
                 }
             });
-            @endif
+            @endif--}}
             // 添加标注
             function addMarker(point,label){
                 var marker = new BMap.Marker(point);
