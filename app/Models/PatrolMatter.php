@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PatrolMatter extends Model
 {
     protected $fillable = [
-        'title', 'user_id', 'content', 'suggest', 'latitude', 'longitude', 'image', 'status'
+        'title', 'user_id', 'content', 'suggest', 'latitude', 'longitude', 'image', 'status', 'patrol_id'
     ];
 
     public function user()
