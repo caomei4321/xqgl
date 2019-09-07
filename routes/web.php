@@ -36,6 +36,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('users/address', 'Admin\UsersController@address')->name('admin.users.address');
 
         Route::get('users/ajaxAddress', 'Admin\UsersController@ajaxAddress')->name('admin.users.ajaxAddress');
+        Route::post('users/latestPoint', 'Admin\UsersController@latestPoint')->name('admin.users.latestPoint');
 
 
         //Route::get('convenientTask','Admin\ConvenientTaskController@index')->name('admin.convenientTask.index');

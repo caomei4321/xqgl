@@ -69,9 +69,11 @@
 
 
 
-
+        points = [];
+        entityList = [];
         reloadMap();
-        setInterval('reloadMap()', 10000);  //10秒
+
+        setInterval('reloadMap()',5000);  //5秒
         //setInterval('reloadMap()',1000);
 
         var data = [];
@@ -82,17 +84,52 @@
                 url: '/admin/users/ajaxAddress',
                 async: false,
                 success:function (res) {
+                    console.log(res);
                     map.clearOverlays();
                     $.each(res,function (index,value) {
 
-                        if(value.latest_location){
+                        //entityList.push(value.entity_name);
+                        if(value.latest_location){  // 如果有最新轨迹点信息则标注
                             var point = new BMap.Point(value.latest_location.longitude, value.latest_location.latitude);
-                            var myIcon = new BMap.Icon("/assets/admin/img/user_icon.png", new BMap.Size(48,48));
+                            if (points.hasOwnProperty(index)) {
+                                points[index].push(point);
+                            } else {
+                                points[index] = [];
+                                points[index].push(point);
+                            }
+
+                            if (points[index].length > 1) {
+                                //console.log(points[index]);
+                                var polyline = new BMap.Polyline(points[index], {
+                                    enableEditing: false,
+                                    enableClicking: true,
+                                    strokeWeight: '5',
+                                    strokeOpacity: '0.5',
+                                    strokeColor: "red"
+                                });
+                                map.addOverlay(polyline);
+                            }
+                            var myIcon = new BMap.Icon("/assets/admin/img/user_icon.png", new BMap.Size(48,85));
                             var label = new BMap.Label(value.entity_name+';上次更新时间：'+UnixToDate(value.latest_location.loc_time), {offset:new BMap.Size(-30,-20)});
                             label.setStyle({ color : "red", fontSize : "15px" });
                             addMarker(point,myIcon,label);
                         }
                     });
+                    //console.log(points);
+                    //console.log(points);
+                    /*$.each(points,function (index,value) {
+                        var polyline = new BMap.Polyline(value, {
+                            enableEditing: false,
+                            enableClicking: true,
+                            icons: [icons],
+                            strokeWeight: '8',
+                            strokeOpacity: '0.8',
+                            strokeColor: "#18a45b"
+                        });
+                        map.addOverlay(polyline);
+                    });*/
+
+
                     /*document.getElementById('users-address').onload = function (){
                         infoWindow.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
                     }*/
@@ -100,6 +137,74 @@
             });
             $.ajax();
         }
+
+        /*for (var i = 0; ; i++) {
+            for (var j = 0; j < entityList.length; j++) {
+                latestPoint(j,entityList[j]);
+                sleep(5000);
+            }
+
+        }
+
+        function sleep(numberMillis) {
+            var now = new Date();
+            var exitTime = now.getTime() + numberMillis;
+            while (true) {
+                now = new Date();
+                if (now.getTime() > exitTime)
+                    return;
+            }
+        }
+
+
+
+
+        function latestPoint(index,entity_name) {
+            $.ajaxSetup({
+                headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                type:"post",
+                url: '/admin/users/latestPoint',
+                async: false,
+                data: {
+                    'entity_name' : entity_name
+                },
+                success:function (res) {
+                    res = JSON.parse(res);*/
+                    /*console.log(points);
+                    map.clearOverlays();
+
+                    var point = new BMap.Point(res.latest_point.longitude, res.latest_point.latitude);
+                    points[index].push(point);
+                    var polyline = new BMap.Polyline(points[index], {
+                        enableEditing: false,
+                        enableClicking: true,
+                        strokeWeight: '3',
+                        strokeOpacity: '0.5',
+                        strokeColor: "red"
+                    });
+                    map.addOverlay(polyline);*/
+                    /*$.each(points, function (index, value) {
+                        var polyline = new BMap.Polyline(value, {
+                            enableEditing: false,
+                            enableClicking: true,
+                            strokeWeight: '3',
+                            strokeOpacity: '0.5',
+                            strokeColor: "red"
+                        });
+                        map.addOverlay(polyline);
+
+                    });*/
+                    /*var myIcon = new BMap.Icon("/assets/admin/img/user_icon.png", new BMap.Size(48,85));
+                    var label = new BMap.Label(entity_name+';上次更新时间：'+UnixToDate(res.loc_time), {offset:new BMap.Size(-30,-20)});
+                    label.setStyle({ color : "red", fontSize : "15px" });
+                    addMarker(point,myIcon,label);*/
+                    /*document.getElementById('users-address').onload = function (){
+                        infoWindow.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
+                    }*/
+             /*   },
+            });
+            $.ajax();
+        }*/
 
         // 添加标注
         function addMarker(point,myIcon,label){
