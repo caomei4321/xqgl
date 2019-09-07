@@ -37,7 +37,7 @@
                         </div>
                     </div>
                     <div class="ibox-content">
-                        <form method="get" class="form-horizontal">
+                        <form method="get" class="form-horizontal" style="display: none">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">告警设备序列号</label>
 
@@ -93,28 +93,25 @@
                                     <p class="form-control-static"><span class="lng">{{ $alarms->longitude }}</span>---<span class="lat">{{ $alarms->latitude }}</span></p>
                                 </div>
                             </div>
-                            <div class="form-group" style="position: absolute;left: 588px;top: 50px;">
-                                {{--<label class="col-sm-2 control-label">告警图片</label>--}}
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">告警图片</label>
+
                                 <div class="col-sm-10">
                                     <p class="form-control-static pic">
                                         <a class="fancybox" href="{{ $alarms->alarm_pic_url }}" title="图片">
-                                            <img alt="image" style="width: 600px;" src="{{ $alarms->alarm_pic_url }}" />
+                                            <img alt="image" src="{{ $alarms->alarm_pic_url }}" />
                                         </a>
-                                        {{--<image class="image" width="120" src="{{ $alarms->alarm_pic_url }}" />--}}
                                     </p>
 
                                 </div>
                             </div>
                             <div class="hr-line-dashed"></div>
                         </form>
-                        {{--<div class="iframe">--}}
-                            {{--<iframe id="iframe" src="https://open.ys7.com/jssdk/monitor.html"></iframe>--}}
-                        {{--</div>--}}
-                        {{--<div class="jiankong">--}}
-                            {{--<p>ezopen://open.ys7.com/D35853947/1.hd.live</p>--}}
-                            {{--<p>at.1bpbsy1q7s63s782blkzfgdf2pzzz8vx-8ab77e2v1w-0g54vuc-bibmlvmor</p>--}}
-                        {{--</div>--}}
-                        {{--<div id="allmap"></div>--}}
+                        <div class="jiankong">
+                            <p>ezopen://open.ys7.com/D35853947/1.hd.live</p>
+                            <p>at.1bpbsy1q7s63s782blkzfgdf2pzzz8vx-8ab77e2v1w-0g54vuc-bibmlvmor</p>
+                        </div>
+                        <div id="allmap"></div>
                     </div>
                 </div>
             </div>

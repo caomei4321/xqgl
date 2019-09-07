@@ -64,6 +64,7 @@
                                 <td>{{ $alarm->number }}号网格</td>
                                 <td class="center">
                                     <a href="{{ route('admin.alarm.detail', ['id' => $alarm->id]) }}" class="btn btn-info btn-xs">查看</a>
+                                    <a href="{{ route('admin.alarm.detailmap', ['id' => $alarm->id]) }}" class="btn btn-info btn-xs">查看监控</a>
                                     <button class="btn btn-warning btn-xs delete" data-id="">删除</button>
                                 </td>
                             </tr>
