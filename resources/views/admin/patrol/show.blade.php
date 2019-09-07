@@ -147,9 +147,18 @@
             // 创建polyline对象
 
             var pois = [];
+            var markerPoints = [];
 
+            var  lastTime = 0;
             @foreach($tracks->points as $point)
+                    @foreach($patrolMatters as $patrolMatter)
+                        if ({{ strtotime($patrolMatter->created_at) }} > lastTime && {{ strtotime($patrolMatter->created_at) }} < {{ $point->loc_time }}) {
+
+                            markerPoints.push(new BMap.Point({{$point->longitude}}, {{$point->latitude}}));
+                        }
+                    @endforeach
                     pois.push(new BMap.Point({{$point->longitude}}, {{$point->latitude}}));
+                    lastTime = {{ $point->loc_time }}
             @endforeach
 
             var polyline = new BMap.Polyline(pois, {
@@ -172,7 +181,8 @@
             var sContent = [];
             var infoWindow = [];
             @foreach($patrolMatters as $patrolMatter)
-                var point = new BMap.Point({{ $patrolMatter->longitude }}, {{ $patrolMatter->latitude }});
+                var point = markerPoints[{{$loop->index}}];
+
                 markers[{{ $loop->index }}] = new BMap.Marker(point,{icon:myIcon});  // 创建标注
                 map.addOverlay(markers[{{ $loop->index }}]);              // 将标注添加到地图中
 
