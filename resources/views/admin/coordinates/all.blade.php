@@ -82,9 +82,9 @@
         map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
         var item = $('.item').length;
 
-        map.setMapStyleV2({
-            styleId: '4164dc3852e0db5655f892b8f46d98d6'
-        });
+        // map.setMapStyleV2({
+        //     styleId: '4164dc3852e0db5655f892b8f46d98d6'
+        // });
 
         for (var n = 0; n < item; n++) {
             var poissss = [];

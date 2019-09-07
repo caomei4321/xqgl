@@ -180,6 +180,11 @@ Route::group(['prefix' => 'admin'], function () {
         // 此路由为分配到人，表格头的按钮，以注释，后面不需要则删除
         Route::post('matters/mtu', 'Admin\MattersController@mattersToUser')->name('admin.matters.mtu');
 
+
+        // 告警
+        Route::get('alarm', 'Admin\AlarmsController@index')->name('admin.alarm.index');
+        Route::get('alarm/detail', 'Admin\AlarmsController@detail')->name('admin.alarm.detail');
+
     });
 
 });

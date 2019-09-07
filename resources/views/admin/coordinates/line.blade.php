@@ -77,9 +77,9 @@
         map.centerAndZoom(new BMap.Point(117.005693, 36.674489), 18);  // 初始化地图,设置中心点坐标和地图级别
         map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
 
-        map.setMapStyleV2({
-            styleId: '4164dc3852e0db5655f892b8f46d98d6'
-        });
+        // map.setMapStyleV2({
+        //     styleId: '4164dc3852e0db5655f892b8f46d98d6'
+        // });
 
         // 创建polyline对象
         var lng = $('.t1');

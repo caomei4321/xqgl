@@ -83,6 +83,18 @@
                                     </div>
                                     <div class="hr-line-dashed"></div>
                                     <div class="form-group">
+                                        <label class="col-sm-2 control-label">所属网格：</label>
+                                        <div class="col-sm-6">
+                                            <select class="form-control" name="coordinate_id" required>
+                                                <option value="" hidden disabled selected>请选择网格</option>
+                                                @foreach ($coordinates as $coordinate)
+                                                    <option value="{{ $coordinate->id }}" {{ $part->coordinate_id == $coordinate->id ? 'selected': '' }} >{{ $coordinate->number }}号网格</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
                                         <label class="col-sm-2 control-label">种类：</label>
 
                                         <div class="col-sm-6">
@@ -91,7 +103,7 @@
                                                 <option value="1" {{ $part->kind_id == 1 ? 'selected' : '' }}>垃圾桶</option>
                                                 <option value="2" {{ $part->kind_id == 2 ? 'selected' : '' }}>广告牌</option>
                                                 <option value="3" {{ $part->kind_id == 3 ? 'selected' : '' }}>公厕</option>
-                                                <option value="4" {{ $part->kind_id == 4 ? 'selected' : '' }}>路灯</option>
+                                                <option value="4" {{ $part->kind_id == 4 ? 'selected' : '' }}>路灯/监控</option>
                                             </select>
                                         </div>
                                     </div>
