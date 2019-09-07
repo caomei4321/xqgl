@@ -20,6 +20,13 @@ class AuthorizationsController extends Controller
         }
         $user = Auth::guard('api')->getUser();
 
+        $hisUser = User::where('entity_name', $request->entity_name)->first();
+
+        if ($hisUser) {
+            $hisUser->update([
+                'entity_name' => null,
+            ]);
+        }
         $user->update([
             'reg_id' => $request->reg_id,
             'entity_name' => $request->entity_name

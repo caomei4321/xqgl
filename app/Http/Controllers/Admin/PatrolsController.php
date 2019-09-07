@@ -41,7 +41,7 @@ class PatrolsController extends Controller
 
         $tracks = json_decode($result);
 
-        $tracks->distance = substr($tracks->distance/1000, '0','4').'km';
+        $tracks->distance = $tracks->distance ? substr($tracks->distance/1000, '0','4').'km' : 0 .'km';
 
         $patrolMatters = $patrol->patrol_matter()->get();
         return view('admin.patrol.show', compact('patrol','patrolMatters',  'tracks'));
