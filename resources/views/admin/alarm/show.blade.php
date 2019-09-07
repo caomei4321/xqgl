@@ -139,7 +139,7 @@
         var alarmType = $('.alarmType'); // 告警类型
         var alarmStart = $('.alarmStart'); // 告警开始时间
         // 百度地图API功能
-        var sContent = "<div class='iframe' style='width:800px; height: 600px;'>" +
+        var sContent = "<div class='iframe' style='width:800px; height: 600px; margin-top: -50px;'>" +
             "<iframe style='width:800px; height: 600px;' src='https://open.ys7.com/jssdk/monitor.html'></iframe>" +
             "</div>";
         var lng = $('.lng');
