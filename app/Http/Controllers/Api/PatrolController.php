@@ -18,9 +18,9 @@ class PatrolController extends Controller
 
             $patrol = $this->user()->patrols()->find($request->id);
 
-            $patrol->update([
-                'end_at' => $request->end_time,
-            ]);
+            $patrol->end_at = $request->end_time;
+            $patrol->save();
+
             return $this->success('结束成功');
         }
     }
