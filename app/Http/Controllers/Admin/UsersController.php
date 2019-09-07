@@ -147,4 +147,34 @@ class UsersController extends Controller
         }
         return $entities;
     }
+
+    public function latestPoint(Curl $curl, Request $request)
+    {
+        //return $request->all();
+        $data = [
+            'ak' => env('BAIDU_MAP_AK', ''),
+            'service_id' => env('BAIDU_MAP_SERVICE_ID', ''),
+            'mcode'     => (string)env('BAIDU_MAP_MCODE'),
+            'entity_name' => $request->entity_name,
+            'process_option' => 'need_denoise=1,need_mapmatch=1,radius_threshold=0,transport_mode=auto'
+        ];
+        $result = $curl->curl('http://yingyan.baidu.com/api/v3/track/getlatestpoint', $data);
+
+
+        //$result = json_encode($result);
+        //$result = json_decode($result);
+        return $result;
+        $latestPoint = $result->latest_point;
+        //$userHasEntities = $user->all()->pluck('entity_name')->toArray();
+        //$entities = array_diff(array_column($entities,'entity_name'),$userHasEntities);
+        //$entities = array_diff_assoc(array_column($entities,'entity_name'),$userHasEntities);
+//dd($entities);
+        /*$entities = [];
+        foreach ($entityList as $entity) {
+            if (in_array($entity->entity_name,$userHasEntities)) {
+                $entities[] = $entity;
+            }
+        }*/
+        return $latestPoint;
+    }
 }
