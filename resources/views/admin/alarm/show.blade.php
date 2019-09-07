@@ -63,7 +63,13 @@
                                 <label class="col-sm-2 control-label">告警类型</label>
 
                                 <div class="col-sm-10">
-                                    <p class="form-control-static alarmType">{{ $alarms->alarm_type }}</p>
+                                    <p class="form-control-static alarmTyspe">
+                                        @if($alarms->alarm_type == 'enterareadetection')
+                                            进入区域
+                                        @elses
+                                            物品遗留
+                                        @endif
+                                    </p>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -124,7 +130,7 @@
 
     <script src="{{ asset('assets/admin/js/plugins/fancybox/jquery.fancybox.js') }}"></script>
 
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=HzdI6uW2xAsdwGmxQbdWitq0ZGGhO02G"></script>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=HzdI6uW2xAsdwGmxQbdWitq0ZGGhO02G"></script>
 @endsection
 
 @section('javascript')
@@ -133,7 +139,7 @@
         var alarmType = $('.alarmType'); // 告警类型
         var alarmStart = $('.alarmStart'); // 告警开始时间
         // 百度地图API功能
-        var sContent = "<div class='iframe' style='width:800px; height: 600px;'>" +
+        var sContent = "<div class='iframe' style='width:800px; height: 600px; margin-top: -50px;'>" +
             "<iframe style='width:800px; height: 600px;' src='https://open.ys7.com/jssdk/monitor.html'></iframe>" +
             "</div>";
         var lng = $('.lng');
