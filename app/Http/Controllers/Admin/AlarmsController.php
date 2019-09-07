@@ -40,4 +40,5 @@ class AlarmsController extends Controller
             ->first();
         return view('admin.alarm.show_map', compact('alarms'));
     }
+
 }

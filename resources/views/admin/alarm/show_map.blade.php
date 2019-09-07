@@ -39,6 +39,11 @@
                     <div class="ibox-content">
                         <form method="get" class="form-horizontal" style="display: none">
                             <div class="form-group">
+                                <div class="col-sm-10">
+                                    <p class="form-control-static deviceSerial">{{ $alarms->device_serial }}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">告警设备序列号</label>
 
                                 <div class="col-sm-10">
@@ -102,9 +107,9 @@
                                             <img alt="image" src="{{ $alarms->alarm_pic_url }}" />
                                         </a>
                                     </p>
-
                                 </div>
                             </div>
+
                             <div class="hr-line-dashed"></div>
                         </form>
                         <div class="jiankong">

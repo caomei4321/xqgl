@@ -94,15 +94,13 @@
                                 </div>
                             </div>
                             <div class="form-group" style="position: absolute;left: 588px;top: 50px;">
-                                {{--<label class="col-sm-2 control-label">告警图片</label>--}}
+                                <label class="col-sm-2 control-label">告警图片</label>
                                 <div class="col-sm-10">
                                     <p class="form-control-static pic">
                                         <a class="fancybox" href="{{ $alarms->alarm_pic_url }}" title="图片">
                                             <img alt="image" style="width: 600px;" src="{{ $alarms->alarm_pic_url }}" />
                                         </a>
-                                        {{--<image class="image" width="120" src="{{ $alarms->alarm_pic_url }}" />--}}
                                     </p>
-
                                 </div>
                             </div>
                             <div class="hr-line-dashed"></div>
