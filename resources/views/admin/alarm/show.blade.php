@@ -2,6 +2,12 @@
 
 @section('styles')
     <link href="{{ asset('assets/admin/css/plugins/chosen/chosen.css') }}" rel="stylesheet">
+
+    <style>
+        body, html {width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+        #allmap{width:100%;height:600px;}
+        p{margin-left:5px; font-size:14px;}
+    </style>
 @endsection
 
 @section('content')
@@ -35,132 +41,62 @@
                                 <label class="col-sm-2 control-label">告警设备序列号</label>
 
                                 <div class="col-sm-10">
-                                    <p class="form-control-static">{{ $alarms->device_serial }}</p>
+                                    <p class="form-control-static deviceSerial">{{ $alarms->device_serial }}</p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">消息ID</label>
 
                                 <div class="col-sm-10">
-                                    <p class="form-control-static">{{ $alarms->alarm_id }}</p>
+                                    <p class="form-control-static alarmId">{{ $alarms->alarm_id }}</p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">告警源名称</label>
 
                                 <div class="col-sm-10">
-                                    <p class="form-control-static">{{ $alarms->channel_name }}</p>
+                                    <p class="form-control-static channelName">{{ $alarms->channel_name }}</p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">告警类型</label>
 
                                 <div class="col-sm-10">
-                                    <p class="form-control-static">{{ $alarms->alarm_type }}</p>
+                                    <p class="form-control-static alarmType">{{ $alarms->alarm_type }}</p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">告警开始时间</label>
 
                                 <div class="col-sm-10">
-                                    <p class="form-control-static">{{ $alarms->alarm_start }}</p>
+                                    <p class="form-control-static alarmStart">{{ $alarms->alarm_start }}</p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">告警网格</label>
 
                                 <div class="col-sm-10">
-                                    <p class="form-control-static">{{ $alarms->number }}号网格</p>
+                                    <p class="form-control-static number">{{ $alarms->number }}号网格</p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">告警位置(经纬度)</label>
 
                                 <div class="col-sm-10">
-                                    <p class="form-control-static">{{ $alarms->longitude }}-{{ $alarms->latitude }}</p>
+                                    <p class="form-control-static"><span class="lng">{{ $alarms->longitude }}</span>---<span class="lat">{{ $alarms->latitude }}</span></p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">告警图片</label>
 
                                 <div class="col-sm-10">
-                                    <p class="form-control-static"><image width="120" src="{{ $alarms->alarm_pic_url }}" /></p>
+                                    <p class="form-control-static pic"><image class="image" width="120" src="{{ $alarms->alarm_pic_url }}" /></p>
                                 </div>
                             </div>
                             <div class="hr-line-dashed"></div>
                         </form>
+                        <div id="allmap"></div>
                     </div>
-                    {{--<div class="ibox-content">
-                        <h3>执行任务记录</h3>
-                        <table class="table table-striped table-bordered table-hover dataTables-example">
-                            <thead>
-                            <tr>
-                                <th>任务ID</th>
-                                <th>地点</th>
-                                <th>完成情况</th>
-                                <th>开始时间</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr class="gradeX">
-                                <td>1</td>
-                                <td class="center">xxx街道</td>
-                                <td class="center">已完成</td>
-                                <td class="center"> 2018-07-25 14:03:40</td>
-                            </tr>
-                            <tr class="gradeX">
-                                <td>1</td>
-                                <td class="center">xxx街道</td>
-                                <td class="center">已完成</td>
-                                <td class="center"> 2018-07-26 13:03:40</td>
-                            </tr>
-                            <tr class="gradeX">
-                                <td>1</td>
-                                <td class="center">xxx街道</td>
-                                <td class="center">已完成</td>
-                                <td class="center"> 2018-07-27 14:243:40</td>
-                            </tr>
-                            <tr class="gradeX">
-                                <td>1</td>
-                                <td class="center">xxx街道</td>
-                                <td class="center">已完成</td>
-                                <td class="center"> 2018-07-28 18:45:40</td>
-                            </tr>
-                            <tr class="gradeX">
-                                <td>1</td>
-                                <td class="center">xxx街道</td>
-                                <td class="center">已完成</td>
-                                <td class="center"> 2018-07-30 12:03:44</td>
-                            </tr>
-                            <tr class="gradeX">
-                                <td>1</td>
-                                <td class="center">xxx街道</td>
-                                <td class="center">已完成</td>
-                                <td class="center"> 2018-08-5 12:03:40</td>
-                            </tr>
-                            <tr class="gradeX">
-                                <td>1</td>
-                                <td class="center">xxx街道</td>
-                                <td class="center">已完成</td>
-                                <td class="center"> 2018-08-6 09:45:40</td>
-                            </tr>
-                            <tr class="gradeX">
-                                <td>1</td>
-                                <td class="center">xxx街道</td>
-                                <td class="center">已完成</td>
-                                <td class="center"> 2018-08-25 14:03:40</td>
-                            </tr>
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                <th>任务ID</th>
-                                <th>地点</th>
-                                <th>完成情况</th>
-                                <th>开始时间</th>
-                            </tr>
-                            </tfoot>
-                        </table>
-                    </div>--}}
                 </div>
             </div>
         </div>
@@ -171,11 +107,38 @@
 @section('scripts')
     <!-- Chosen -->
     <script src="{{ asset('assets/admin/js/plugins/chosen/chosen.jquery.js') }}"></script>
+
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=HzdI6uW2xAsdwGmxQbdWitq0ZGGhO02G"></script>
 @endsection
-<!-- 自定义js -->
-{{--<script src="{{ asset('assets/admin/js/content.js?v=1.0.0') }}"></script>--}}
+
 @section('javascript')
     <script>
-
+        var deviceSerial = $('.deviceSerial'); // 设备序列号
+        var alarmType = $('.alarmType'); // 告警类型
+        var alarmStart = $('.alarmStart'); // 告警开始时间
+        // 百度地图API功能
+        var sContent =
+            "<h4 style='margin:0 0 5px 0;padding:0.2em 0'>设备序列号: "+ deviceSerial.text() +"</h4>" +
+            "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:1em'>告警类型："+ alarmType.text() +"</p>" +
+            "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:1em'>告警开始时间："+ alarmStart.text() +"</p>" +
+            "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:1em'>告警开始时间："+ alarmStart.text() +"</p>" +
+            "</div>";
+        var lng = $('.lng');
+        var lat = $('.lat');
+        console.log(lng.text());
+        console.log(lat.text());
+        var map = new BMap.Map("allmap");
+        var point = new BMap.Point(lng.text(), lat.text());
+        var marker = new BMap.Marker(point);
+        var infoWindow = new BMap.InfoWindow(sContent);  // 创建信息窗口对象
+        map.centerAndZoom(point, 15);
+        map.addOverlay(marker);
+        marker.addEventListener("click", function(){
+            this.openInfoWindow(infoWindow);
+            //图片加载完毕重绘infowindow
+            document.getElementById('imgDemo').onload = function (){
+                infoWindow.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
+            }
+        });
     </script>
 @endsection

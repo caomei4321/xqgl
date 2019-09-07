@@ -26,9 +26,9 @@ class AlarmsController extends Controller
         $alarm->save();
 
         // 报警信息
-        $alarm = $alarm->where('alarm_id', $request->alarmId)->first();
+        $alarm = $alarm->where('alarm_id', $request->alarmId)->all();
         // 网格
-        $wangge = DB::table('parts') ->where('num', $alarm->device_serial)->first();
+        $wangge = DB::table('parts') ->where('num', $alarm->device_serial)->first()->toArray();
         // 根据网格查找该网格所有的人
         $users = DB::table('users')->where('responsible_area', $wangge->coordinate_id)->get();
         $info = [];
@@ -57,7 +57,7 @@ class AlarmsController extends Controller
 
     // 分配告警任务到人员
     public function userHasAlarms()
-    {
-        
+   {
+
     }
 }
