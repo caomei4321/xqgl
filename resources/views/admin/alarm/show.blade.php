@@ -63,7 +63,13 @@
                                 <label class="col-sm-2 control-label">告警类型</label>
 
                                 <div class="col-sm-10">
-                                    <p class="form-control-static alarmType">{{ $alarms->alarm_type }}</p>
+                                    <p class="form-control-static alarmTyspe">
+                                        @if($alarms->alarm_type == 'enterareadetection')
+                                            进入区域
+                                        @elses
+                                            物品遗留
+                                        @endif
+                                    </p>
                                 </div>
                             </div>
                             <div class="form-group">

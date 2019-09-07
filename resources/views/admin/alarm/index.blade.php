@@ -52,7 +52,13 @@
                                 <td>{{ $alarm->id }}</td>
                                 <td>{{ $alarm->device_serial }}</td>
                                 <td>{{ $alarm->alarm_start }}</td>
-                                <td>{{ $alarm->alarm_type }}</td>
+                                <td>
+                                    @if($alarm->alarm_type == 'enterareadetection')
+                                        进入区域
+                                    @else
+                                        物品遗留
+                                    @endif
+                                </td>
                                 <td>{{ $alarm->longitude }}</td>
                                 <td>{{ $alarm->latitude }}</td>
                                 <td>{{ $alarm->number }}号网格</td>
