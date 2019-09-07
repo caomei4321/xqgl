@@ -70,4 +70,8 @@ $api->version('v1', [
 
     });
 
+
+    // 警报 alarm
+    $api->post('alarm', 'AlarmsController@alarm');
+
 });

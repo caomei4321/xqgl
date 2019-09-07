@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Handlers\ImageUploadHandler;
+use App\Models\Coordinate;
 use App\Models\Part;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -18,9 +19,10 @@ class PartsController extends Controller
         return view('admin.parts.index', compact('parts'));
     }
 
-    public function create(Part $part)
+    public function create(Part $part, Coordinate $coordinate)
     {
-        return view('admin.parts.create_and_edit', compact('part'));
+        $coordinates = Coordinate::all();
+        return view('admin.parts.create_and_edit', compact('part', 'coordinates'));
     }
 
     public function store(Request $request, Part $part, ImageUploadHandler $uploader)
@@ -40,9 +42,10 @@ class PartsController extends Controller
         return redirect()->route('admin.part.index');
     }
 
-    public function edit(Part $part)
+    public function edit(Part $part, Coordinate $coordinate)
     {
-        return view('admin.parts.create_and_edit', compact('part'));
+        $coordinates = Coordinate::all();
+        return view('admin.parts.create_and_edit', compact('part', 'coordinates'));
     }
 
     public function update(Request $request, Part $part, ImageUploadHandler $uploader)
