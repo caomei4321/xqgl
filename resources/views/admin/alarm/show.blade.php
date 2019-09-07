@@ -2,11 +2,12 @@
 
 @section('styles')
     <link href="{{ asset('assets/admin/css/plugins/chosen/chosen.css') }}" rel="stylesheet">
-
+    <link href="{{ asset('assets/admin/js/plugins/fancybox/jquery.fancybox.css') }}" rel="stylesheet">
     <style>
         body, html {width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
         #allmap{width:100%;height:600px;}
         p{margin-left:5px; font-size:14px;}
+        #iframe{width:100%; height: 600px;}
     </style>
 @endsection
 
@@ -90,11 +91,24 @@
                                 <label class="col-sm-2 control-label">告警图片</label>
 
                                 <div class="col-sm-10">
-                                    <p class="form-control-static pic"><image class="image" width="120" src="{{ $alarms->alarm_pic_url }}" /></p>
+                                    <p class="form-control-static pic">
+                                        <a class="fancybox" href="{{ $alarms->alarm_pic_url }}" title="图片">
+                                            <img alt="image" src="{{ $alarms->alarm_pic_url }}" />
+                                        </a>
+                                        {{--<image class="image" width="120" src="{{ $alarms->alarm_pic_url }}" />--}}
+                                    </p>
+
                                 </div>
                             </div>
                             <div class="hr-line-dashed"></div>
                         </form>
+                        {{--<div class="iframe">--}}
+                            {{--<iframe id="iframe" src="https://open.ys7.com/jssdk/monitor.html"></iframe>--}}
+                        {{--</div>--}}
+                        <div class="jiankong">
+                            <p>ezopen://open.ys7.com/D35853947/1.hd.live</p>
+                            <p>at.1bpbsy1q7s63s782blkzfgdf2pzzz8vx-8ab77e2v1w-0g54vuc-bibmlvmor</p>
+                        </div>
                         <div id="allmap"></div>
                     </div>
                 </div>
@@ -108,6 +122,8 @@
     <!-- Chosen -->
     <script src="{{ asset('assets/admin/js/plugins/chosen/chosen.jquery.js') }}"></script>
 
+    <script src="{{ asset('assets/admin/js/plugins/fancybox/jquery.fancybox.js') }}"></script>
+
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=HzdI6uW2xAsdwGmxQbdWitq0ZGGhO02G"></script>
 @endsection
 
@@ -117,11 +133,8 @@
         var alarmType = $('.alarmType'); // 告警类型
         var alarmStart = $('.alarmStart'); // 告警开始时间
         // 百度地图API功能
-        var sContent =
-            "<h4 style='margin:0 0 5px 0;padding:0.2em 0'>设备序列号: "+ deviceSerial.text() +"</h4>" +
-            "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:1em'>告警类型："+ alarmType.text() +"</p>" +
-            "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:1em'>告警开始时间："+ alarmStart.text() +"</p>" +
-            "<p style='margin:0;line-height:1.5;font-size:13px;text-indent:1em'>告警开始时间："+ alarmStart.text() +"</p>" +
+        var sContent = "<div class='iframe' style='width:800px; height: 600px;'>" +
+            "<iframe style='width:800px; height: 600px;' src='https://open.ys7.com/jssdk/monitor.html'></iframe>" +
             "</div>";
         var lng = $('.lng');
         var lat = $('.lat');
@@ -139,6 +152,14 @@
             document.getElementById('imgDemo').onload = function (){
                 infoWindow.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
             }
+        });
+
+
+        $(document).ready(function () {
+            $('.fancybox').fancybox({
+                openEffect: 'none',
+                closeEffect: 'none'
+            });
         });
     </script>
 @endsection
