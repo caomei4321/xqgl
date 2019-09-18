@@ -71,6 +71,9 @@
                 <a class="J_menuItem" href="{{ route('admin.alarm.index') }}"><i class="fa fa-truck"></i> <span class="nav-label">智能告警事件管理</span></a>
             </li>
             <li>
+                <a class="J_menuItem" href="{{ route('admin.programUsers.index') }}"><i class="fa fa-truck"></i> <span class="nav-label">群众管理</span></a>
+            </li>
+            <li>
                 <a href="#"><i class="fa fa-table"></i> <span class="nav-label">系统管理</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li><a class="J_menuItem" href="{{ route('admin.administrators.index') }}">管理员</a>

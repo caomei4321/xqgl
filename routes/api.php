@@ -37,7 +37,7 @@ $api->version('v1', [
     $api->delete('authorizations/destroy', 'AuthorizationsController@delete')
         ->name('api.authorizations.delete');
 
-    $api->post('wuthorizations', 'AuthorizationsController@weappStore');
+    //$api->post('wuthorizations', 'AuthorizationsController@weappStore');
 
     $api->group(['middleware' => 'auth:api'], function ($api) {
 
@@ -68,6 +68,11 @@ $api->version('v1', [
 
         $api->post('startAndEndPatrol', 'PatrolController@startAndEndPatrol');  //开始和结束巡逻
 
+    });
+
+    $api->group(['middleware' => 'auth:programApi'], function ($api) {
+        $api->post('matterStore', 'ProgramUsersController@matterStore');
+        $api->get('historyMatters', 'ProgramUsersController@historyMatters');
     });
 
 
