@@ -36,12 +36,13 @@ class PatrolsController extends Controller
             'start_time' => strtotime($patrol->created_at),
             'end_time'  => $end_at,
             'is_processed' => 1,
+            'process_option' => 'need_denoise=1,radius_threshold=10,need_vacuate=1,need_mapmatch=1,transport_mode=walking'
         ];
         $result = $curl->curl('http://yingyan.baidu.com/api/v3/track/gettrack', $tracksData, false);
 
         $tracks = json_decode($result);
 
-        $tracks->distance = $tracks->distance ? substr($tracks->distance/1000, '0','4').'km' : 0 .'km';
+        $tracks->distance = isset($tracks->distance) ? substr($tracks->distance/1000, '0','4').'km' : 0 .'km';
 
         $patrolMatters = $patrol->patrol_matter()->get();
         return view('admin.patrol.show', compact('patrol','patrolMatters',  'tracks'));
