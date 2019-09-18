@@ -15,7 +15,7 @@ class ProgramUsersController extends Controller
         $this->validate($request, [
             'title' => 'required|max:255',
             'address' => 'required|max:255',
-            'content' => 'required',
+            'contents' => 'required',
             'image' => 'required',
         ]);
 
@@ -23,6 +23,7 @@ class ProgramUsersController extends Controller
             'title' => $request->title,
             'address' => $request->address,
             'content' => $request->contents,
+            'image' => '11111',
             'from' => 3
         ];
 

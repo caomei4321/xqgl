@@ -32,8 +32,6 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <a href="{{ route('admin.permissions.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加权限</button>
-                    </a>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                         <tr>
