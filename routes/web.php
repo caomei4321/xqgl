@@ -184,7 +184,7 @@ Route::group(['prefix' => 'admin'], function () {
         // 告警
         Route::get('alarm', 'Admin\AlarmsController@index')->name('admin.alarm.index');
         Route::get('alarm/detail', 'Admin\AlarmsController@detail')->name('admin.alarm.detail');
-
+        Route::get('alarm/detailmap', 'Admin\AlarmsController@detailMap')->name('admin.alarm.detailmap');
     });
 
 });
