@@ -52,6 +52,11 @@ return [
             'driver' => 'session',
             'provider' => 'admin',
         ],
+
+        'programApi' => [
+            'driver' => 'jwt',
+            'provider' => 'program_user',
+        ]
     ],
 
     /*
@@ -81,6 +86,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
         ],
+
+        'program_user' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\ProgramUser::class,
+        ]
 
         // 'users' => [
         //     'driver' => 'database',

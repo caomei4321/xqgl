@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-    <title>公司考勤管理后台</title>
+    <title>社区管理后台</title>
     <meta name="keywords" content="三晖科技">
     <meta name="description" content="三晖科技">
 

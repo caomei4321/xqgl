@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\ProgramUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -66,10 +67,9 @@ class AuthorizationsController extends Controller
     /*
      * 小程序登录
      *
-     * 没有传入 phone字段时根据 open_id 判断 users 和 admins 是否有这个用户，然后返回信息
-     * 传入 phone 字段时 验证 users 和 admins 是否有这个用户,并更新原来的有此 open_id 的用户的 open_id 和 session_key 为空
+     * 没有此微信用户时创建一个用户
      * */
-    public function weappStore(Request $request)
+    public function weappStore(Request $request, ProgramUser $programUser)
     {
         $code = $request->code;
 
@@ -83,53 +83,22 @@ class AuthorizationsController extends Controller
 
         $attributes['weixin_session_key'] = $data['session_key'];
         $attributes['open_id'] = $data['openid'];
+        $attributes['nickname'] = $request->nickname;
+        $attributes['avatarurl'] = $request->avatarurl;
 
-        $credentials['phone'] = $request->phone;
-        $credentials['password'] = $request->password;
+        $user = ProgramUser::where('open_id', $attributes['open_id'])->first();
 
-        if (empty($credentials['phone'])) {
-            $user = User::where('open_id', $attributes['open_id'])->first();
+        if ($user) {  //有这个用户
+            $token = Auth::guard('programApi')->fromUser($user);
 
-            if ($user) {  //有这个用户
-                $token = Auth::guard('api')->fromUser($user);
+            return $this->responseWithToken($token)->setStatusCode(201);
+        } else {
+            $user = $programUser->fill($attributes);
+            $user->save();
+            $token = Auth::guard('programApi')->fromUser($user);
 
-                return $this->responseWithToken($token)->setStatusCode(201);
-            }
-
-            /*$admin = Admin::where('open_id', $attributes['open_id'])->first();
-
-            if ($admin) {  //有这个管理员
-                $token = Auth::guard('apiAdmin')->fromUser($admin);
-
-                return $this->responseWithToken($token)->setStatusCode(201);
-            }*/
-
-            return $this->response->errorUnauthorized('用户不存在');
-        }
-
-        if (Auth::guard('api')->once($credentials)) {  //是用户
-            $user = Auth::guard('api')->getUser();
-
-            $token = Auth::guard('api')->fromUser($user);
-            //更新用户信息
-            $this->updateOpenId($attributes['open_id']);
-            $user->update($attributes);
             return $this->responseWithToken($token)->setStatusCode(201);
         }
-
-        /*$adminData['email'] = $request->phone;
-        $adminData['password'] = $request->password;
-        if (Auth::guard('apiAdmin')->once($adminData)) {  //是管理员
-            $admin = Auth::guard('apiAdmin')->getUser();
-
-            $token = Auth::guard('apiAdmin')->fromUser($admin);
-            //更新用户信息
-            $this->updateOpenId($attributes['open_id']);
-            $admin->update($attributes);
-            return $this->responseWithToken($token)->setStatusCode(201);
-        }*/
-
-        return $this->response->errorUnauthorized('用户名或密码错误');
     }
 
     /*
