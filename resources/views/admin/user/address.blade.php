@@ -110,7 +110,12 @@
                                 map.addOverlay(polyline);
                             }
                             var myIcon = new BMap.Icon("/assets/admin/img/user_icon.png", new BMap.Size(48,85));
-                            var label = new BMap.Label(value.entity_name+';上次更新时间：'+UnixToDate(value.latest_location.loc_time), {offset:new BMap.Size(-30,-20)});
+                            if (value.hasOwnProperty('entity_desc')) {
+                                var label = new BMap.Label(value.entity_desc+';上次更新时间：'+UnixToDate(value.latest_location.loc_time), {offset:new BMap.Size(-30,-20)});
+                            } else {
+                                var label = new BMap.Label(value.entity_name+';上次更新时间：'+UnixToDate(value.latest_location.loc_time), {offset:new BMap.Size(-30,-20)});
+                            }
+                            //var label = new BMap.Label(value.entity_name+';上次更新时间：'+UnixToDate(value.latest_location.loc_time), {offset:new BMap.Size(-30,-20)});
                             label.setStyle({ color : "red", fontSize : "15px" });
                             addMarker(point,myIcon,label);
                         }
