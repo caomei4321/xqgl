@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\ProgramUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProgramUsersController extends Controller
 {
@@ -23,9 +24,10 @@ class ProgramUsersController extends Controller
             'title' => $request->title,
             'address' => $request->address,
             'content' => $request->contents,
-            'image' => '11111',
             'from' => 3
         ];
+        $path = Storage::disk('public')->putFile('miniProgramImg',$request->file('image'));
+        $data['image'] = '/storage/' . $path;
 
         $this->user()->matters()->create($data);
 
