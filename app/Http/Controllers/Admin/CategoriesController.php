@@ -24,7 +24,7 @@ class CategoriesController extends Controller
 
     public function store(Request $request, Category $category)
     {
-        $this->rules($request);
+        $this->rules($request, $category);
         $category->fill($request->all());
         $category->save();
 
@@ -39,7 +39,7 @@ class CategoriesController extends Controller
     public function update(Request $request, Category $category)
     {
         if (!$category->getOriginal('name')){
-            $this->rules($request);
+            $this->rules($request, $category);
         }
         $category->update($request->all());
 
