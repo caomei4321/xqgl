@@ -27,6 +27,7 @@ class AlarmsController extends Controller
 
         // 报警信息
         $alarm = $alarm->where('alarm_id', $request->alarmId)->first();
+//        dd($alarm);
         // 网格
         $wangge = DB::table('parts') ->where('num', $alarm->device_serial)->first();
         // 根据网格查找该网格所有的人
@@ -49,15 +50,17 @@ class AlarmsController extends Controller
         }
         if ($ret) {
             DB::commit();
+            return response()->json(['status' => '1', 'msg' => '上传成功']);
         } else {
             DB::rollBack();
+            return response()->json(['status' => '1', 'msg' => '上传成功']);
         }
-        return response()->json(['status' => '1', 'msg' => '上传成功']);
+
     }
 
     // 分配告警任务到人员
     public function userHasAlarms()
-   {
+    {
 
     }
 }
