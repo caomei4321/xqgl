@@ -39,7 +39,6 @@
                             <th>ID</th>
                             <th>任务地址</th>
                             <th>执行人</th>
-                            <th>分类</th>
                             <th>现场处理图片</th>
                             <th>处理信息</th>
                             <th>时间</th>
@@ -52,7 +51,6 @@
                                 <td>{{ $situation->id }}</td>
                                 <td>{{ $situation->matter->address }}</td>
                                 <td>{{ $situation->user->name }}</td>
-                                <td>{{ $situation->category->name }}</td>
                                 <td><image src="{{ $situation->see_image }}"  style="width: 40px;"/></td>
                                 <td>{{ $situation->information }}</td>
                                 <td>{{ $situation->created_at }}</td>
@@ -76,7 +74,6 @@
                             <th>ID</th>
                             <th>任务地址</th>
                             <th>执行人</th>
-                            <th>分类</th>
                             <th>现场处理图片</th>
                             <th>处理信息</th>
                             <th>时间</th>
