@@ -77,6 +77,7 @@ class AuthorizationsController extends Controller
         $miniProgram = \EasyWeChat::miniProgram();
         $data = $miniProgram->auth->session($code);
 
+        return $data;
         if (isset($data['errcode'])) {
             return $this->response->errorUnauthorized('code 不正确');
         }
