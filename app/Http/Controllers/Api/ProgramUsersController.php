@@ -24,7 +24,7 @@ class ProgramUsersController extends Controller
             'title' => $request->title,
             'address' => $request->address,
             'content' => $request->contents,
-            'from' => 3
+            'form' => 3
         ];
         $path = Storage::disk('public')->putFile('miniProgramImg',$request->file('image'));
         $data['image'] = '/storage/' . $path;
@@ -39,7 +39,7 @@ class ProgramUsersController extends Controller
      * */
     public function historyMatters()
     {
-        $matters = $this->user()->matters();
+        $matters = $this->user()->matters()->get();
 
         return $matters;
     }
