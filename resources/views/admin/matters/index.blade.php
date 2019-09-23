@@ -5,6 +5,9 @@
     <link href="{{ asset('assets/admin/css/plugins/dataTables/dataTables.bootstrap.css') }}" rel="stylesheet">
     <!-- Sweet Alert -->
     <link href="{{ asset('assets/admin/css/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="{{ asset('assets/admin/css/plugins/iCheck/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/admin/js/plugins/fancybox/jquery.fancybox.css') }}" rel="stylesheet">
 
 @endsection
 
@@ -128,7 +131,11 @@
                                 <td>{{ $matter->title }}</td>
                                 <td>{{ $matter->address }}</td>
                                 <td>{{ $matter->content }}</td>
-                                <td><image src="{{ $matter->image }}"  style="width: 40px;"/></td>
+                                <td>
+                                    <a class="fancybox" id="img" href="{{ $matter->image }}" >
+                                        <img src="{{ $matter->image }}"  style="width: 40px;" />
+                                    </a>
+                                </td>
                                 <td>
                                     @if( $matter->status  == 0)
                                         <button class="btn btn-sm btn-warning btn-circle" type="button"><i class="fa fa-times"></i>
@@ -167,6 +174,10 @@
                         </tr>
                         </tfoot>
                     </table>
+                    <div id="outerdiv" style="position:fixed;top:135px;left:330px;background:rgba(0,0,0,0);z-index:2;width:100%;height:100%;display:none;">
+                    <div id="innerdiv" style="position:absolute;">
+                        <img id="bigimg" style="border:5px solid #fff;" src="" />
+                    </div>
                 </div>
                 {{ $matters->links() }}
             </div>
@@ -181,11 +192,29 @@
 
     <!-- Sweet alert -->
     <script src="{{ asset('assets/admin/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
+        <!-- iCheck -->
+        <script src="{{ asset('assets/admin/js/plugins/iCheck/icheck.min.js') }}"></script>
+    <!-- Fancy box -->
+    <script src="{{ asset('assets/admin/js/plugins/fancybox/jquery.fancybox.js') }}"></script>
 
 @endsection
 
 @section('javascript')
     <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+            $('.fancybox').fancybox({
+                openEffect: 'none',
+                closeEffect: 'none'
+            });
+            function showImg(){
+                $('#img').click();
+            }
+        });
+
         $('#fp-btn').click(function () {
             $.ajax({
                 headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},

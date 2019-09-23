@@ -1,5 +1,12 @@
 @extends('admin.common.app')
 
+@section('styles')
+    <!-- iCheck -->
+    <link href="{{ asset('assets/admin/css/plugins/iCheck/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/admin/js/plugins/fancybox/jquery.fancybox.css') }}" rel="stylesheet">
+
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-sm-12">
@@ -271,7 +278,10 @@
                                                 <div id="prompt3">
                                                     <input type="file" name="image" class="form-control" id="file" onchange="changepic(this)" accept="image/*">
                                                 </div>
-                                                <img src="{{ old('image', $matter->image) }}" id="img3" style="width: 160px;" />
+                                                <a class="fancybox" id="img" href="{{ $matter->image }}" >
+                                                    <img src="{{ old('image', $matter->image) }}" id="img3"  style="width: 160px;" />
+                                                </a>
+                                                {{--<img src="{{ old('image', $matter->image) }}"  style="width: 160px;" />--}}
                                             </div>
                                         </div>
                                     </div>
@@ -290,8 +300,29 @@
     </div>
 @endsection
 
+@section('scripts')
+    <!-- iCheck -->
+    <script src="{{ asset('assets/admin/js/plugins/iCheck/icheck.min.js') }}"></script>
+    <!-- Fancy box -->
+    <script src="{{ asset('assets/admin/js/plugins/fancybox/jquery.fancybox.js') }}"></script>
+@endsection
+
 @section('javascript')
     <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+            $('.fancybox').fancybox({
+                openEffect: 'none',
+                closeEffect: 'none'
+            });
+            function showImg(){
+                $('#img').click();
+            }
+        });
+
         function changepic() {
             // $("#prompt3").css("display", "none");
             var reads = new FileReader();

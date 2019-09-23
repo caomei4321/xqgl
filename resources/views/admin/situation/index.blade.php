@@ -5,7 +5,9 @@
     <link href="{{ asset('assets/admin/css/plugins/dataTables/dataTables.bootstrap.css') }}" rel="stylesheet">
     <!-- Sweet Alert -->
     <link href="{{ asset('assets/admin/css/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet">
-
+    <!-- iCheck -->
+    <link href="{{ asset('assets/admin/css/plugins/iCheck/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/admin/js/plugins/fancybox/jquery.fancybox.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -51,7 +53,11 @@
                                 <td>{{ $situation->id }}</td>
                                 <td>{{ $situation->matter->address }}</td>
                                 <td>{{ $situation->user->name }}</td>
-                                <td><image src="{{ $situation->see_image }}"  style="width: 40px;"/></td>
+                                <td>
+                                    <a class="fancybox" id="img" href="{{ $situation->see_image }}" >
+                                        <img src="{{ $situation->see_image }}"  style="width: 40px;" />
+                                    </a>
+                                </td>
                                 <td>{{ $situation->information }}</td>
                                 <td>{{ $situation->created_at }}</td>
                                 <td>
@@ -96,10 +102,28 @@
     <!-- Sweet alert -->
     <script src="{{ asset('assets/admin/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
 
+    <!-- iCheck -->
+    <script src="{{ asset('assets/admin/js/plugins/iCheck/icheck.min.js') }}"></script>
+    <!-- Fancy box -->
+    <script src="{{ asset('assets/admin/js/plugins/fancybox/jquery.fancybox.js') }}"></script>
 @endsection
 
 @section('javascript')
     <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+            $('.fancybox').fancybox({
+                openEffect: 'none',
+                closeEffect: 'none'
+            });
+            function showImg(){
+                $('#img').click();
+            }
+        });
+        
         $('.delete').click(function () {
             var id = $(this).data('id');
             swal({
