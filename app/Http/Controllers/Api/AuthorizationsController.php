@@ -89,6 +89,8 @@ class AuthorizationsController extends Controller
         $user = ProgramUser::where('open_id', $attributes['open_id'])->first();
 
         if ($user) {  //有这个用户
+            $user->update($attributes);  // 更新用户信息
+
             $token = Auth::guard('programApi')->fromUser($user);
 
             return $this->responseWithToken($token)->setStatusCode(201);
