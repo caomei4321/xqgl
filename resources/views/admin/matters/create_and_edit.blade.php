@@ -127,7 +127,7 @@
                                         <label class="col-sm-2 control-label">办结时限：</label>
 
                                         <div class="col-sm-6">
-                                            <input name="time_limit"  type="date" class="form-control" value="{{ old('time_limit',$matter->time_limit) }}">
+                                            <input name="time_limit"  type="text" class="form-control" value="{{ old('time_limit',$matter->time_limit) }}">
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>
