@@ -43,4 +43,9 @@ class ProgramUsersController extends Controller
 
         return $matters;
     }
+
+    public function weappUser()
+    {
+        return $this->user();
+    }
 }
