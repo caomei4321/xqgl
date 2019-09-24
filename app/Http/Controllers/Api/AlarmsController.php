@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Handlers\JPushHandler;
 use App\Models\Alarm;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class AlarmsController extends Controller
 {
@@ -21,6 +21,7 @@ class AlarmsController extends Controller
             'device_serial' => $request->deviceSerial,
             'alarm_pic_url' => $request->alarmPicUrl
         ];
+
         DB::beginTransaction();
         $alarm->fill($data);
         $alarm->save();
@@ -62,5 +63,25 @@ class AlarmsController extends Controller
     public function userHasAlarms()
     {
 
+        $data = $this->user()->alarm()->where('alarm_users.status', '0')->orderBy('created_at', 'desc')->get();
+
+        return response()->json($data);
+    }
+
+    // 完成告警任务
+    public function completeAlarm(Request $request, Alarm $alarm)
+    {
+        $path = Storage::disk('public')->putfile('seeImg', $request->file('see_image'));
+        $url = Storage::url($path);
+
+        $data = [
+          'see_image' => $url,
+          'information' => $request->information,
+          'status' => 1,
+          'user_id' => $this->user()->id
+        ];
+        DB::table('alarm_users')->where('alarm_id', $request->id)->update($data);
+//        $res = $alarm->update($data);
+        return $this->response()->accepted('',['msg' => '维修完成']);
     }
 }

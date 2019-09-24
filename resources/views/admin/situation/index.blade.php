@@ -123,7 +123,7 @@
                 $('#img').click();
             }
         });
-        
+
         $('.delete').click(function () {
             var id = $(this).data('id');
             swal({
