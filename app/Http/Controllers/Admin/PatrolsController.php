@@ -37,7 +37,7 @@ class PatrolsController extends Controller
             'start_time' => strtotime($patrol->created_at),
             'end_time'  => $end_at,
             'is_processed' => 1,
-            'process_option' => 'need_denoise=1,radius_threshold=10,need_vacuate=1,need_mapmatch=1,transport_mode=walking'
+            //'process_option' => 'need_denoise=1,radius_threshold=10,need_vacuate=1,need_mapmatch=1,transport_mode=walking'
         ];
         $result = $curl->curl('http://yingyan.baidu.com/api/v3/track/gettrack', $tracksData, false);
 
