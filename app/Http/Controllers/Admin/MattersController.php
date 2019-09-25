@@ -109,7 +109,12 @@ class MattersController extends Controller
         ];
         DB::table('user_has_matters')->insert($allocate);
         $reg_id = DB::table('users')->where('id', $data['user_id'])->value('reg_id');
-        $JPushHandler->testJpush($reg_id);
+        try {
+            $JPushHandler->testJpush($reg_id);
+        }catch (\Exception $exception) {
+            return redirect()->route('admin.matters.index');
+        }
+        
         return redirect()->route('admin.matters.index');
     }
 
