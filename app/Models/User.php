@@ -40,15 +40,6 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function getRoleNameAttribute()
-    {
-        if ($this->role == 1) {
-            return '小区管理员';
-        } else {
-            return '小区住户';
-        }
-    }
-
     public function situation()
     {
         return $this->belongsToMany('App\Models\Matter', 'user_has_matters', 'user_id', 'matter_id')->withPivot('see_image', 'information', 'status');

@@ -53,7 +53,11 @@ class UsersController extends Controller
 
     public function show(User $user)
     {
-        return view('admin.user.show', compact('user'));
+        $matters = $user->situation()->orderBy('id', 'desc')->paginate(15);
+
+        $patrolMatters = $user->patrolMatters()->orderBy('id', 'desc')->paginate(15);
+
+        return view('admin.user.show', compact('user','matters','patrolMatters'));
     }
 
 

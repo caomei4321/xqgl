@@ -172,10 +172,22 @@ class MattersController extends Controller
     public function export(Matter $matter, Excel $excel)
     {
         $matters = $matter->all()->toArray();
-        $cellData = [
-            ['受理员编号','办结时限','工单编号','紧急程度','来电类别','信息来源','是否回复','是否保密','联系人','联系电话','回复备注','问题分类','特办意见','领导批示','办理结果','标题', '地址', '内容', '创建时间']
-        ];
+        $cellData = [];
+        $firstRow = ['受理员编号','办结时限','工单编号','紧急程度','来电类别','信息来源','是否回复','是否保密','联系人','联系电话','回复备注','问题分类','特办意见','领导批示','办理结果','标题', '地址', '内容', '创建时间'];
         foreach ($matters as $matter) {
+
+            if ($matter['is_reply'] == 1) {
+                 $matter['is_reply'] = '是';
+            } else $matter['is_reply'] = '否';
+
+            if ($matter['is_secret'] == 1) {
+                $matter['is_secret'] = '是';
+            } else $matter['is_secret'] = '否';
+
+            $category = Category::find($matter['category_id']);
+
+            $matter['category_id'] = isset($category->name) ? $category->name : '';
+
             $data = [
                 $matter['accept_num'],
                 $matter['time_limit'],
@@ -199,8 +211,9 @@ class MattersController extends Controller
             ];
             array_push($cellData, $data);
         }
-        $excel->create('data', function ($excel) use ($cellData) {
-            $excel->sheet('matter', function ($sheet) use ($cellData) {
+        $excel->create('事件记录', function ($excel) use ($cellData, $firstRow) {
+            $excel->sheet('matter', function ($sheet) use ($cellData, $firstRow) {
+                $sheet->prependRow(1, $firstRow);
                 $sheet->rows($cellData);
             });
         })->store('xls')->export('xls');

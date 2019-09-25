@@ -69,77 +69,92 @@
                             <div class="hr-line-dashed"></div>
                         </form>
                     </div>
-                    {{--<div class="ibox-content">
+                    <div class="ibox-content">
                         <h3>执行任务记录</h3>
                         <table class="table table-striped table-bordered table-hover dataTables-example">
                             <thead>
                             <tr>
                                 <th>任务ID</th>
+                                <th>标题</th>
                                 <th>地点</th>
+                                <th>来源</th>
                                 <th>完成情况</th>
                                 <th>开始时间</th>
                             </tr>
                             </thead>
                             <tbody>
+                            @foreach($matters as  $matter)
                             <tr class="gradeX">
-                                <td>1</td>
-                                <td class="center">xxx街道</td>
-                                <td class="center">已完成</td>
-                                <td class="center"> 2018-07-25 14:03:40</td>
+                                <td>{{ $matter->id }}</td>
+                                <td>{{ $matter->title }}</td>
+                                <td class="center">{{ $matter->address }}</td>
+                                @if($matter->form == 1)
+                                    <td class="center">任务导入</td>
+                                @elseif($matter->form == 3)
+                                    <td class="center">群众上报</td>
+                                @endif
+
+                                @if($matter->status == 1 )
+                                    <td class="center">已查看</td>
+                                @else
+                                    <td class="center">未查看</td>
+                                @endif
+                                <td class="center">{{ $matter->created_at }}</td>
                             </tr>
-                            <tr class="gradeX">
-                                <td>1</td>
-                                <td class="center">xxx街道</td>
-                                <td class="center">已完成</td>
-                                <td class="center"> 2018-07-26 13:03:40</td>
-                            </tr>
-                            <tr class="gradeX">
-                                <td>1</td>
-                                <td class="center">xxx街道</td>
-                                <td class="center">已完成</td>
-                                <td class="center"> 2018-07-27 14:243:40</td>
-                            </tr>
-                            <tr class="gradeX">
-                                <td>1</td>
-                                <td class="center">xxx街道</td>
-                                <td class="center">已完成</td>
-                                <td class="center"> 2018-07-28 18:45:40</td>
-                            </tr>
-                            <tr class="gradeX">
-                                <td>1</td>
-                                <td class="center">xxx街道</td>
-                                <td class="center">已完成</td>
-                                <td class="center"> 2018-07-30 12:03:44</td>
-                            </tr>
-                            <tr class="gradeX">
-                                <td>1</td>
-                                <td class="center">xxx街道</td>
-                                <td class="center">已完成</td>
-                                <td class="center"> 2018-08-5 12:03:40</td>
-                            </tr>
-                            <tr class="gradeX">
-                                <td>1</td>
-                                <td class="center">xxx街道</td>
-                                <td class="center">已完成</td>
-                                <td class="center"> 2018-08-6 09:45:40</td>
-                            </tr>
-                            <tr class="gradeX">
-                                <td>1</td>
-                                <td class="center">xxx街道</td>
-                                <td class="center">已完成</td>
-                                <td class="center"> 2018-08-25 14:03:40</td>
-                            </tr>
+                            @endforeach
                             </tbody>
                             <tfoot>
                             <tr>
                                 <th>任务ID</th>
+                                <th>标题</th>
                                 <th>地点</th>
+                                <th>来源</th>
                                 <th>完成情况</th>
                                 <th>开始时间</th>
                             </tr>
                             </tfoot>
                         </table>
-                    </div>--}}
+                        {{ $matters->links() }}
+                    </div>
+                    <div class="ibox-content">
+                        <h3>发现问题记录</h3>
+                        <table class="table table-striped table-bordered table-hover dataTables-example">
+                            <thead>
+                            <tr>
+                                <th>问题ID</th>
+                                <th>标题</th>
+                                <th>描述</th>
+                                <th>处理情况</th>
+                                <th>开始时间</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($patrolMatters as  $patrolMater)
+                                <tr class="gradeX">
+                                    <td>{{ $patrolMater->id }}</td>
+                                    <td>{{ $patrolMater->title }}</td>
+                                    <td class="center">{{ $patrolMater->content }}</td>
+                                    @if($patrolMater->status == 1)
+                                        <td class="center">处理完成</td>
+                                    @elseif($patrolMater->status == 0)
+                                        <td class="center">未处理完成</td>
+                                    @endif
+                                    <td class="center">{{ $matter->created_at }}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>问题ID</th>
+                                <th>标题</th>
+                                <th>描述</th>
+                                <th>处理情况</th>
+                                <th>开始时间</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                        {{ $patrolMatters->links() }}
+                    </div>
                 </div>
             </div>
         </div>
