@@ -6,6 +6,7 @@ use App\Handlers\Curl;
 use App\Models\Patrol;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Excel;
 
 class PatrolsController extends Controller
 {
@@ -36,7 +37,7 @@ class PatrolsController extends Controller
             'start_time' => strtotime($patrol->created_at),
             'end_time'  => $end_at,
             'is_processed' => 1,
-            'process_option' => 'need_denoise=1,radius_threshold=10,need_vacuate=1,need_mapmatch=1,transport_mode=walking'
+            //'process_option' => 'need_denoise=1,radius_threshold=10,need_vacuate=1,need_mapmatch=1,transport_mode=walking'
         ];
         $result = $curl->curl('http://yingyan.baidu.com/api/v3/track/gettrack', $tracksData, false);
 
@@ -52,5 +53,30 @@ class PatrolsController extends Controller
     {
         $patrol->delete();
         return response()->json(['status' => 1, 'msg' => '删除成功']);
+    }
+
+    // 导出
+    public function export(Patrol $patrol, Excel $excel)
+    {
+        $patrols = $patrol->all();
+        $cellData = [];
+        $firstRow = ['姓名','发现问题数量','开始时间','结束时间'];
+        foreach ($patrols as $patrol) {
+
+            //dd($patrol->patrol_matter);
+            $data = [
+                $patrol->user->name,
+                $patrol->patrol_matter()->count(),
+                $patrol->created_at,
+                $patrol->end_at
+            ];
+            array_push($cellData, $data);
+        }
+        $excel->create('巡查记录', function ($excel) use ($cellData, $firstRow) {
+            $excel->sheet('matter', function ($sheet) use ($cellData, $firstRow) {
+                $sheet->prependRow(1, $firstRow);
+                $sheet->rows($cellData);
+            });
+        })->export('xls');
     }
 }

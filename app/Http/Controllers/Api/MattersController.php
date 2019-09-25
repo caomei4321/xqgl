@@ -110,9 +110,9 @@ class MattersController extends Controller
         $imagePath = '/storage/' . $imgname;
 
         if ($request->result === 1) {  // result 1表示处理完成，0表示无权处理
-            $status = 2;
-        } else {
             $status = 1;
+        } else {
+            $status = 2;
         }
 
         $situation->update([
