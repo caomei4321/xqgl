@@ -127,7 +127,7 @@
                                         <label class="col-sm-2 control-label">办结时限：</label>
 
                                         <div class="col-sm-6">
-                                            <input name="time_limit"  type="date" class="form-control" value="{{ old('time_limit',$matter->time_limit) }}">
+                                            <input name="time_limit"  type="text" class="form-control" value="{{ old('time_limit',$matter->time_limit) }}">
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>
@@ -167,10 +167,7 @@
                                         <label class="col-sm-2 control-label">是否回复：</label>
 
                                         <div class="col-sm-6">
-                                            <select name="is_reply" class="form-control" id="">
-                                                <option value="0" {{ $matter->is_reply == 0 ? 'selected': '' }}>未回复</option>
-                                                <option value="1" {{ $matter->is_reply == 1 ? 'selected': '' }}>已回复</option>
-                                            </select>
+                                            <input name="is_reply"  type="text" class="form-control" value="{{ old('is_reply',$matter->is_reply) }}">
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>
@@ -178,10 +175,7 @@
                                         <label class="col-sm-2 control-label">是否保密：</label>
 
                                         <div class="col-sm-6">
-                                            <select name="is_secret" class="form-control" id="">
-                                                <option value="0" {{ $matter->is_secret == 0 ? 'selected': '' }}>公开</option>
-                                                <option value="1" {{ $matter->is_secret == 1 ? 'selected': '' }}>保密</option>
-                                            </select>
+                                            <input name="is_secret"  type="text" class="form-control" value="{{ old('is_secret',$matter->is_secret) }}">
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>
@@ -281,7 +275,6 @@
                                                 <a class="fancybox" id="img" href="{{ $matter->image }}" >
                                                     <img src="{{ old('image', $matter->image) }}" id="img3"  style="width: 160px;" />
                                                 </a>
-                                                {{--<img src="{{ old('image', $matter->image) }}"  style="width: 160px;" />--}}
                                             </div>
                                         </div>
                                     </div>

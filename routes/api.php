@@ -68,6 +68,12 @@ $api->version('v1', [
 
         $api->post('startAndEndPatrol', 'PatrolController@startAndEndPatrol');  //开始和结束巡逻
 
+        // 警报 alarm
+        $api->post('alarm', 'AlarmsController@alarm');  // 摄像头告警
+        $api->get('userHasAlarms', 'AlarmsController@userHasAlarms');   // 告警任务派发列表
+        $api->post('completeAlarm', 'AlarmsController@completeAlarm');  // 告警完成
+
+
     });
 
     $api->group(['middleware' => 'auth:programApi'], function ($api) {
@@ -77,7 +83,5 @@ $api->version('v1', [
     });
 
 
-    // 警报 alarm
-    $api->post('alarm', 'AlarmsController@alarm');
 
 });

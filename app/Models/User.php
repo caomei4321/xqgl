@@ -55,4 +55,9 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Patrol::class);
     }
 
+    public function alarm()
+    {
+        return $this->belongsToMany('App\Models\Alarm', 'alarm_users', 'user_id', 'alarm_id')->withPivot('see_image', 'information', 'status');
+    }
+
 }

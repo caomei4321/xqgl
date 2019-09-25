@@ -109,7 +109,12 @@ class MattersController extends Controller
         ];
         DB::table('user_has_matters')->insert($allocate);
         $reg_id = DB::table('users')->where('id', $data['user_id'])->value('reg_id');
-        $JPushHandler->testJpush($reg_id);
+        try {
+            $JPushHandler->testJpush($reg_id);
+        }catch (\Exception $exception) {
+            return redirect()->route('admin.matters.index');
+        }
+
         return redirect()->route('admin.matters.index');
     }
 
@@ -230,37 +235,60 @@ class MattersController extends Controller
                 $reader = $reader->getSheet(0);
                 $result = $reader->toArray();
 //                unset($result[0]);    // 删除表头
-                $allDate = [];
-                $value = [];
-                $count = '';
-//                dd($result);
-                foreach ($result as $k => $v) {
-                    $count++;
-                    $value['accept_num'] = $v['0'];
-                    $value['time_limit'] = $v['1'];
-                    $value['work_num'] = $v['2'];
-                    $value['level'] = $v['3'];
-                    $value['type'] = $v['4'];
-                    $value['source'] = $v['5'];
-                    $value['is_reply'] = $v['6'];
-                    $value['is_secret'] = $v['7'];
-                    $value['contact_name'] = $v['8'];
-                    $value['contact_phone'] = $v['9'];
-                    $value['reply_remark'] = $v['10'];
-                    $value['category_id'] = $v['11'];
-                    $value['suggestion'] = $v['12'];
-                    $value['approval'] = $v['13'];
-                    $value['result'] = $v['14'];
-                    $value['title'] = $v['15'];
-                    $value['address'] = $v['16'];
-                    $value['content'] = $v['17'];
-                    $value['created_at'] = date('Y-m-d H:i:s', time());
-                    $value['updated_at']= date('Y-m-d H:i:s', time());
-                    if ($value['title'] && $value['address'] && $value['content']) {
-                        array_push($allDate, $value);
-                    }
-                }
-                DB::table('matters')->insert($allDate);
+                $excelData = [
+                    'title' => $result[0][0],
+                    'accept_num' => intval($result[3][1]),
+                    'time_limit' => $result[3][3],
+                    'work_num' => intval($result[4][1]),
+                    'level' => intval($result[4][3]),
+                    'type' => intval($result[5][1]),
+                    'source' => $result[5][3],
+                    'is_reply' => $result[6][1],
+                    'is_secret' => $result[6][3],
+                    'contact_name' => $result[7][1],
+                    'contact_phone' => number_format($result[7][3],0,'',''),
+                    'address' => $result[8][1],
+                    'reply_remark' => $result[9][1],
+                    'category_id' => intval($result[10][1]),
+                    'content' => $result[11][1],
+                    'suggestion' => $result[12][1],
+                    'approval' => $result[13][1],
+                    'result' => $result[14][1],
+                    'created_at' => date('Y-m-d H:i:s', time()),
+                    'updated_at' => date('Y-m-d H:i:s', time()),
+
+                ];
+                DB::table('matters')->insert($excelData);
+//                $allDate = [];
+//                $value = [];
+//                $count = '';
+//                foreach ($result as $k => $v) {
+//                    $count++;
+//                    $value['accept_num'] = $v['0'];
+//                    $value['time_limit'] = $v['1'];
+//                    $value['work_num'] = $v['2'];
+//                    $value['level'] = $v['3'];
+//                    $value['type'] = $v['4'];
+//                    $value['source'] = $v['5'];
+//                    $value['is_reply'] = $v['6'];
+//                    $value['is_secret'] = $v['7'];
+//                    $value['contact_name'] = $v['8'];
+//                    $value['contact_phone'] = $v['9'];
+//                    $value['reply_remark'] = $v['10'];
+//                    $value['category_id'] = $v['11'];
+//                    $value['suggestion'] = $v['12'];
+//                    $value['approval'] = $v['13'];
+//                    $value['result'] = $v['14'];
+//                    $value['title'] = $v['15'];
+//                    $value['address'] = $v['16'];
+//                    $value['content'] = $v['17'];
+//                    $value['created_at'] = date('Y-m-d H:i:s', time());
+//                    $value['updated_at']= date('Y-m-d H:i:s', time());
+//                    if ($value['title'] && $value['address'] && $value['content']) {
+//                        array_push($allDate, $value);
+//                    }
+//                }
+//                DB::table('matters')->insert($allDate);
             });
         }catch (\Exception $e) {
             return redirect()->route('admin.matters.index')->withErrors('导入失败，请选择正确的文件和按正确的文件填写方式导入');
@@ -307,5 +335,5 @@ class MattersController extends Controller
         $data = $request->all();
         return response()->json(['status' => 1, 'msg' => $data]);
     }
-
+    
 }
