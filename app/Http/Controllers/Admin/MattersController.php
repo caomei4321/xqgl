@@ -114,7 +114,7 @@ class MattersController extends Controller
         }catch (\Exception $exception) {
             return redirect()->route('admin.matters.index');
         }
-        
+
         return redirect()->route('admin.matters.index');
     }
 
@@ -322,5 +322,5 @@ class MattersController extends Controller
         $data = $request->all();
         return response()->json(['status' => 1, 'msg' => $data]);
     }
-
+    
 }
