@@ -45,15 +45,17 @@ class SituationsController extends Controller
 
         $excel->create('list', function ($excel) use ($data) {
             $excel->sheet('list', function ($sheet) use ($data) {
-                $drawing = new \PHPExcel_Worksheet_Drawing();
-                $drawing->setName('image');
-                $drawing->setDescription('image');
-                $drawing->setPath(public_path($data['see_image']));
-                $drawing->setCoordinates('F15');
-                $drawing->setHeight(80);
-                $drawing->setOffsetX(1);
-                $drawing->setRotation(1);
-                $drawing->setWorksheet($sheet);
+                if ($data['see_image']) {
+                    $drawing = new \PHPExcel_Worksheet_Drawing();
+                    $drawing->setName('image');
+                    $drawing->setDescription('image');
+                    $drawing->setPath(public_path($data['see_image']));
+                    $drawing->setCoordinates('F15');
+                    $drawing->setHeight(80);
+                    $drawing->setOffsetX(1);
+                    $drawing->setRotation(1);
+                    $drawing->setWorksheet($sheet);
+                }
                 $sheet->loadView('admin/situation/export')->with('data', $data);
                 $sheet->setFontSize(10);
             });
