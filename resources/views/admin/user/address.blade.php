@@ -84,29 +84,33 @@
                 url: '/admin/users/ajaxAddress',
                 async: false,
                 success:function (res) {
-                    console.log(res);
+                    //console.log(res);
                     map.clearOverlays();
                     $.each(res,function (index,value) {
 
                         //entityList.push(value.entity_name);
                         if(value.latest_location){  // 如果有最新轨迹点信息则标注
                             var point = new BMap.Point(value.latest_location.longitude, value.latest_location.latitude);
+                            // 如果points数组已经有值则直接push，没有则先创建数组再push
                             if (points.hasOwnProperty(index)) {
-                                points[index].push(point);
+                                points[index]['point'].push(point);
                             } else {
                                 points[index] = [];
-                                points[index].push(point);
+                                points[index]['color'] = getColor();
+                                points[index]['point'] = [];
+                                points[index]['point'].push(point);
                             }
 
-                            if (points[index].length > 1) {
+                            if (points[index]['point'].length > 1) {
                                 //console.log(points[index]);
-                                var polyline = new BMap.Polyline(points[index], {
+                                var polyline = new BMap.Polyline(points[index]['point'], {
                                     enableEditing: false,
                                     enableClicking: true,
                                     strokeWeight: '5',
                                     strokeOpacity: '0.5',
-                                    strokeColor: "red"
+                                    strokeColor: points[index]['color']
                                 });
+                                console.log(points[index]['color'])
                                 map.addOverlay(polyline);
                             }
                             var myIcon = new BMap.Icon("/assets/admin/img/user_icon.png", new BMap.Size(48,85));
@@ -118,6 +122,7 @@
                             //var label = new BMap.Label(value.entity_name+';上次更新时间：'+UnixToDate(value.latest_location.loc_time), {offset:new BMap.Size(-30,-20)});
                             label.setStyle({ color : "red", fontSize : "15px" });
                             addMarker(point,myIcon,label);
+                            console.log(points);
                         }
                     });
                     //console.log(points);
@@ -280,6 +285,23 @@
                 ymdhis += (time.getUTCSeconds() < 10 ? "0" + time.getUTCSeconds() : time.getUTCSeconds());
             }
             return ymdhis;
+        }
+
+        // 随机颜色
+        function getColor(){
+            //定义字符串变量colorValue存放可以构成十六进制颜色值的值
+            var colorValue="0,1,2,3,4,5,6,7,8,9,a,b,c,d,e,f";
+            //以","为分隔符，将colorValue字符串分割为字符数组["0","1",...,"f"]
+            var colorArray = colorValue.split(",");
+            var color="#";//定义一个存放十六进制颜色值的字符串变量，先将#存放进去
+            //使用for循环语句生成剩余的六位十六进制值
+            for(var i=0;i<6;i++){
+                //colorArray[Math.floor(Math.random()*16)]随机取出
+                // 由16个元素组成的colorArray的某一个值，然后将其加在color中，
+                //字符串相加后，得出的仍是字符串
+                color+=colorArray[Math.floor(Math.random()*16)];
+            }
+            return color;
         }
 
     </script>
