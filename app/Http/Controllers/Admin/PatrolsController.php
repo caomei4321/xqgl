@@ -39,14 +39,30 @@ class PatrolsController extends Controller
             'is_processed' => 1,
             //'process_option' => 'need_denoise=1,radius_threshold=10,need_vacuate=1,need_mapmatch=1,transport_mode=walking'
         ];
-        $result = $curl->curl('http://yingyan.baidu.com/api/v3/track/gettrack', $tracksData, false);
+        $tracks = $curl->curl('http://yingyan.baidu.com/api/v3/track/gettrack', $tracksData, false);
 
-        $tracks = json_decode($result);
+        $tracks = json_decode($tracks);
 
         $tracks->distance = isset($tracks->distance) ? substr($tracks->distance/1000, '0','4').'km' : 0 .'km';
 
+        // 查询纠偏后的轨迹
+        $processTracksData = [
+            'ak' => env('BAIDU_MAP_AK',''),
+            'service_id' => env('BAIDU_MAP_SERVICE_ID', ''),
+            'mcode'     => env('BAIDU_MAP_MCODE'),
+            'entity_name' => $entity_name,
+            'start_time' => strtotime($patrol->created_at),
+            'end_time'  => $end_at,
+            'is_processed' => 1,
+            'process_option' => 'need_denoise=1,radius_threshold=10,need_vacuate=1,need_mapmatch=1,transport_mode=walking'
+        ];
+        $processTracks = $curl->curl('http://yingyan.baidu.com/api/v3/track/gettrack', $processTracksData, false);
+
+        $processTracks = json_decode($processTracks);
+
+
         $patrolMatters = $patrol->patrol_matter()->get();
-        return view('admin.patrol.show', compact('patrol','patrolMatters',  'tracks'));
+        return view('admin.patrol.show', compact('patrol','patrolMatters',  'tracks', 'processTracks'));
     }
 
     public function destroy(Patrol $patrol)
