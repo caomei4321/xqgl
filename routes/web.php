@@ -149,6 +149,7 @@ Route::group(['prefix' => 'admin'], function () {
             'update'    =>  'admin.situations.update',
             'destroy'   =>  'admin.situations.destroy',
         ]);
+        Route::get('situationsExport', 'Admin\SituationsController@export')->name('admin.situations.export');
 
 
         // 网格划分图

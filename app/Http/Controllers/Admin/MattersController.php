@@ -335,5 +335,4 @@ class MattersController extends Controller
         $data = $request->all();
         return response()->json(['status' => 1, 'msg' => $data]);
     }
-    
 }
