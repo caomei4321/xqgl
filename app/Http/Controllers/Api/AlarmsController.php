@@ -46,9 +46,9 @@ class AlarmsController extends Controller
         }
         $ret = DB::table('alarm_users')->insert($info);
         // 推送
-        foreach ($users as $value) {
-            $JPushHandler->testJpush($value->reg_id);
-        }
+//        foreach ($users as $value) {
+//            $JPushHandler->testJpush($value->reg_id);
+//        }
         if ($ret) {
             DB::commit();
             return response()->json(['status' => '1', 'msg' => '上传成功']);
