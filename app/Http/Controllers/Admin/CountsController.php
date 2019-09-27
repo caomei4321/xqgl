@@ -13,13 +13,16 @@ class CountsController extends Controller
 {
     public function index(Situation  $situation)
     {
-        $situations = Situation::with(['Matter', 'User'])->where('status', '>', '0')->whereBetween('updated_at', [date('Y-m-d 00:00:00', time()), date('Y-m-d H:s:i', time())])->paginate(10);
-        $all = count($situation->whereBetween('updated_at', [date('Y-m-d 00:00:00', time()), date('Y-m-d H:s:i', time())])->get());
-        return view('admin.count.index', compact('situations', 'all'));
+        // 今日未完成任务
+        $unfinished = DB::table('user_has_matters')->where('status', '0')->whereBetween('updated_at', [date('Y-m-d 00:00:00', time()), date('Y-m-d H:s:i', time())])->count();
+        // 今日所有任务
+        $all = DB::table('user_has_matters')->whereBetween('updated_at', [date('Y-m-d 00:00:00', time()), date('Y-m-d H:s:i', time())])->count();
+        // 总任务
+        $AllMatter = $this->allMatter();
+        return view('admin.count.index', compact('unfinished', 'all', 'AllMatter'));
     }
-
-    // 任务量
-    public function allMatters()
+    // 总任务量
+    public function allMatter()
     {
         $all = DB::table('user_has_matters')->count();
         $unfinish = DB::table('user_has_matters')->where('status', '0')->count();
@@ -28,8 +31,9 @@ class CountsController extends Controller
             'unfinished' => $unfinish,
             'finished' => $all - $unfinish
         ];
-        return response()->json($data);
+        return $data;
     }
+
 
     // 巡查总量
     public function guiJi(Patrol $patrol, User $user)
