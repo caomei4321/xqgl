@@ -7,6 +7,8 @@
     <link href="{{ asset('assets/admin/js/plugins/fancybox/jquery.fancybox.css') }}" rel="stylesheet">
 
     <link href="{{ asset('assets/admin/css/animate.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('assets/admin/css/plugins/blueimp/css/blueimp-gallery.min.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -137,6 +139,9 @@
     <!-- Fancy box -->
     <script src="{{ asset('assets/admin/js/plugins/fancybox/jquery.fancybox.js') }}"></script>
 
+    <!-- blueimp gallery -->
+    <script src="{{ asset('assets/admin/js/plugins/blueimp/jquery.blueimp-gallery.min.js') }}"></script>
+
     <!-- 百度地图js -->
     <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=F6subxg8j4A1f28mhgryfUs0dxO8PQ8o"></script>
 @endsection
@@ -216,15 +221,19 @@
                 markers[{{ $loop->index }}] = new BMap.Marker(point,{icon:myIcon});  // 创建标注
                 map.addOverlay(markers[{{ $loop->index }}]);              // 将标注添加到地图中
 
+                var patrolTitle = "{{ $patrolMatter->title }}";
+                var patrolContent = "{{ $patrolMatter->content }}";
                 var patrolImg = "{{ $patrolMatter->image }}";
                 var patrolTime = "{{ $patrolMatter->created_at }}";
 
 
                 //窗口信息
                 sContent[{{ $loop->index }}] =
-                    "<h4 style='margin-left: 13px; margin-bottom: 5px;'>"+ "处理记录" +" </h4>" +
-                    "<img style='float: right;' id='patrol_img' src='" + patrolImg + "' width='139' height='104' title='处理记录'/>" +
-                    "<p style='margin: 0 12px; font-size: 12px; color: rgb(77,77,77);'>"+"处理时间："+  patrolTime +"</p>" +
+                    "<h4 style='margin-left: 13px; margin-bottom: 5px;'>"+ "处理记录" +" </h4></br>" +
+                    "<span style='margin: 0 12px;'>事件标题 :" + patrolTitle + "</span></br>" +
+                    "<p style='margin: 0 12px; font-size: 12px; color: rgb(77,77,77);'>"+"处理时间："+  patrolTime +"</p></br>" +
+                    "<p style='margin: 0 12px; font-size: 12px; color: rgb(77,77,77);'>"+"问题描述："+  patrolContent +"</p></br>" +
+                    "<img style='float: right;' id='patrol_img' src='" + patrolImg + "' width='300' title='处理记录'/>" +
                     "<p style=' margin: 0 12px;font-size: 12px; color: rgb(127,127,127); overflow: hidden;text-overflow: ellipsis;'>";
                 infoWindow[{{ $loop->index }}] = new BMap.InfoWindow(sContent[{{ $loop->index }}]);  // 创建信息窗口对象
 
@@ -298,16 +307,20 @@
                 processMarkers[{{ $loop->index }}] = new BMap.Marker(point,{icon:myIcon});  // 创建标注
                 processMap.addOverlay(processMarkers[{{ $loop->index }}]);              // 将标注添加到地图中
 
+                var patrolTitle = "{{ $patrolMatter->title }}";
+                var patrolContent = "{{ $patrolMatter->content }}";
                 var patrolImg = "{{ $patrolMatter->image }}";
                 var patrolTime = "{{ $patrolMatter->created_at }}";
 
-
                 //窗口信息
                 processContent[{{ $loop->index }}] =
-                    "<h4 style='margin-left: 13px; margin-bottom: 5px;'>"+ "处理记录" +" </h4>" +
-                    "<img style='float: right;' id='patrol_img' src='" + patrolImg + "' width='139' height='104' title='处理记录'/>" +
-                    "<p style='margin: 0 12px; font-size: 12px; color: rgb(77,77,77);'>"+"处理时间："+  patrolTime +"</p>" +
+                    "<h4 style='margin-left: 13px; margin-bottom: 5px;'>"+ "处理记录" +" </h4></br>" +
+                    "<span style='margin: 0 12px;'>事件标题 :" + patrolTitle + "</span></br>" +
+                    "<p style='margin: 0 12px; font-size: 12px; color: rgb(77,77,77);'>"+"处理时间："+  patrolTime +"</p></br>" +
+                    "<p style='margin: 0 12px; font-size: 12px; color: rgb(77,77,77);'>"+"问题描述："+  patrolContent +"</p></br>" +
+                    "<img style='float: right;' id='patrol_img' src='" + patrolImg + "' width='300' title='处理记录'/>" +
                     "<p style=' margin: 0 12px;font-size: 12px; color: rgb(127,127,127); overflow: hidden;text-overflow: ellipsis;'>";
+
                 processInfoWindow[{{ $loop->index }}] = new BMap.InfoWindow(processContent[{{ $loop->index }}]);  // 创建信息窗口对象
 
                 // 监听标注点击事件
