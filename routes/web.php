@@ -198,7 +198,6 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('count', 'Admin\CountsController@index')->name('admin.counts.index');
         Route::get('allMatters', 'Admin\CountsController@allMatters')->name('admin.counts.allMatters');
         Route::get('guiJi', 'Admin\CountsController@guiJi')->name('admin.counts.guiJi');
-        Route::get('everyUserDay', 'Admin\CountsController@everyUserDay')->name('admin.counts.everyUserDay');
 
     });
 
