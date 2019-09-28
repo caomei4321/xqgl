@@ -194,9 +194,12 @@ Route::group(['prefix' => 'admin'], function () {
             'destroy'   =>  'admin.programUsers.destroy',
         ]);
 
-
+        // 统计
         Route::get('count', 'Admin\CountsController@index')->name('admin.counts.index');
+
         Route::get('guiJi', 'Admin\CountsController@guiJi')->name('admin.counts.guiJi');
+
+        Route::get('allUserPatrol', 'Admin\CountsController@allUserPatrol')->name('admin.counts.allUserPatrol');
 
     });
 

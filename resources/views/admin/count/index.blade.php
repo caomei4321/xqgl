@@ -131,63 +131,82 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>记录</h5>
-                    <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
-                        </a>
-                    </div>
+                    <h5>在巡查人员</h5>
                 </div>
-                <div class="ibox-content">
-                    <div id="guiJi" style="height:330px;"></div>
-                    <script type="text/javascript">
-                        window.onload = guiJi();
-                        function guiJi(){
-                            $.ajax({
-                                type: 'get',
-                                url: '{{url('admin/guiJi')}}',
-                                dataType: 'json',
-                                success: function (data) {
-                                    console.log(data);
-                                    var name = [];
-                                    var number = [];
-                                    for (var key in data) {
-                                        var name2 = key;
-                                        name.push(name2);
-                                        var number2 = data[key];
-                                        number.push(number2);
-                                    }
-                                    console.log(name);
-                                    console.log(number);
-                                    // {all: 16, unfinish: 15, finish: 1}
-                                    // 基于准备好的dom，初始化echarts实例
-                                    var myChart = echarts.init(document.getElementById('guiJi'));
-                                    // 指定图表的配置项和数据
+                <div class="ibox-content" style="height: 400px;">
+                    <div class="col-sm-12">
+                        <div class="flot-chart-content" id="allUserPatrol"></div>
+                        <script type="text/javascript">
+                            window.onload = allUserPatrol();
+                            function allUserPatrol(){
+                                $.ajax({
+                                    type: 'get',
+                                    url: '{{url('admin/allUserPatrol')}}',
+                                    dataType: 'json',
+                                    success: function (data) {
+                                        console.log(data);
+                                        var nameArray = [];
+                                        var timeArray = [];
+                                        for (var i= 0; i<data.length; i++) {
+                                            var name2 = data[i].ms == '' ? data[i].sbh : data[i].ms;
+                                            nameArray.push(name2);
+                                            var time2 = data[i].time;
+                                            timeArray.push(time2);
+                                        }
+                                        var uniqueNameArray = nameArray.filter(function (element, index, self) {
+                                            return self.indexOf(element) === index;
+                                        });
+                                        var uniqueTimeArray = timeArray.filter(function (element, index, self) {
+                                            return self.indexOf(element) === index;
+                                        });
+                                        var seriesData = [];
+                                        for (var i = 0; i<nameArray.length; i++) {
+                                            var dataArray = [];
+                                            for (var j = 0; j<timeArray.length; j++) {
+                                                if ( i==j ){
+                                                    dataArray[0] = nameArray[i];
+                                                    dataArray[1] = timeArray[i];
+                                                    seriesData.push(dataArray);
+                                                }
+                                            }
+                                        }
+                                        console.log(seriesData);
+                                        // {all: 16, unfinish: 15, finish: 1}
+                                        // 基于准备好的dom，初始化echarts实例
+                                        var myChart = echarts.init(document.getElementById('allUserPatrol'));
+                                        // 指定图表的配置项和数据
 
-                                    option = {
-                                        xAxis: {
-                                            type: 'category',
-                                            data: name
-                                        },
-                                        yAxis: {
-                                            type: 'value'
-                                        },
-                                        series: [{
-                                            data: number,
-                                            type: 'line'
-                                        }]
-                                    };
+                                        option = {
+                                            xAxis: {
+                                                data: uniqueNameArray
+                                            },
+                                            yAxis: {
+                                                data: uniqueTimeArray
+                                            },
+                                            tooltip : {
+                                                trigger: 'item',
+                                                formatter: "{c}"
+                                            },
+                                            legend: {
+                                                orient: 'vertical',
+                                                left: 'left',
+                                                data: timeArray
+                                            },
+                                            series: [{
+                                                symbolSize: 20,
+                                                data: seriesData,
+                                                type: 'scatter'
+                                            }]
+                                        };
 
-                                    // 使用刚指定的配置项和数据显示图表。
-                                    myChart.setOption(option);
+                                        // 使用刚指定的配置项和数据显示图表。
+                                        myChart.setOption(option);
 
-                                },
-                            });
-                        }
-                    </script>
+                                    },
+                                });
+                            }
+                        </script>
+                    </div>
                 </div>
             </div>
         </div>
@@ -200,7 +219,5 @@
 @endsection
 
 @section('javascript')
-    <script>
 
-    </script>
 @endsection
