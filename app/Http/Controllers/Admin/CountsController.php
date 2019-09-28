@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class CountsController extends Controller
 {
-    public function index(Situation  $situation)
+    public function index(Situation  $situation, Patrol $patrol)
     {
         // 今日未完成任务
         $unfinished = DB::table('user_has_matters')->where('status', '0')->whereBetween('updated_at', [date('Y-m-d 00:00:00', time()), date('Y-m-d H:s:i', time())])->count();
@@ -36,7 +36,7 @@ class CountsController extends Controller
     }
 
     // 总人数在巡查
-    public function allUserPatrol(Curl $curl)
+    public function allUserPatrols(Curl $curl)
     {
         $data = [
             'ak' => env('BAIDU_MAP_AK',''),
@@ -52,7 +52,7 @@ class CountsController extends Controller
                 [
                     'sbh' => '63cebe085ca51e6c',
                     'ms' => '小骆',
-                    'time' => '2019-09-27 13:19:18'
+                    'time' => '2019-09-27 13:19:18',
                 ],
                 [
                     'sbh' => '5dfed1ade92f7fb1',
@@ -81,7 +81,8 @@ class CountsController extends Controller
                 [
                     'sbh' => '63cebe085ca51e6c',
                     'ms' => '小骆',
-                    'time' => '2019-09-27 13:19:18'
+                    'time' => '2019-09-27 13:19:18',
+                    'time2' => '2019-09-27 14:19:18'
                 ],
                 [
                     'sbh' => '5dfed1ade92f7fb1',
@@ -91,7 +92,8 @@ class CountsController extends Controller
                 [
                     'sbh' => '059f7a2ea9a07319',
                     'ms' => '邵琴',
-                    'time' => '2019-09-27 14:43:42'
+                    'time' => '2019-09-27 14:43:42',
+                    'time2' => '2019-09-27 15:19:18'
                 ],
                 [
                     'sbh' => '469229d2d97e5928',
@@ -106,6 +108,24 @@ class CountsController extends Controller
             ];
             return response()->json($entities);
         }
+    }
+
+    public function allUserPatrol(Patrol $patrol)
+    {
+        $patrols = $patrol->select('user_id', 'end_at', 'created_at')->whereBetween('created_at', [date('Y-m-d 00:00:00', time()), date('Y-m-d H:i:s', time())])->get();
+        $info = [];
+        foreach ($patrols as $patrol) {
+            $data = [
+                'name'=> $patrol->user->name,
+                'created_at' => $patrol->created_at->toDateTimeString(),
+                'end_at' => $patrol->end_at
+            ];
+            if (!$data['end_at']) {
+                array_push($info, $data);
+            }
+        }
+        return response()->json($info);
+
     }
 
 

@@ -131,7 +131,7 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>在巡查人员</h5>
+                    <h5>正在巡查人员</h5>
                 </div>
                 <div class="ibox-content" style="height: 400px;">
                     <div class="col-sm-12">
@@ -148,9 +148,9 @@
                                         var nameArray = [];
                                         var timeArray = [];
                                         for (var i= 0; i<data.length; i++) {
-                                            var name2 = data[i].ms == '' ? data[i].sbh : data[i].ms;
+                                            var name2 = data[i].name;
                                             nameArray.push(name2);
-                                            var time2 = data[i].time;
+                                            var time2 = data[i].created_at;
                                             timeArray.push(time2);
                                         }
                                         var uniqueNameArray = nameArray.filter(function (element, index, self) {
@@ -165,12 +165,11 @@
                                             for (var j = 0; j<timeArray.length; j++) {
                                                 if ( i==j ){
                                                     dataArray[0] = nameArray[i];
-                                                    dataArray[1] = timeArray[i];
+                                                    dataArray[1] = timeArray[j];
                                                     seriesData.push(dataArray);
                                                 }
                                             }
                                         }
-                                        console.log(seriesData);
                                         // {all: 16, unfinish: 15, finish: 1}
                                         // 基于准备好的dom，初始化echarts实例
                                         var myChart = echarts.init(document.getElementById('allUserPatrol'));
