@@ -16,24 +16,31 @@
 
     <link href="{{ asset('assets/admin/css/animate.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/admin/css/style.css?v=4.1.0') }}" rel="stylesheet">
+    <link href="{{ asset('assets/admin/css/login.css') }}" rel="stylesheet">
     <!--[if lt IE 9]>
     <meta http-equiv="refresh" content="0;ie.html" />
     <![endif]-->
     <script>if(window.top !== window.self){ window.top.location = window.location;}</script>
+
+    <style>
+
+        .signinpanel {
+            width: 400px;
+        }
+    </style>
+
 </head>
 
-<body class="gray-bg">
+<body class="gray-bg" style="background-color: #242129!important;">
 
-<div class="middle-box text-center loginscreen  animated fadeInDown">
-    <div>
-        <div>
-
-            <h1 class="logo-name">SH</h1>
-
+<div class="middle-box text-center loginscreen  animated fadeInDown signin" style="width: 400px;">
+        <div style="margin-bottom: 50px;">
+            <image src="{{ asset('assets/admin/img/logo.png') }}"></image>
+            <h2 style="font-size: 24px;font-weight: bold;color: #ec6d03;font-family: cursive;">社区街道智能管理系统</h2>
         </div>
-        <h3>欢迎使用</h3>
-
-        <form class="m-t" role="form" action="{{ route('admin.login') }}" method="post">
+        <h3></h3>
+        <div class="signinpanel">
+            <form class="m-t" role="form" action="{{ route('admin.login') }}" method="post">
             {{ csrf_field() }}
             <div class="form-group">
                 <input type="tel" class="form-control" placeholder="用户名" required="" name="phone">
@@ -43,15 +50,12 @@
             </div>
             <button type="submit" class="btn btn-primary block full-width m-b">登 录</button>
 
-            <div>Copyright &copy;2019 苏州三晖信息科技有限公司 版权所有
-                <p><a href="http://www.beian.miit.gov.cn" target="_blank">备案号：苏ICP备18055553号-3</a></p>
+            <div style="color: white;">Copyright &copy;2019 苏州三晖信息科技有限公司 版权所有
+                <p><a style="color: white;" href="http://www.beian.miit.gov.cn" target="_blank">备案号：苏ICP备18055553号-3</a></p>
             </div>
 
-            {{--<p class="text-muted text-center"> <a href="login.html#"><small>忘记密码了？</small></a> | <a href="register.html">注册一个新账号</a>
-            </p>--}}
-
         </form>
-    </div>
+        </div>
 </div>
 
 <!-- 全局js -->
