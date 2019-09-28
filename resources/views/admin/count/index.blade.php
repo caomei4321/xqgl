@@ -21,7 +21,13 @@
                     <div class="ibox-content">
                         <h1 class="no-margins">{{ $AllMatter['finished'] }}</h1>
 
-                        <div class="stat-percent font-bold text-success">{{ ceil(sprintf("%.2f", round(($AllMatter['finished'] / $AllMatter['all']),2) * 100)).'%'}} <i class="fa fa-bolt"></i>
+                        <div class="stat-percent font-bold text-success">
+                            @if( $AllMatter['all'] == 0 )
+                                0%
+                            @else
+                                {{ ceil(sprintf("%.2f", round(($AllMatter['finished'] / $AllMatter['all']),2) * 100)).'%'}}
+                            @endif
+                            <i class="fa fa-bolt"></i>
                         </div>
                         <small>{{ date('Y-m-d H:i:s', time()) }}</small>
                     </div>
@@ -35,7 +41,13 @@
                     </div>
                     <div class="ibox-content">
                         <h1 class="no-margins">{{ $AllMatter['unfinished'] }}</h1>
-                        <div class="stat-percent font-bold text-danger">{{ ceil(sprintf("%.2f", round(($AllMatter['unfinished'] / $AllMatter['all']),2) * 100)).'%'}}<i class="fa fa-level-down"></i>
+                        <div class="stat-percent font-bold text-danger">
+                            @if( $AllMatter['all'] == 0 )
+                                0%
+                            @else
+                                {{ ceil(sprintf("%.2f", round(($AllMatter['unfinished'] / $AllMatter['all']),2) * 100)).'%'}}
+                            @endif
+                            <i class="fa fa-level-down"></i>
                         </div>
                         <small>{{ date('H:i:s', time()) }}</small>
                     </div>
@@ -66,7 +78,13 @@
                     <div class="ibox-content">
                         <h1 class="no-margins">{{ $all - $unfinished }}</h1>
 
-                        <div class="stat-percent font-bold text-success">{{ ceil(sprintf("%.2f", round((($all - $unfinished) / $all),2) * 100)).'%'}} <i class="fa fa-bolt"></i>
+                        <div class="stat-percent font-bold text-success">
+                            @if($all == 0)
+                                                                             0%
+                            @else
+                                {{ ceil(sprintf("%.2f", round((($all - $unfinished) / $all),2) * 100)).'%'}}
+                            @endif
+                                <i class="fa fa-bolt"></i>
                         </div>
                         <small>{{ date('Y-m-d H:i:s', time()) }}</small>
                     </div>
@@ -80,7 +98,13 @@
                     </div>
                     <div class="ibox-content">
                         <h1 class="no-margins">{{ $unfinished }}</h1>
-                        <div class="stat-percent font-bold text-danger">{{ ceil(sprintf("%.2f", round((($unfinished) / $all),2) * 100)).'%'}}<i class="fa fa-level-down"></i>
+                        <div class="stat-percent font-bold text-danger">
+                            @if($all == 0)
+                                0%
+                            @else
+                                {{ ceil(sprintf("%.2f", round((($unfinished) / $all),2) * 100)).'%'}}
+                            @endif
+                            <i class="fa fa-level-down"></i>
                         </div>
                         <small>{{ date('H:i:s', time()) }}</small>
                     </div>
