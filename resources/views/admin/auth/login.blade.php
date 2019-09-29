@@ -36,7 +36,7 @@
 <div class="middle-box text-center loginscreen  animated fadeInDown signin" style="width: 400px;">
         <div style="margin-bottom: 50px;">
             <image src="{{ asset('assets/admin/img/logo.png') }}"></image>
-            <h2 style="font-size: 24px;font-weight: bold;color: #ec6d03;font-family: cursive;">社区街道智能管理系统</h2>
+            <h2 style="font-size: 24px;font-weight: bold;color: #ec6d03;font-family: cursive;">智能管理系统</h2>
         </div>
         <h3></h3>
         <div class="signinpanel">
