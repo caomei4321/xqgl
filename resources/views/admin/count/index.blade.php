@@ -12,11 +12,47 @@
 
     <div class="row">
         <div class="col-sm-12">
-            <div class="col-sm-4">
+
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-success pull-right">今日完成任务</span>
+                        <h5>12345任务</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">{{ $numMatter['numfinished'] }}</h1>
+
+                        <div class="stat-percent font-bold text-success">
+                            <i class="fa fa-bolt"></i>
+                        </div>
+                        <small>{{ date('Y-m-d H:i:s', time()) }}</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-success pull-right">今日完成任务</span>
+                        <h5>群众举报</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">{{ $people['all'] - $people['unfinished'] }}</h1>
+
+                        <div class="stat-percent font-bold text-success">
+
+                            <i class="fa fa-bolt"></i>
+                        </div>
+                        <small>{{ date('Y-m-d H:i:s', time()) }}</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <span class="label label-success pull-right">已完成任务</span>
-                        <h5>完成任务总量</h5>
+                        <h5>总任务量</h5>
                     </div>
                     <div class="ibox-content">
                         <h1 class="no-margins">{{ $AllMatter['finished'] }}</h1>
@@ -33,27 +69,60 @@
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4">
+
+            <div class="col-sm-3">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <span class="label label-danger pull-right">待处理</span>
-                        <h5>待处理任务总量</h5>
+                        <span class="label label-success pull-right">在巡查人数</span>
+                        <h5>在巡查人数</h5>
                     </div>
                     <div class="ibox-content">
-                        <h1 class="no-margins">{{ $AllMatter['unfinished'] }}</h1>
-                        <div class="stat-percent font-bold text-danger">
-                            @if( $AllMatter['all'] == 0 )
-                                0%
-                            @else
-                                {{ ceil(sprintf("%.2f", round(($AllMatter['unfinished'] / $AllMatter['all']),2) * 100)).'%'}}
-                            @endif
-                            <i class="fa fa-level-down"></i>
+                        <h1 class="no-margins">{{ $userNum }}</h1>
+                        <div class="stat-percent font-bold text-success">
+
+                            <i class="fa fa-bolt"></i>
                         </div>
-                        <small>{{ date('H:i:s', time()) }}</small>
+                        <small>{{ date('Y-m-d H:i:s', time()) }}</small>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4">
+
+        </div>
+        <div class="col-sm-12">
+
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-info pull-right">总任务量</span>
+                        <h5>12345任务</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">{{ $numMatter['numall'] }}</h1>
+
+                        <div class="stat-percent font-bold text-success">
+                            <i class="fa fa-bolt"></i>
+                        </div>
+                        <small>{{ date('Y-m-d H:i:s', time()) }}</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <span class="label label-info pull-right">今日总任务</span>
+                        <h5>群众举报</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h1 class="no-margins">{{ $people['all'] }}</h1>
+                        <div class="stat-percent font-bold text-info">100% <i class="fa fa-level-up"></i>
+                        </div>
+                        <small>{{ date('Y-m-d', time()) }}</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <span class="label label-info pull-right">总任务量</span>
@@ -67,65 +136,30 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-12">
-            <div class="col-sm-4">
+
+            <div class="col-sm-3">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <span class="label label-success pull-right">今日完成任务</span>
-                        <h5>今日完成任务</h5>
+                        <span class="label label-success pull-right">总人数</span>
+                        <h5>总人数</h5>
                     </div>
                     <div class="ibox-content">
-                        <h1 class="no-margins">{{ $all - $unfinished }}</h1>
-
+                        <h1 class="no-margins">{{ $userAll }}</h1>
                         <div class="stat-percent font-bold text-success">
-                            @if($all == 0)
-                                                                             0%
-                            @else
-                                {{ ceil(sprintf("%.2f", round((($all - $unfinished) / $all),2) * 100)).'%'}}
-                            @endif
-                                <i class="fa fa-bolt"></i>
+
+                            <i class="fa fa-bolt"></i>
                         </div>
                         <small>{{ date('Y-m-d H:i:s', time()) }}</small>
                     </div>
                 </div>
             </div>
-            <div class="col-sm-4">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <span class="label label-danger pull-right">今日待处理任务</span>
-                        <h5>今日待处理任务</h5>
-                    </div>
-                    <div class="ibox-content">
-                        <h1 class="no-margins">{{ $unfinished }}</h1>
-                        <div class="stat-percent font-bold text-danger">
-                            @if($all == 0)
-                                0%
-                            @else
-                                {{ ceil(sprintf("%.2f", round((($unfinished) / $all),2) * 100)).'%'}}
-                            @endif
-                            <i class="fa fa-level-down"></i>
-                        </div>
-                        <small>{{ date('H:i:s', time()) }}</small>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <span class="label label-info pull-right">今日总任务</span>
-                        <h5>今日总任务</h5>
-                    </div>
-                    <div class="ibox-content">
-                        <h1 class="no-margins">{{ $all }}</h1>
-                        <div class="stat-percent font-bold text-info">100% <i class="fa fa-level-up"></i>
-                        </div>
-                        <small>{{ date('Y-m-d', time()) }}</small>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
+
+
+
+
+
 
     <div class="row">
         <div class="col-sm-12">
@@ -141,66 +175,86 @@
                             function allUserPatrol(){
                                 $.ajax({
                                     type: 'get',
-                                    url: '{{url('admin/allUserPatrol')}}',
+                                    url: '{{url('admin/dataInfo')}}',
                                     dataType: 'json',
                                     success: function (data) {
                                         console.log(data);
-                                        var nameArray = [];
-                                        var timeArray = [];
-                                        for (var i= 0; i<data.length; i++) {
-                                            var name2 = data[i].name;
-                                            nameArray.push(name2);
-                                            var time2 = data[i].created_at;
-                                            timeArray.push(time2);
+                                        var timedate = [];
+                                        var alldata = [];
+                                        var ondata = [];
+                                        var undata = [];
+                                        for (let key in data) {
+                                            var timedate2 =  data[key]['date'];
+                                            console.log(data[key]['date']);
+                                            timedate.push(timedate2);
+                                            var alldata2 =  data[key]['total'];
+                                            alldata.push(alldata2);
+                                            var ondata2 =  data[key]['finished'];
+                                            ondata.push(ondata2);
+                                            var undata2 =  data[key]['unfinished'];
+                                            undata.push(undata2);
                                         }
-                                        var uniqueNameArray = nameArray.filter(function (element, index, self) {
-                                            return self.indexOf(element) === index;
-                                        });
-                                        var uniqueTimeArray = timeArray.filter(function (element, index, self) {
-                                            return self.indexOf(element) === index;
-                                        });
-                                        var seriesData = [];
-                                        for (var i = 0; i<nameArray.length; i++) {
-                                            var dataArray = [];
-                                            for (var j = 0; j<timeArray.length; j++) {
-                                                if ( i==j ){
-                                                    dataArray[0] = nameArray[i];
-                                                    dataArray[1] = timeArray[j];
-                                                    seriesData.push(dataArray);
-                                                }
-                                            }
-                                        }
+
                                         // {all: 16, unfinish: 15, finish: 1}
                                         // 基于准备好的dom，初始化echarts实例
                                         var myChart = echarts.init(document.getElementById('allUserPatrol'));
                                         // 指定图表的配置项和数据
 
                                         option = {
-                                            xAxis: {
-                                                data: uniqueNameArray
+                                            title: {
+                                                text: '任务情况'
                                             },
-                                            yAxis: {
-                                                data: uniqueTimeArray
-                                            },
-                                            tooltip : {
-                                                trigger: 'item',
-                                                formatter: "{c}"
+                                            tooltip: {
+                                                trigger: 'axis'
                                             },
                                             legend: {
-                                                orient: 'vertical',
-                                                left: 'left',
-                                                data: timeArray
+                                                data:['总量','未完成','已完成']
                                             },
-                                            series: [{
-                                                symbolSize: 20,
-                                                data: seriesData,
-                                                type: 'scatter'
-                                            }]
+                                            grid: {
+                                                left: '3%',
+                                                right: '4%',
+                                                bottom: '3%',
+                                                containLabel: true
+                                            },
+                                            toolbox: {
+                                                feature: {
+                                                    saveAsImage: {}
+                                                }
+                                            },
+                                            xAxis: {
+                                                type: 'category',
+                                                data: timedate
+                                            },
+                                            yAxis: {
+                                                type: 'value'
+                                            },
+                                            series: [
+                                                {
+                                                    name:'总量',
+                                                    type:'line',
+                                                    stack: '总量',
+                                                    data:alldata
+                                                },
+                                                {
+                                                    name:'未完成',
+                                                    type:'line',
+                                                    stack: '未完成',
+                                                    data:undata
+                                                },
+                                                {
+                                                    name:'已完成',
+                                                    type:'line',
+                                                    stack: '已完成',
+                                                    data:ondata
+                                                }
+                                            ]
                                         };
 
                                         // 使用刚指定的配置项和数据显示图表。
                                         myChart.setOption(option);
+                                        setTimeout(function () {
 
+                                        })
                                     },
                                 });
                             }

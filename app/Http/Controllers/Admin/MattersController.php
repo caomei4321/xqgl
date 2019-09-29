@@ -221,7 +221,7 @@ class MattersController extends Controller
                 $sheet->prependRow(1, $firstRow);
                 $sheet->rows($cellData);
             });
-        })->store('xls')->export('xls');
+        })->export('xls');
     }
     // 导入
     public function import(Request $request, Excel $excel)
@@ -259,36 +259,6 @@ class MattersController extends Controller
 
                 ];
                 DB::table('matters')->insert($excelData);
-//                $allDate = [];
-//                $value = [];
-//                $count = '';
-//                foreach ($result as $k => $v) {
-//                    $count++;
-//                    $value['accept_num'] = $v['0'];
-//                    $value['time_limit'] = $v['1'];
-//                    $value['work_num'] = $v['2'];
-//                    $value['level'] = $v['3'];
-//                    $value['type'] = $v['4'];
-//                    $value['source'] = $v['5'];
-//                    $value['is_reply'] = $v['6'];
-//                    $value['is_secret'] = $v['7'];
-//                    $value['contact_name'] = $v['8'];
-//                    $value['contact_phone'] = $v['9'];
-//                    $value['reply_remark'] = $v['10'];
-//                    $value['category_id'] = $v['11'];
-//                    $value['suggestion'] = $v['12'];
-//                    $value['approval'] = $v['13'];
-//                    $value['result'] = $v['14'];
-//                    $value['title'] = $v['15'];
-//                    $value['address'] = $v['16'];
-//                    $value['content'] = $v['17'];
-//                    $value['created_at'] = date('Y-m-d H:i:s', time());
-//                    $value['updated_at']= date('Y-m-d H:i:s', time());
-//                    if ($value['title'] && $value['address'] && $value['content']) {
-//                        array_push($allDate, $value);
-//                    }
-//                }
-//                DB::table('matters')->insert($allDate);
             });
         }catch (\Exception $e) {
             return redirect()->route('admin.matters.index')->withErrors('导入失败，请选择正确的文件和按正确的文件填写方式导入');
