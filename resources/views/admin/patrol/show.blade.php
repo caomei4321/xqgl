@@ -36,37 +36,29 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <form method="get" class="form-horizontal">
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">姓名</label>
+                            <label class="col-sm-1 control-label">姓名</label>
 
-                            <div class="col-sm-10">
+                            <div class="col-sm-2">
                                 <p class="form-control-static">{{ $patrol->user->name }}</p>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">开始时间</label>
-
-                            <div class="col-sm-10">
-                                <p class="form-control-static">{{ $patrol->created_at }}</p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">结束时间</label>
-
-                            <div class="col-sm-10">
-                                <p class="form-control-static">{{ $patrol->end_at }}</p>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">总里程</label>
-
-                            <div class="col-sm-10">
+                            <label class="col-sm-1 control-label">总里程</label>
+                            <div class="col-sm-2">
                                 <p class="form-control-static">{{ $tracks->distance }}</p>
                             </div>
+                            <label class="col-sm-1 control-label">开始时间</label>
+                            <div class="col-sm-2">
+                                <p class="form-control-static">{{ $patrol->created_at }}</p>
+                            </div>
+                            <label class="col-sm-1 control-label">结束时间</label>
+
+                            <div class="col-sm-2">
+                                <p class="form-control-static">{{ $patrol->end_at }}</p>
+                            </div>
+
+
                         </div>
 
-                    </form>
                 </div>
             </div>
         </div>
