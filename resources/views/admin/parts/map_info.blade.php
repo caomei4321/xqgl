@@ -149,8 +149,10 @@
                 var myIcon = new BMap.Icon(host+"/assets/admin/img/t3.png", new BMap.Size(35,35));
             } else if(data_info[i][6].indexOf('3') != '-1') {
                 var myIcon = new BMap.Icon(host+"/assets/admin/img/t2.png", new BMap.Size(35,35));
-            } else {
+            } else if (data_info[i][6].indexOf('4') != '-1') {
                 var myIcon = new BMap.Icon(host+"/assets/admin/img/t4.png", new BMap.Size(35,35));
+            } else {
+                var myIcon = new BMap.Icon(host+"/assets/admin/img/al1.png", new BMap.Size(35,35));
             }
             var marker = new BMap.Marker(new BMap.Point(data_info[i][0],data_info[i][1]), {
                 icon: myIcon
