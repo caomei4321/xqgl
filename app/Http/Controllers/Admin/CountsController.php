@@ -33,7 +33,7 @@ class CountsController extends Controller
     // 总任务量
     public function allMatter()
     {
-        $all = DB::table('user_has_matters')->count();
+        $all = DB::table('matters')->count();
         $unfinish = DB::table('user_has_matters')->where('status', '0')->count();
         $data = [
             'all' => $all,
