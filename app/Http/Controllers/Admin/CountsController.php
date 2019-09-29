@@ -14,6 +14,7 @@ class CountsController extends Controller
 {
     public function index(Situation  $situation, Patrol $patrol)
     {
+        $this->allUserPatrol($patrol);
         // 今日未完成任务
         $unfinished = DB::table('user_has_matters')->where('status', '0')->whereBetween('updated_at', [date('Y-m-d 00:00:00', time()), date('Y-m-d H:s:i', time())])->count();
         // 今日所有任务
@@ -38,7 +39,7 @@ class CountsController extends Controller
     // 总人数在巡查
     public function allUserPatrol(Patrol $patrol)
     {
-        $patrols = $patrol->select('user_id', 'end_at', 'created_at')->whereBetween('created_at', [date('Y-m-d 00:00:00', time()), date('Y-m-d H:i:s', time())])->get();
+        $patrols = $patrol->select('user_id', 'end_at', 'created_at')->whereBetween('created_at', [date('Y-m-d 00:00:00', time()), date('Y-m-d H:i:s', time())])->orderBy('created_at', 'desc')->groupBy('user_id')->get();
         $info = [];
         foreach ($patrols as $patrol) {
             $data = [
