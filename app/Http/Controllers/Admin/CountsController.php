@@ -26,22 +26,9 @@ class CountsController extends Controller
         // 群众举报
         $people = $this->people();
 
-        // 总任务
-        $AllMatter = $this->allMatter();
-        return view('admin.count.index', compact( 'AllMatter', 'userNum', 'userAll', 'numMatter', 'people'));
+        return view('admin.count.index', compact( 'userNum', 'userAll', 'numMatter', 'people'));
     }
-    // 总任务量
-    public function allMatter()
-    {
-        $all = DB::table('matters')->count();
-        $unfinish = DB::table('user_has_matters')->where('status', '0')->count();
-        $data = [
-            'all' => $all,
-            'unfinished' => $unfinish,
-            'finished' => $all - $unfinish
-        ];
-        return $data;
-    }
+
     // 12345任务
     public function numMatter()
     {

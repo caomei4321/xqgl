@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-sm-12">
 
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <span class="label label-success pull-right">今日完成任务</span>
@@ -30,7 +30,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <span class="label label-success pull-right">今日完成任务</span>
@@ -48,29 +48,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-3">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <span class="label label-success pull-right">已完成任务</span>
-                        <h5>总任务量</h5>
-                    </div>
-                    <div class="ibox-content">
-                        <h1 class="no-margins">{{ $AllMatter['finished'] }}</h1>
-
-                        <div class="stat-percent font-bold text-success">
-                            @if( $AllMatter['all'] == 0 )
-                                0%
-                            @else
-                                {{ ceil(sprintf("%.2f", round(($AllMatter['finished'] / $AllMatter['all']),2) * 100)).'%'}}
-                            @endif
-                            <i class="fa fa-bolt"></i>
-                        </div>
-                        <small>{{ date('Y-m-d H:i:s', time()) }}</small>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <span class="label label-success pull-right">在巡查人数</span>
@@ -90,7 +68,7 @@
         </div>
         <div class="col-sm-12">
 
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <span class="label label-info pull-right">总任务量</span>
@@ -107,7 +85,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <span class="label label-info pull-right">今日总任务</span>
@@ -122,22 +100,7 @@
                 </div>
             </div>
 
-            <div class="col-sm-3">
-                <div class="ibox float-e-margins">
-                    <div class="ibox-title">
-                        <span class="label label-info pull-right">总任务量</span>
-                        <h5>总任务量</h5>
-                    </div>
-                    <div class="ibox-content">
-                        <h1 class="no-margins">{{ $AllMatter['all'] }}</h1>
-                        <div class="stat-percent font-bold text-info">100% <i class="fa fa-level-up"></i>
-                        </div>
-                        <small>{{ date('Y-m-d', time()) }}</small>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-3">
+            <div class="col-sm-4">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <span class="label label-success pull-right">总人数</span>
