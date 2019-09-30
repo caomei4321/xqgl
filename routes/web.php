@@ -26,6 +26,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::group(['middleware' => 'auth:admin'], function () {
         Route::get('/', 'Admin\IndexController@index');
 
+        Route::group(['middleware' => 'checkPermission'], function () {
+
+        });
         Route::get('user', 'Admin\UsersController@index')->name('admin.users.index');
         Route::get('user/{user}/edit', 'Admin\UsersController@edit')->name('admin.users.edit');
         Route::delete('user/{user}', 'Admin\UsersController@destroy')->name('admin.users.destroy');

@@ -15,12 +15,19 @@ class CheckPermission
      */
     public function handle($request, Closure $next)
     {
-        dd(auth()->user());
-
+        /*if (auth()->user()->hasPermissionTo('user.edit')) {
+            dd(111);
+        }*/
         $routeName  = $request->route()->getName();
+        //dd($routeName);
+        $user = auth()->user();
+        try {
+            if ($user->hasPermissionTo($routeName, 'admin')) {
+                return $next($request);
+            }
+        } catch (\Exception $exception) {
+            dd('没有权限');
+        }
 
-
-
-        return $next($request);
     }
 }
