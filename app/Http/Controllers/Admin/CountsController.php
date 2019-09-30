@@ -15,7 +15,6 @@ class CountsController extends Controller
 {
     public function index(Situation  $situation, Patrol $patrol)
     {
-        $this->dataInfo();
         // 在巡查人数
         $userNum = $this->allUserPatrol($patrol);
         $userAll = count(User::all());
@@ -26,9 +25,8 @@ class CountsController extends Controller
         // 群众举报
         $people = $this->people();
 
-        return view('admin.count.index', compact( 'userNum', 'userAll', 'numMatter', 'people'));
+        return view('admin.count.index', compact('userNum', 'userAll', 'numMatter', 'people'));
     }
-
     // 12345任务
     public function numMatter()
     {
@@ -41,14 +39,14 @@ class CountsController extends Controller
             ->count();
 
         // 今日123456任务
-        $all = DB::table('user_has_matters')
+        $numall = DB::table('user_has_matters')
             ->join('matters', 'user_has_matters.matter_id', '=', 'matters.id')
             ->where('matters.form','<' ,'3')
             ->whereBetween('user_has_matters.updated_at', [date('Y-m-d 00:00:00', time()), date('Y-m-d H:s:i', time())])
             ->count();
         $data = [
             'numfinished' => $unfinished,
-            'numall' => $all
+            'numall' => $numall
         ];
         return $data;
     }

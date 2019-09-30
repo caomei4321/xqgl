@@ -20,7 +20,7 @@
                         <h5>12345任务</h5>
                     </div>
                     <div class="ibox-content">
-                        <h1 class="no-margins">{{ $numMatter['numfinished'] }}</h1>
+                        <h1 class="no-margins">{{ $numMatter['numall'] - $numMatter['numfinished'] }}</h1>
 
                         <div class="stat-percent font-bold text-success">
                             <i class="fa fa-bolt"></i>
