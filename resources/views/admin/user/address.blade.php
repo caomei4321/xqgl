@@ -93,7 +93,16 @@
                             var point = new BMap.Point(value.latest_location.longitude, value.latest_location.latitude);
                             // 如果points数组已经有值则直接push，没有则先创建数组再push
                             if (points.hasOwnProperty(index)) {
-                                points[index]['point'].push(point);
+                                var lastPoint = points[index]['point'].slice(-1);   // 获取上个坐标点
+                                
+                                var distance = map.getDistance(lastPoint[0],point).toFixed(2);  // 计算两点距离，单位米，保留两位小数
+
+                                if (distance > 1000) { // 距离大于 1000认为飘点，则把上一次的点当作当前次的点
+                                    points[index]['point'].push(lastPoint);
+                                } else {
+                                    points[index]['point'].push(point);
+                                }
+
                             } else {
                                 points[index] = [];
                                 points[index]['color'] = getColor();
