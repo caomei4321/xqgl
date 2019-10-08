@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class CheckPermission
 {
@@ -19,14 +20,18 @@ class CheckPermission
             dd(111);
         }*/
         $routeName  = $request->route()->getName();
-        //dd($routeName);
-        $user = auth()->user();
+        $num = strripos($routeName, '.');
+
+        $permission = str_replace('.', '\\', substr($routeName, 0, $num)) ;
+
         try {
-            if ($user->hasPermissionTo($routeName, 'admin')) {
+            if (Auth::user()->can($permission) || Auth::user()->id == 1) {
                 return $next($request);
+            } else  {
+                return redirect()->route('admin.counts.index');
             }
         } catch (\Exception $exception) {
-            dd('没有权限');
+            return response()->json(['err'=> '暂无权限']);
         }
 
     }

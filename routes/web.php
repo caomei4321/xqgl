@@ -28,7 +28,6 @@ Route::group(['prefix' => 'admin'], function () {
 
         Route::group(['middleware' => 'checkPermission'], function () {
 
-        });
         Route::get('user', 'Admin\UsersController@index')->name('admin.users.index');
         Route::get('user/{user}/edit', 'Admin\UsersController@edit')->name('admin.users.edit');
         Route::delete('user/{user}', 'Admin\UsersController@destroy')->name('admin.users.destroy');
@@ -55,7 +54,6 @@ Route::group(['prefix' => 'admin'], function () {
         ]);
 
         Route::get('entities/{entity_name}/destroy', 'Admin\EntitiesController@destroy')->name('admin.entities.destroy');
-
 
 
 
@@ -196,6 +194,7 @@ Route::group(['prefix' => 'admin'], function () {
             'show'      =>  'admin.programUsers.show',
             'destroy'   =>  'admin.programUsers.destroy',
         ]);
+        });
 
         // 统计
         Route::get('count', 'Admin\CountsController@index')->name('admin.counts.index');
