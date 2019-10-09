@@ -97,7 +97,7 @@
                                 
                                 var distance = map.getDistance(lastPoint[0],point).toFixed(2);  // 计算两点距离，单位米，保留两位小数
 
-                                if (distance > 1000) { // 距离大于 1000认为飘点，则把上一次的点当作当前次的点
+                                if (distance > 150) { // 距离大于 150认为飘点，则把上一次的点当作当前次的点
                                     points[index]['point'].push(lastPoint);
                                 } else {
                                     points[index]['point'].push(point);
