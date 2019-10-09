@@ -34,7 +34,7 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <span class="label label-success pull-right">今日完成任务</span>
-                        <h5>群众举报</h5>
+                        <h5>群众上报</h5>
                     </div>
                     <div class="ibox-content">
                         <h1 class="no-margins">{{ $people['all'] - $people['unfinished'] }}</h1>
@@ -89,7 +89,7 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <span class="label label-info pull-right">今日总任务</span>
-                        <h5>群众举报</h5>
+                        <h5>群众上报</h5>
                     </div>
                     <div class="ibox-content">
                         <h1 class="no-margins">{{ $people['all'] }}</h1>

@@ -14,4 +14,9 @@ class Matter extends Model
     {
         return $this->hasOne('App\Models\Situation', 'matter_id');
     }
+
+    public function getImgUrlAttribute()
+    {
+        return env('APP_URL').$this->image;
+    }
 }

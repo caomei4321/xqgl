@@ -21,23 +21,8 @@ class ProgramUsersController extends Controller
 
     public function show(ProgramUser $programUser)
     {
-        return view('admin.programUser.show', compact('programUser'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
+        $matters = $programUser->matters()->paginate();
+        return view('admin.programUser.show', compact('programUser', 'matters'));
     }
 
     public function destroy(ProgramUser $programUser)
