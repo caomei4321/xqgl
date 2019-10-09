@@ -34,8 +34,6 @@
                 <div class="ibox-content">
                     <a href="{{ route('admin.users.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加人员</button>
                     </a>
-                    <a href="{{ route('admin.users.address') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 人员位置分布</button>
-                    </a>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                         <tr>

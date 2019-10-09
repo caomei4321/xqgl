@@ -94,8 +94,11 @@
                             // 如果points数组已经有值则直接push，没有则先创建数组再push
                             if (points.hasOwnProperty(index)) {
                                 var lastPoint = points[index]['point'].slice(-1);   // 获取上个坐标点
-                                
-                                var distance = map.getDistance(lastPoint[0],point).toFixed(2);  // 计算两点距离，单位米，保留两位小数
+                                try {
+                                    var distance = map.getDistance(lastPoint[0],point).toFixed(2);  // 计算两点距离，单位米，保留两位小数
+                                } catch (e) {
+                                    points[index]['point'].push(lastPoint);
+                                }
 
                                 if (distance > 150) { // 距离大于 150认为飘点，则把上一次的点当作当前次的点
                                     points[index]['point'].push(lastPoint);
@@ -124,7 +127,7 @@
                             }
                             var myIcon = new BMap.Icon("/assets/admin/img/user_icon.png", new BMap.Size(48,85));
                             if (value.latest_location.hasOwnProperty('desc_name')) {
-                                var label = new BMap.Label(value.latest_location.desc_name+';上次更新时间：'+UnixToDate(value.latest_location.loc_time), {offset:new BMap.Size(-30,-20)});
+                                var label = new BMap.Label(value.latest_location.desc_name+';'+UnixToDate(value.latest_location.loc_time), {offset:new BMap.Size(-30,-20)});
                             } else {
                                 var label = new BMap.Label(value.entity_name+';上次更新时间：'+UnixToDate(value.latest_location.loc_time), {offset:new BMap.Size(-30,-20)});
                             }
@@ -281,9 +284,9 @@
             }
             var time = new Date(unixTime * 1000);
             var ymdhis = "";
-            ymdhis += time.getUTCFullYear() + "-";
+            /*ymdhis += time.getUTCFullYear() + "-";
             ymdhis += ((time.getUTCMonth()+1) < 10 ? "0" + (time.getUTCMonth()+1) : (time.getUTCMonth()+1)) + "-";
-            ymdhis += (time.getUTCDate() < 10 ? "0" + time.getUTCDate() : time.getUTCDate()) + " ";
+            ymdhis += (time.getUTCDate() < 10 ? "0" + time.getUTCDate() : time.getUTCDate()) + " ";*/
             ymdhis += (time.getHours() < 10 ? "0" + time.getHours() : time.getHours()) + ":";
             ymdhis += (time.getUTCMinutes() < 10 ? "0" + time.getUTCMinutes() : time.getUTCMinutes()) + ":";
             ymdhis += (time.getUTCSeconds() < 10 ? "0" + time.getUTCSeconds() : time.getUTCSeconds());
