@@ -78,6 +78,8 @@ $api->version('v1', [
 
     $api->get('carouselMap', 'ProgramImagesController@carouselMap');
 
+    $api->get('openMatters', 'ProgramImagesController@matters');
+
     $api->group(['middleware' => 'auth:programApi'], function ($api) {
         $api->post('matterStore', 'ProgramUsersController@matterStore');  // 上报问题
         $api->get('historyMatters', 'ProgramUsersController@historyMatters');  //历史提交问题记录
