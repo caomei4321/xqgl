@@ -82,6 +82,13 @@ class MattersController extends Controller
         return response()->json($users);
     }
 
+    public function open(Request $request)
+    {
+        $data = $request->all();
+        DB::table('matters')->where('id', $data['id'])->update($data);
+        return redirect()->route('admin.matters.index');
+    }
+
     // 分配到人 点击操作按钮每次单个分配
     public function allocate(Request $request, Matter $matter, User $user)
     {

@@ -113,7 +113,8 @@ Route::group(['prefix' => 'admin'], function () {
             'update'    =>  'admin.matters.update',
             'destroy'   =>  'admin.matters.destroy',
         ]);
-
+        // 公开隐藏
+        Route::get('matters/open', 'Admin\MattersController@open')->name('admin.matters.open');
         // 此路由为分配到人，表格头的按钮，以注释，后面不需要则删除
         Route::post('matters/mtu', 'Admin\MattersController@mattersToUser')->name('admin.matters.mtu');
         // 分配
