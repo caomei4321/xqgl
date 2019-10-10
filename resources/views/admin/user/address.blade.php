@@ -129,7 +129,7 @@
                             if (value.latest_location.hasOwnProperty('desc_name')) {
                                 var label = new BMap.Label(value.latest_location.desc_name+';'+UnixToDate(value.latest_location.loc_time), {offset:new BMap.Size(-30,-20)});
                             } else {
-                                var label = new BMap.Label(value.entity_name+';上次更新时间：'+UnixToDate(value.latest_location.loc_time), {offset:new BMap.Size(-30,-20)});
+                                var label = new BMap.Label(value.entity_name+';'+UnixToDate(value.latest_location.loc_time), {offset:new BMap.Size(-30,-20)});
                             }
                             //var label = new BMap.Label(value.entity_name+';上次更新时间：'+UnixToDate(value.latest_location.loc_time), {offset:new BMap.Size(-30,-20)});
                             label.setStyle({ color : "red", fontSize : "15px" });
