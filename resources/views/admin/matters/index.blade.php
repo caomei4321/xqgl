@@ -41,7 +41,7 @@
                     {{--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" onclick="fun()" id="fp-btn">分配到人</button>--}}
                     <button class="btn btn-info " type="button" data-toggle="modal" data-target="#importModal" data-whatever="@mdo"><i class="fa fa-paste"></i> Excel导入</button>
                     <a href="{{ route('admin.matters.export') }}"> <button class="btn btn-warning" type="button"><i class="fa fa-paste"></i> Excel导出</button></a>
-                    <a href="{{ route('admin.matters.mouse') }}"> <button class="btn btn-warning" type="button"><i class="fa fa-paste"></i> 鼠标点线面</button></a>
+                    {{--<a href="{{ route('admin.matters.mouse') }}"> <button class="btn btn-warning" type="button"><i class="fa fa-paste"></i> 鼠标点线面</button></a>--}}
                     {{--导入model start--}}
                     <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
                         <div class="modal-dialog" role="document">
@@ -116,6 +116,7 @@
                             <th>现场查看</th>
                             <th>添加时间</th>
                             <th>是否分配</th>
+                            <th>是否公开</th>
                             <th>操作</th>
                         </tr>
                         </thead>
@@ -153,6 +154,13 @@
                                         <button type="button" class="btn btn-primary btn-xs" disabled>已分配</button>
                                     @endif
                                 </td>
+                                <td>
+                                    @if($matter->open == 0)
+                                        <a href="{{ route('admin.matters.open', ['id' => $matter->id, 'open' => '1']) }}"><button type="button" class="btn btn-warning btn-xs">隐藏</button></a>
+                                    @else
+                                        <a href="{{ route('admin.matters.open', ['id' => $matter->id, 'open' => '0']) }}"><button type="button" class="btn btn-primary btn-xs">公开</button></a>
+                                    @endif
+                                </td>
                                 <td class="center">
                                     <a href="{{ route('admin.matters.edit',['matter' => $matter->id]) }}"><button type="button" class="btn btn-primary btn-xs">编辑</button></a>
                                     <button class="btn btn-warning btn-xs delete" data-id="{{ $matter->id }}">删除</button>
@@ -170,6 +178,7 @@
                             <th>现场查看</th>
                             <th>添加时间</th>
                             <th>是否分配</th>
+                            <th>是否公开</th>
                             <th>操作</th>
                         </tr>
                         </tfoot>
