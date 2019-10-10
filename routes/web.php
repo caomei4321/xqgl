@@ -194,6 +194,12 @@ Route::group(['prefix' => 'admin'], function () {
             'show'      =>  'admin.programUsers.show',
             'destroy'   =>  'admin.programUsers.destroy',
         ]);
+
+        Route::resource('programImage', 'Admin\ProgramImagesController', ['except' => ['create', 'show', 'edit', 'update']])->names([
+            'index'     =>  'admin.programImages.index',
+            'store'     =>  'admin.programImages.store',
+            'destroy'   =>  'admin.programImages.destroy',
+        ]);
         });
 
         // 统计
