@@ -92,8 +92,6 @@
                             "<h4 style='margin-left: 13px; margin-bottom: 5px;'>"+ "人员信息" +" </h4></br>" +
                             "<span style='margin: 0 12px;'>姓名 :" + value.latest_location.desc_name + "</span></br>" +
                             "<p style='margin: 0 12px; font-size: 12px; color: rgb(77,77,77);'>"+"更新时间："+ UnixToDate(value.latest_location.loc_time)  +"</p></br>" +
-                            "<p style='margin: 0 12px; font-size: 12px; color: rgb(77,77,77);'>"+"问题描述："+  3 +"</p></br>" +
-                            "<img style='float: right;' id='patrol_img' src='" + 4 + "' width='300' title='处理记录'/>" +
                             "<p style=' margin: 0 12px;font-size: 12px; color: rgb(127,127,127); overflow: hidden;text-overflow: ellipsis;'>";
                         //entityList.push(value.entity_name);
                         if(value.latest_location){  // 如果有最新轨迹点信息则标注
