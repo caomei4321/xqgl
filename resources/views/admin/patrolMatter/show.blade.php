@@ -79,6 +79,11 @@
                                 <a class="fancybox" id="img" href="{{ $patrolMatter->img_url }}" >
                                     <img alt="image" src="{{ $patrolMatter->img_url }}" />
                                 </a>
+                                @foreach($images as $image)
+                                    <a class="fancybox" id="img" href="{{ $host.$image }}" >
+                                        <img alt="image" src="{{ $host.$image }}" />
+                                    </a>
+                                @endforeach
                             </div>
                         </div>
 

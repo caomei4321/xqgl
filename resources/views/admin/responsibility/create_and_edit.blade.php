@@ -91,6 +91,13 @@
                                             <input name="legal_doc"  type="text" class="form-control" value="{{ old('legal_doc',$responsibility->legal_doc) }}">
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">处理时限(小时)：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="deadline"  type="number" class="form-control" value="{{ old('deadline',$responsibility->deadline) }}">
+                                        </div>
+                                    </div>
                                     <div class="hr-line-dashed"></div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">主体责任：</label>

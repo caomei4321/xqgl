@@ -9,7 +9,7 @@ class Responsibility extends Model
     protected $table = 'responsibility';
 
     protected $fillable = [
-        'category_id', 'item', 'county', 'town', 'legal_doc', 'subject_duty', 'cooperate_duty'
+        'category_id', 'item', 'county', 'town', 'legal_doc', 'subject_duty', 'cooperate_duty', 'deadline'
     ];
 
     public function category()

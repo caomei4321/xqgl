@@ -52,7 +52,8 @@
     <script>
         // 百度地图API功能
         var map = new BMap.Map("users-address");
-        var point = new BMap.Point(120.76938270267108, 31.279379881924105);
+        //var point = new BMap.Point(120.76938270267108, 31.279379881924105);
+        var point = new BMap.Point(117.010813,36.671952);
         map.centerAndZoom(point, 15);
         map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
         /*map.setMapStyleV2({

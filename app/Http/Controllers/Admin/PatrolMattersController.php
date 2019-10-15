@@ -17,7 +17,11 @@ class PatrolMattersController extends Controller
 
     public function show(PatrolMatter $patrolMatter)
     {
-        return view('admin.patrolMatter.show', compact('patrolMatter'));
+        $images = explode(';', $patrolMatter->images);
+
+        $host = env('APP_URL');
+
+        return view('admin.patrolMatter.show', compact('patrolMatter', 'images', 'host'));
     }
 
     public function destroy(PatrolMatter $patrolMatter)
