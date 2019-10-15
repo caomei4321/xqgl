@@ -116,6 +116,14 @@
                                     </div>
                                     {{ csrf_field() }}
                                     <div class="form-group">
+                                        <label class="col-sm-2 control-label">标题：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="title"  type="text" class="form-control" value="{{ old('title',$matter->title) }}">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
                                         <label class="col-sm-2 control-label">受理员编号：</label>
 
                                         <div class="col-sm-6">
@@ -196,6 +204,14 @@
                                     </div>
                                     <div class="hr-line-dashed"></div>
                                     <div class="form-group">
+                                        <label class="col-sm-2 control-label">联系地址：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="address"  type="text" class="form-control" value="{{ old('address',$matter->address) }}">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
                                         <label class="col-sm-2 control-label">回复备注：</label>
 
                                         <div class="col-sm-6">
@@ -204,10 +220,26 @@
                                     </div>
                                     <div class="hr-line-dashed"></div>
                                     <div class="form-group">
+                                        <label class="col-sm-2 control-label">问题分类：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="reply_remark"  type="text" class="form-control" value="{{ old('category',$matter->category) }}">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">问题描述：</label>
+
+                                        <div class="col-sm-6">
+                                            <textarea name="content" class="form-control" id="editor"  rows="6" placeholder="请输入至少三个字符的内容">{{ old('content', $matter->content) }}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
                                         <label class="col-sm-2 control-label">转办意见：</label>
 
                                         <div class="col-sm-6">
-                                            <input name="suggestion"  type="text" class="form-control" value="{{ old('suggestion',$matter->suggestion) }}">
+                                            <textarea name="content" class="form-control" rows="6" placeholder="请输入至少三个字符的内容">{{ old('suggestion', $matter->suggestion) }}</textarea>
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>
@@ -226,43 +258,19 @@
                                             <input name="result"  type="text" class="form-control" value="{{ old('result',$matter->result) }}">
                                         </div>
                                     </div>
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">问题分类：</label>
+                                    {{--<div class="hr-line-dashed"></div>--}}
+                                    {{--<div class="form-group">--}}
+                                        {{--<label class="col-sm-2 control-label">问题分类：</label>--}}
 
-                                        <div class="col-sm-6">
-                                            <select class="form-control" name="category_id" required>
-                                                <option value="" hidden disabled selected>请选择分类</option>
-                                                @foreach ($category as $value)
-                                                    <option value="{{ $value->id }}" {{ $matter->category_id == $value->id ? 'selected': '' }}>{{ $value->name }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">标题：</label>
-
-                                        <div class="col-sm-6">
-                                            <input name="title"  type="text" class="form-control" value="{{ old('title',$matter->title) }}">
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">联系地址：</label>
-
-                                        <div class="col-sm-6">
-                                            <input name="address"  type="text" class="form-control" value="{{ old('address',$matter->address) }}">
-                                        </div>
-                                    </div>
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">问题描述：</label>
-
-                                        <div class="col-sm-6">
-                                            <textarea name="content" class="form-control" id="editor"  rows="6" placeholder="请输入至少三个字符的内容">{{ old('content', $matter->content) }}</textarea>
-                                        </div>
-                                    </div>
+                                        {{--<div class="col-sm-6">--}}
+                                            {{--<select class="form-control" name="category_id" required>--}}
+                                                {{--<option value="" hidden disabled selected>请选择分类</option>--}}
+                                                {{--@foreach ($category as $value)--}}
+                                                    {{--<option value="{{ $value->id }}" {{ $matter->category_id == $value->id ? 'selected': '' }}>{{ $value->name }}</option>--}}
+                                                {{--@endforeach--}}
+                                            {{--</select>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
                                     <div class="hr-line-dashed"></div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">图片依据：</label>

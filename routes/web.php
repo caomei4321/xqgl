@@ -115,8 +115,6 @@ Route::group(['prefix' => 'admin'], function () {
         ]);
         // 公开隐藏
         Route::get('matters/open', 'Admin\MattersController@open')->name('admin.matters.open');
-        // 此路由为分配到人，表格头的按钮，以注释，后面不需要则删除
-        Route::post('matters/mtu', 'Admin\MattersController@mattersToUser')->name('admin.matters.mtu');
         // 分配
         Route::get('matters/allocate', 'Admin\MattersController@allocate')->name('admin.matters.allocate');
         Route::post('matters/allocates', 'Admin\MattersController@allocates')->name('admin.matters.allocates');
@@ -184,6 +182,17 @@ Route::group(['prefix' => 'admin'], function () {
         // 此路由为分配到人，表格头的按钮，以注释，后面不需要则删除
         Route::post('matters/mtu', 'Admin\MattersController@mattersToUser')->name('admin.matters.mtu');
 
+
+        // News
+        Route::resource('news', 'Admin\NewsController', ['except' => ['show']])->names([
+            'index' => 'admin.news.index',
+            'create' => 'admin.news.create',
+            'store' => 'admin.news.store',
+            'edit' => 'admin.news.edit',
+            'update' => 'admin.news.update',
+            'destroy' => 'admin.news.destroy',
+        ]);
+        Route::post('import/news', 'Admin\NewsController@import')->name('admin.news.import');
 
         // 告警
         Route::get('alarm', 'Admin\AlarmsController@index')->name('admin.alarm.index');
