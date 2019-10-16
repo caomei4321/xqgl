@@ -39,7 +39,7 @@
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>工单编号</th>
+                            <th>标题</th>
                             <th>执行人</th>
                             <th>现场处理图片</th>
                             <th>处理信息</th>
@@ -49,10 +49,10 @@
                         </thead>
                         <tbody>
                         @foreach($situations as $situation)
-                            @if($situation->matter->form !== 3)
+                            @if($situation->matter->form === 3)
                             <tr class="gradeC">
                                 <td>{{ $situation->id }}</td>
-                                <td>{{ $situation->matter->work_num }}</td>
+                                <td>{{ $situation->matter->title }}</td>
                                 <td>{{ $situation->user->name }}</td>
                                 <td>
                                     <a class="fancybox" id="img" href="{{ $situation->see_image }}" >
@@ -79,7 +79,7 @@
                         <tfoot>
                         <tr>
                             <th>ID</th>
-                            <th>工单编号</th>
+                            <th>标题</th>
                             <th>执行人</th>
                             <th>现场处理图片</th>
                             <th>处理信息</th>

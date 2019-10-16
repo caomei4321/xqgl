@@ -231,7 +231,7 @@
                                         <label class="col-sm-2 control-label">问题描述：</label>
 
                                         <div class="col-sm-6">
-                                            <textarea name="content" class="form-control" id="editor"  rows="6" placeholder="请输入至少三个字符的内容">{{ old('content', $matter->content) }}</textarea>
+                                            <textarea name="content" class="form-control" rows="6" placeholder="请输入至少三个字符的内容">{{ old('content', $matter->content) }}</textarea>
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>
@@ -239,7 +239,7 @@
                                         <label class="col-sm-2 control-label">转办意见：</label>
 
                                         <div class="col-sm-6">
-                                            <textarea name="content" class="form-control" rows="6" placeholder="请输入至少三个字符的内容">{{ old('suggestion', $matter->suggestion) }}</textarea>
+                                            <textarea name="suggestion" class="form-control" rows="6" placeholder="请输入至少三个字符的内容">{{ old('suggestion', $matter->suggestion) }}</textarea>
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>

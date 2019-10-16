@@ -78,8 +78,11 @@ $api->version('v1', [
 
     $api->get('carouselMap', 'ProgramImagesController@carouselMap');
 
+    // 公开隐藏
     $api->get('openMatters', 'ProgramImagesController@matters');
+    // 要闻信息
     $api->get('news', 'NewsController@index');
+    // 详情
     $api->get('newsDetail/{id}', 'NewsController@newsDetail');
 
     $api->group(['middleware' => 'auth:programApi'], function ($api) {

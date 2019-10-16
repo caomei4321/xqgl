@@ -113,6 +113,15 @@ Route::group(['prefix' => 'admin'], function () {
             'update'    =>  'admin.matters.update',
             'destroy'   =>  'admin.matters.destroy',
         ]);
+
+        Route::get('people', 'Admin\PeopleController@index')->name('admin.people.index');
+        Route::get('people/edit', 'Admin\PeopleController@edit')->name('admin.people.edit');
+        Route::post('people/update', 'Admin\PeopleController@update')->name('admin.people.update');
+        Route::get('peopleSituation', 'Admin\PeopleController@peopleSituation')->name('admin.people.peopleSituation');
+       Route::get('people/open', 'Admin\PeopleController@open')->name('admin.people.open');
+       Route::get('people/allocate', 'Admin\PeopleController@allocate')->name('admin.people.allocate');
+       Route::post('people/allocates', 'Admin\PeopleController@allocates')->name('admin.people.allocates');
+
         // 公开隐藏
         Route::get('matters/open', 'Admin\MattersController@open')->name('admin.matters.open');
         // 分配

@@ -21,9 +21,10 @@ class MattersController extends Controller
 {
     protected  $table = "user_ has_matters";
 
+    // 12345 任务管理
     public function index(Matter $matter, Request $request)
     {
-        $matters = $matter->orderBy('allocate', 'asc')->paginate();
+        $matters = $matter->where('form', '1')->orderBy('allocate', 'asc')->orderBy('created_at', 'desc')->paginate();
 
         return view('admin.matters.index', compact('matters'));
     }
@@ -387,7 +388,7 @@ class MattersController extends Controller
     public function download()
     {
         $filePath = 'excel/word.doc';
-        return response()->download($filePath, 'Word导入模板');
+        return response()->download($filePath, 'Word导入模板.doc');
     }
 
     // 鼠标绘制点线面
