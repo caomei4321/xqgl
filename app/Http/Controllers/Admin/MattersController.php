@@ -21,6 +21,7 @@ class MattersController extends Controller
 {
     protected  $table = "user_ has_matters";
 
+    // 12345 任务管理
     public function index(Matter $matter, Request $request)
     {
         $matters = $matter->where('form', [1,2])->orderBy('allocate', 'asc')->paginate();
@@ -387,7 +388,7 @@ class MattersController extends Controller
     public function download()
     {
         $filePath = 'excel/word.doc';
-        return response()->download($filePath, 'Word导入模板');
+        return response()->download($filePath, 'Word导入模板.doc');
     }
 
     // 鼠标绘制点线面

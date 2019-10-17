@@ -31,32 +31,45 @@
                 <a class="J_menuItem" href="{{ route('admin.entities.index') }}"><i class="fa fa-truck"></i> <span class="nav-label">设备管理</span></a>
             </li>--}}
             <li>
-                <a class="J_menuItem" href="{{ route('admin.patrolMatters.index') }}"><i class="fa fa-truck"></i> <span class="nav-label">巡查发现事件管理</span></a>
-            </li>
-            <li>
-                <a class="J_menuItem" href="{{ route('admin.patrols.index') }}"><i class="fa fa-car"></i> <span class="nav-label">巡查记录</span></a>
+                <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">巡查管理</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="{{ route('admin.patrolMatters.index') }}"><i class="fa fa-truck"></i> <span class="nav-label">巡查发现事件管理</span></a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{{ route('admin.patrols.index') }}"><i class="fa fa-car"></i> <span class="nav-label">巡查记录</span></a>
+                    </li>
+                </ul>
+
             </li>
             <li>
                 <a class="J_menuItem" href="{{ route('admin.alarm.index') }}"><i class="fa fa-truck"></i> <span class="nav-label">智能告警事件管理</span></a>
             </li>
+
             <li>
-                <a class="J_menuItem" href="{{ route('admin.matters.index') }}"><i class="fa fa-tasks"></i> <span class="nav-label">任务清单</span></a>
+                <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">12345任务管理</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="{{ route('admin.matters.index') }}"><i class="fa fa-tasks"></i> <span class="nav-label">12345任务清单</span></a>
+                    </li>
+                    <li><a class="J_menuItem" href="{{ route('admin.situations.index') }}"><i class="fa fa-calendar-minus-o"></i>  <span class="nav-label">12345任务情况</span></a></li>
+                </ul>
             </li>
-            <li><a class="J_menuItem" href="{{ route('admin.situations.index') }}"><i class="fa fa-calendar-minus-o"></i>  <span class="nav-label">任务情况</span></a></li>
+
             <li>
-                <a class="J_menuItem" href="{{ route('admin.programUsers.index') }}"><i class="fa fa-truck"></i> <span class="nav-label">群众管理</span></a>
+                <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">微信上报任务管理</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="{{ route('admin.people.index') }}"><i class="fa fa-tasks"></i> <span class="nav-label">群众上报任务清单</span></a>
+                    </li>
+                    <li><a class="J_menuItem" href="{{ route('admin.people.peopleSituation') }}"><i class="fa fa-calendar-minus-o"></i>  <span class="nav-label">群众上报任务情况</span></a></li>
+                </ul>
             </li>
             <li>
-                <a class="J_menuItem" href="{{ route('admin.programImages.index') }}"><i class="fa fa-file-image-o"></i> <span class="nav-label">轮播图管理</span></a>
+                <a class="J_menuItem" href="{{ route('admin.version.index') }}"><i class="fa fa-vimeo"></i> <span class="nav-label">APP版本管理</span></a>
             </li>
             <li>
-                <a class="J_menuItem" href="{{ route('admin.programMatters.index') }}"><i class="fa fa-file-image-o"></i> <span class="nav-label">微信提交问题</span></a>
-            </li>
-            <li>
-                <a class="J_menuItem" href="{{ route('admin.version.index') }}"><i class="fa fa-file-image-o"></i> <span class="nav-label">APP版本管理</span></a>
-            </li>
-            <li>
-                <a class="J_menuItem" href="{{ route('admin.news.index') }}"><i class="fa fa-file-image-o"></i> <span class="nav-label">要闻管理</span></a>
+                <a class="J_menuItem" href="{{ route('admin.programUsers.index') }}"><i class="fa fa-users"></i> <span class="nav-label">群众管理</span></a>
             </li>
             <li>
                 <a href="#"><i class="fa fa-table"></i> <span class="nav-label">系统管理</span><span class="fa arrow"></span></a>
@@ -76,6 +89,17 @@
                     <li><a class="J_menuItem" href="{{ route('admin.responsibility.index') }}">责任清单指导</a></li>
                     <li><a class="J_menuItem" href="{{ route('admin.part.index') }}">部件信息</a></li>
                     <li><a class="J_menuItem" href="{{ route('admin.coordinates.index') }}">网格划分图</a></li>
+                </ul>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">微信基础数据管理</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="{{ route('admin.programImages.index') }}"><i class="fa fa-file-image-o"></i> <span class="nav-label">轮播图管理</span></a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{{ route('admin.news.index') }}"><i class="fa fa-file-image-o"></i> <span class="nav-label">要闻管理</span></a>
+                    </li>
                 </ul>
             </li>
         </ul>
