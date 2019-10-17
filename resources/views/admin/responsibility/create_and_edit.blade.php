@@ -72,7 +72,7 @@
                                         <label class="col-sm-2 control-label">县级部门职责：</label>
 
                                         <div class="col-sm-6">
-                                            <textarea name="county" class="form-control" id=""  rows="6" placeholder="请输入至少三个字符的内容" required>{{ old('county', $responsibility->county) }}</textarea>
+                                            <textarea name="county" class="form-control" id=""  rows="6">{{ old('county', $responsibility->county) }}</textarea>
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>
@@ -80,7 +80,7 @@
                                         <label class="col-sm-2 control-label">乡镇(街道)职责：</label>
 
                                         <div class="col-sm-6">
-                                            <textarea name="town" class="form-control" id=""  rows="6" placeholder="请输入至少三个字符的内容" required>{{ old('town', $responsibility->town) }}</textarea>
+                                            <textarea name="town" class="form-control" id=""  rows="6">{{ old('town', $responsibility->town) }}</textarea>
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>
@@ -103,7 +103,7 @@
                                         <label class="col-sm-2 control-label">主体责任：</label>
 
                                         <div class="col-sm-6">
-                                            <select class="form-control" name="subject_duty" required>
+                                            <select class="form-control" name="  " required>
                                                 <option value="0" {{ $responsibility->subject_duty == 0 ? 'selected' : '' }}>部门</option>
                                                 <option value="1" {{ $responsibility->subject_duty == 1 ? 'selected' : '' }}>镇街</option>
                                             </select>

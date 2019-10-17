@@ -6,6 +6,7 @@ use App\Http\Resources\Api\MatterCollection;
 use App\Http\Resources\Api\MatterResource;
 use App\Http\Resources\Api\UserResource;
 use App\Models\Matter;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Situation;
@@ -73,18 +74,32 @@ class MattersController extends Controller
      * */
     public function findMatterAndEnd(Request $request,Matter $matter)
     {
-        $imgdata = $request->img;
-        //$base64_str = substr($imgdata, strpos($imgdata, ",") + 1);
-        $image = base64_decode($imgdata);
 
-        $imgname = 'mt' . '_' . time() . '_' . str_random(10) . '.jpg';
-        Storage::disk('public')->put($imgname, $image);
-        $imagePath = '/storage/' . $imgname;
+        $imgdata = $request->img;
 
         $data = $request->only(['title', 'content', 'latitude', 'longitude', 'suggest']);
 
+        $data['images'] = '';
+        if (is_array($imgdata)) {
+
+            for ($i = 0; $i < count($imgdata); $i++) {
+                $image = base64_decode($imgdata[$i]);
+
+                $imgname = 'mt' . '_' . time() . '_' . str_random(10) . '.jpg';
+                Storage::disk('public')->put($imgname, $image);
+
+                if ($i == 0) {
+                    $data['image'] = '/storage/' . $imgname;
+                } else {
+                    $data['images'] = $data['images'] . '/storage/' . $imgname . ';';
+                }
+            }
+        }
+        if (!empty($data['images'])) {
+            $data['images'] = substr($data['images'],0,-1);
+        }
+
         //$request->result; 0表示无法处理
-        $data['image'] = $imagePath;
         $data['status'] = 1;
         $data['patrol_id'] = $request->id ? $request->id : null;
 
@@ -103,11 +118,26 @@ class MattersController extends Controller
 
         $imgdata = $request->img;
         //$base64_str = substr($imgdata, strpos($imgdata, ",") + 1);
-        $image = base64_decode($imgdata);
 
-        $imgname = 'mt' . '_' . time() . '_' . str_random(10) . '.jpg';
-        Storage::disk('public')->put($imgname, $image);
-        $imagePath = '/storage/' . $imgname;
+        $see_images = '';
+        if (is_array($imgdata)) {
+
+            for ($i = 0; $i < count($imgdata); $i++) {
+                $image = base64_decode($imgdata[$i]);
+
+                $imgname = 'mt' . '_' . time() . '_' . str_random(10) . '.jpg';
+                Storage::disk('public')->put($imgname, $image);
+
+                if ($i == 0) {
+                    $see_image = '/storage/' . $imgname;
+                } else {
+                    $see_images = $see_images . '/storage/' . $imgname . ';';
+                }
+            }
+        }
+        if (!empty($see_images)) {
+            $see_images = substr($see_images,0,-1);
+        }
 
         if ($request->result === 1) {  // result 1表示处理完成，0表示无权处理
             $status = 1;
@@ -116,7 +146,8 @@ class MattersController extends Controller
         }
 
         $situation->update([
-            'see_image' => $imagePath,
+            'see_image' => $see_image,
+            'see_images' => $see_images,
             'information' => $request->suggest,
             'status' => $status
         ]);

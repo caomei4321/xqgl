@@ -63,7 +63,7 @@ $api->version('v1', [
 
         $api->post('endMatter', 'MattersController@endImportMatter');   //完成12345任务
 
-        $api->post('importMatter', 'MattersController@findMatterAndEnd');  //发现并提交问题
+
 
 
         $api->post('startAndEndPatrol', 'PatrolController@startAndEndPatrol');  //开始和结束巡逻
@@ -75,12 +75,20 @@ $api->version('v1', [
 
 
     });
+    $api->post('importMatter', 'MattersController@findMatterAndEnd');  //发现并提交问题
 
     $api->get('carouselMap', 'ProgramImagesController@carouselMap');
 
     $api->get('openMatters', 'ProgramImagesController@matters');
     $api->get('news', 'NewsController@index');
     $api->get('newsDetail/{id}', 'NewsController@newsDetail');
+
+    // 上传版本
+    $api->post('fileUpload','FileUploadController@save')->name('api.fileUpload.save');
+
+    $api->get('version','VersionsController@version');
+
+    $api->post('zr','VersionsController@zr');
 
     $api->group(['middleware' => 'auth:programApi'], function ($api) {
         $api->post('matterStore', 'ProgramUsersController@matterStore');  // 上报问题

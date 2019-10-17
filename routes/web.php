@@ -210,6 +210,21 @@ Route::group(['prefix' => 'admin'], function () {
             'store'     =>  'admin.programImages.store',
             'destroy'   =>  'admin.programImages.destroy',
         ]);
+            Route::resource('programMatter', 'Admin\ProgramMattersController', ['except' => ['create', 'show', 'edit', 'update']])->names([
+                'index'     =>  'admin.programMatters.index',
+                'store'     =>  'admin.programMatters.store',
+                'destroy'   =>  'admin.programMatters.destroy',
+            ]);
+            Route::get('programMatter/{matter}', 'Admin\ProgramMattersController@allocate')->name('admin.programMatters.allocate');
+            Route::resource('version', 'Admin\VersionController')->names([
+                'index' => 'admin.version.index',
+                'store' => 'admin.version.store',
+                'create' => 'admin.version.create',
+                'destroy' => 'admin.version.destroy',
+                'update' => 'admin.version.update',
+                'show' => 'admin.version.show',
+                'edit' => 'admin.version.edit',
+            ]);
         });
 
         // 统计

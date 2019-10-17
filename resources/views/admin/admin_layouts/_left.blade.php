@@ -50,6 +50,12 @@
                 <a class="J_menuItem" href="{{ route('admin.programImages.index') }}"><i class="fa fa-file-image-o"></i> <span class="nav-label">轮播图管理</span></a>
             </li>
             <li>
+                <a class="J_menuItem" href="{{ route('admin.programMatters.index') }}"><i class="fa fa-file-image-o"></i> <span class="nav-label">微信提交问题</span></a>
+            </li>
+            <li>
+                <a class="J_menuItem" href="{{ route('admin.version.index') }}"><i class="fa fa-file-image-o"></i> <span class="nav-label">APP版本管理</span></a>
+            </li>
+            <li>
                 <a class="J_menuItem" href="{{ route('admin.news.index') }}"><i class="fa fa-file-image-o"></i> <span class="nav-label">要闻管理</span></a>
             </li>
             <li>

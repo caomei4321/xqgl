@@ -12,7 +12,10 @@ class SituationsController extends Controller
     public function index(Situation  $situation)
     {
         $situations = Situation::with(['Matter', 'User', 'Category'])->paginate(10);
-	
+
+        /*foreach ($situations as $situation) {
+            dd($situation->getImagesAttributes());
+        }*/
         return view('admin.situation.index', compact('situations'));
     }
 

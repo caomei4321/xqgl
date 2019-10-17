@@ -57,6 +57,12 @@
                                     <a class="fancybox" id="img" href="{{ $situation->see_image }}" >
                                         <img src="{{ $situation->see_image }}"  style="width: 40px;" />
                                     </a>
+
+                                    @foreach($situation->getImagesAttributes() as $image)
+                                        <a class="fancybox" id="img" href="{{ $image }}" >
+                                            <img src="{{ $image }}"  style="width: 40px;" />
+                                        </a>
+                                    @endforeach
                                 </td>
                                 <td>{{ $situation->information }}</td>
                                 <td>{{ $situation->created_at }}</td>
