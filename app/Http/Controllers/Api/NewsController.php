@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Comment;
 use App\Models\News;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller
 {
@@ -16,7 +18,6 @@ class NewsController extends Controller
     public function newsDetail(Request $request, News $news)
     {
         $news = $news->find($request->id);
-
         return $news;
     }
 }

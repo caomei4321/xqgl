@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Situation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Maatwebsite\Excel\Excel;
-use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TemplateProcessor;
 
@@ -18,7 +16,7 @@ class SituationsController extends Controller
         return view('admin.situation.index', compact('situations'));
     }
 
-    public function export(Request $request, Situation $situation, Excel $excel)
+    public function export(Request $request, Situation $situation)
     {
         $situations = $situation->with(['Matter', 'User', 'Category'])->find($request->id);
         $data = [
@@ -35,7 +33,6 @@ class SituationsController extends Controller
             'contact_phone' => $situations->matter->contact_phone,
             'address' => $situations->matter->address,
             'reply_remark' => $situations->matter->reply_remark,
-            'category_id' => $situations->category->name,
             'category' => $situations->matter->category,
             'content' => $situations->matter->content,
             'suggestion' => $situations->matter->suggestion,
@@ -50,9 +47,11 @@ class SituationsController extends Controller
         $filePath = 'word/import.docx';
         $templateProcessor = new TemplateProcessor($path);
         $templateProcessor->setValue('accept_num', $data['accept_num']);
+
         $templateProcessor->setValue('time_limit', $data['time_limit']);
         $templateProcessor->setValue('work_num', $data['work_num']);
         $templateProcessor->setValue('level', $data['level']);
+//        dd($templateProcessor);
         $templateProcessor->setValue('type', $data['type']);
         $templateProcessor->setValue('source', $data['source']);
         $templateProcessor->setValue('is_reply', $data['is_reply']);
@@ -67,29 +66,14 @@ class SituationsController extends Controller
         $templateProcessor->setValue('approval', $data['approval']);
         $templateProcessor->setValue('result', $data['result']);
         $templateProcessor->setValue('user', $data['user']);
-        $templateProcessor->setImageValue('see_image', ['path' => "http://".$_SERVER['HTTP_HOST'].$data['see_image']]);
+        if ($data['see_image']) {
+            $templateProcessor->setImageValue('see_image', ['path' => "http://".$_SERVER['HTTP_HOST'].$data['see_image']]);
+        }else{
+            $templateProcessor->setValue('see_image', '');
+        }
         $templateProcessor->setValue('information', $data['information']);
         $templateProcessor->saveAs($filePath);
         return response()->download($filePath, mt_rand(111111,999999).date('YmdHis',time()).'bd.doc');
-
-
-//        $excel->create('list', function ($excel) use ($data) {
-//            $excel->sheet('list', function ($sheet) use ($data) {
-//                if ($data['see_image']) {
-//                    $drawing = new \PHPExcel_Worksheet_Drawing();
-//                    $drawing->setName('image');
-//                    $drawing->setDescription('image');
-//                    $drawing->setPath(public_path($data['see_image']));
-//                    $drawing->setCoordinates('F15');
-//                    $drawing->setHeight(80);
-//                    $drawing->setOffsetX(1);
-//                    $drawing->setRotation(1);
-//                    $drawing->setWorksheet($sheet);
-//                }
-//                $sheet->loadView('admin/situation/export')->with('data', $data);
-//                $sheet->setFontSize(10);
-//            });
-//        })->export('xls');
     }
 
 }
