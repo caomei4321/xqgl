@@ -97,8 +97,7 @@ $api->version('v1', [
         $api->post('matterStore', 'ProgramUsersController@matterStore');  // 上报问题
         $api->get('historyMatters', 'ProgramUsersController@historyMatters');  //历史提交问题记录
         $api->get('weappUser', 'ProgramUsersController@weappUser');  // 当前用户信息
-
-
+        $api->post('newsComment', 'NewsController@comment'); // 评论
     });
 
 
