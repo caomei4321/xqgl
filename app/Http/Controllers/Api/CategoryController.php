@@ -12,7 +12,7 @@ class CategoryController extends Controller
 {
     public function categories()
     {
-        
+
         $standards = GovernanceStandard::all();
 
         $categories = CategoryResource::collection(Category::all());
