@@ -127,7 +127,6 @@ class PeopleController extends Controller
         $situations = Situation::with(['Matter', 'User', 'Category'])->whereDoesntHave('Matter', function ($query){
             $query->where('form', '<', '3');
         })->paginate();
-        dd($situations);
 
         return view('admin.situation.people', compact('situations'));
     }
