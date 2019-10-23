@@ -38,7 +38,7 @@ $api->version('v1', [
         ->name('api.authorizations.delete');
 
     //$api->post('wuthorizations', 'AuthorizationsController@weappStore');
-
+    $api->get('categories', 'CategoryController@categories');  //责任清单分类
     $api->group(['middleware' => 'auth:api'], function ($api) {
 
         $api->get('user', 'RepairsController@thisUser');

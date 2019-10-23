@@ -87,6 +87,7 @@
                 <ul class="nav nav-second-level">
                     <li><a class="J_menuItem" href="{{ route('admin.categories.index') }}">责任类别</a></li>
                     <li><a class="J_menuItem" href="{{ route('admin.responsibility.index') }}">责任清单指导</a></li>
+                    <li><a class="J_menuItem" href="{{ route('admin.governanceStandard.index') }}">治理标准</a></li>
                     <li><a class="J_menuItem" href="{{ route('admin.part.index') }}">部件信息</a></li>
                     <li><a class="J_menuItem" href="{{ route('admin.coordinates.index') }}">网格划分图</a></li>
                 </ul>

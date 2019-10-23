@@ -228,7 +228,17 @@ Route::group(['prefix' => 'admin'], function () {
                 'show' => 'admin.version.show',
                 'edit' => 'admin.version.edit',
             ]);
+
         });
+        Route::resource('governanceStandard', 'Admin\GovernanceStandardsController')->names([
+            'index' => 'admin.governanceStandard.index',
+            'store' => 'admin.governanceStandard.store',
+            'create' => 'admin.governanceStandard.create',
+            'destroy' => 'admin.governanceStandard.destroy',
+            'update' => 'admin.governanceStandard.update',
+            'show' => 'admin.governanceStandard.show',
+            'edit' => 'admin.governanceStandard.edit',
+        ]);
 
         // 统计
         Route::get('count', 'Admin\CountsController@index')->name('admin.counts.index');
