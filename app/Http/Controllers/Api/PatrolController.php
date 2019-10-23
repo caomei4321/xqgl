@@ -24,4 +24,9 @@ class PatrolController extends Controller
             return $this->success('结束成功');
         }
     }
+
+    public function patrolList()
+    {
+        return $this->user()->patrols()->whereDate('created_at',date('Y-m-d',time()))->get();
+    }
 }

@@ -177,6 +177,8 @@ Route::group(['prefix' => 'admin'], function () {
                 'show'      =>  'admin.patrolMatters.show',
                 'destroy'   =>  'admin.patrolMatters.destroy',
             ]);
+            //巡查发现事件导出
+            Route::get('export/patrolMatter', 'Admin\PatrolMattersController@export')->name('admin.patrolMatters.export');
 
             // 巡查记录
             Route::resource('patrol', 'Admin\PatrolsController', ['except' => ['create', 'store', 'edit', 'update']])->names([
