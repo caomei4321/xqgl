@@ -132,14 +132,11 @@ class MattersController extends Controller
     {
         $this->validate($request, [
             'title' => 'required|string|min:2',
-            'address' => 'required|string|min:2',
             'content' => 'required|string|min:3',
             'image' => 'mimes:jpeg,bmp,png,gif|dimensions:min_width=200, min_height=200',
         ], [
             'title.required' => '标题不能为空',
             'title.min' => '标题至少两个字符',
-            'address.required' => '地址不能为空',
-            'address.min' => '地址至少两个字符',
             'content.required' => '内容不能为空',
             'content.min' => '内容至少三个字符',
             'image.mimes' => '必须是jpeg, bmp, png, gif格式的图片',

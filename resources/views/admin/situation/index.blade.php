@@ -49,21 +49,20 @@
                         </thead>
                         <tbody>
                         @foreach($situations as $situation)
-                            @if($situation->matter->form !== 3)
                             <tr class="gradeC">
                                 <td>{{ $situation->id }}</td>
-                                <td>{{ $situation->matter->work_num }}</td>
-                                <td>{{ $situation->user->name }}</td>
+                                <td>{{ $situation->work_num }}</td>
+                                <td>{{ $situation->name }}</td>
                                 <td>
                                     <a class="fancybox" id="img" href="{{ $situation->see_image }}" >
                                         <img src="{{ $situation->see_image }}"  style="width: 40px;" />
                                     </a>
 
-                                    @foreach($situation->getImagesAttributes() as $image)
-                                        <a class="fancybox" id="img" href="{{ $image }}" >
-                                            <img src="{{ $image }}"  style="width: 40px;" />
-                                        </a>
-                                    @endforeach
+                                    {{--@foreach($situation->getImagesAttributes() as $image)--}}
+                                        {{--<a class="fancybox" id="img" href="{{ $image }}" >--}}
+                                            {{--<img src="{{ $image }}"  style="width: 40px;" />--}}
+                                        {{--</a>--}}
+                                    {{--@endforeach--}}
                                 </td>
                                 <td>{{ $situation->information }}</td>
                                 <td>{{ $situation->created_at }}</td>
@@ -79,7 +78,6 @@
                                     @endif
                                 </td>
                             </tr>
-                            @endif
                         @endforeach
                         </tbody>
                         <tfoot>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Situation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\TemplateProcessor;
 
@@ -12,7 +13,12 @@ class SituationsController extends Controller
 {
     public function index(Situation  $situation)
     {
-        $situations = Situation::with(['Matter', 'User', 'Category'])->paginate(10);
+//        $situations = Situation::with(['Matter', 'User', 'Category'])->paginate();
+        $situations = DB::table('user_has_matters as uhm')
+            ->leftJoin('users as u', 'uhm.user_id', '=', 'u.id')
+            ->leftJoin('matters as m', 'uhm.matter_id', '=', 'm.id')
+            ->where('form', '!=' ,'3')
+            ->paginate();
         return view('admin.situation.index', compact('situations'));
     }
 
