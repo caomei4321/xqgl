@@ -254,11 +254,12 @@ class MattersController extends Controller
             $word = [];
             foreach ($arr['text'] as $value) {
                 foreach ($value as $text){
-                    $text = $text[0]['text'];
+                    if ($text) {
+                        $text = preg_replace('# #','',implode('',array_column($text, 'text')));
+                    }
                     array_push($word, $text);
                 }
             }
-
             $wordData = [
                 'title' => '12345承办单',
                 'accept_num' => $word[1],
@@ -281,6 +282,7 @@ class MattersController extends Controller
                 'created_at' => date('Y-m-d H:i:s', time()),
                 'updated_at' => date('Y-m-d H:i:s', time()),
             ];
+
             DB::table('matters')->insert($wordData);
         }catch (\Exception $exception){
             return redirect()->route('admin.matters.index')->withErrors('导入失败，请选择正确的文件和按正确的文件填写方式导入');

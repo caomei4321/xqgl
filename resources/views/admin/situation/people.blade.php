@@ -51,8 +51,8 @@
                         @foreach($situations as $situation)
                             <tr class="gradeC">
                                 <td>{{ $situation->id }}</td>
-                                <td>{{ $situation->title }}</td>
-                                <td>{{ $situation->name }}</td>
+                                <td>{{ $situation->matter->title }}</td>
+                                <td>{{ $situation->user->name }}</td>
                                 <td>
                                     <a class="fancybox" id="img" href="{{ $situation->see_image }}" >
                                         <img src="{{ $situation->see_image }}"  style="width: 40px;" />

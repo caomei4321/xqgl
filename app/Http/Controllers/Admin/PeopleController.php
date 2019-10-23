@@ -119,17 +119,14 @@ class PeopleController extends Controller
 
     public function peopleSituation(Situation $situation)
     {
-        $situations = DB::table('user_has_matters as uhm')
-            ->leftJoin('users as u', 'uhm.user_id', '=', 'u.id')
-            ->leftJoin('matters as m', 'uhm.matter_id', '=', 'm.id')
-            ->where('form', '3')
-            ->paginate();
-//        $situations = Situation::with(['Matter', 'User'])->paginate();
-//        foreach ($situations as $situation) {
-//            if ($situation->Matter->form !== 3) {
-//                unset($situation);
-//            }
-//        }
+//        $situations = DB::table('user_has_matters as uhm')
+//            ->leftJoin('users as u', 'uhm.user_id', '=', 'u.id')
+//            ->leftJoin('matters as m', 'uhm.matter_id', '=', 'm.id')
+//            ->where('form', '3')
+//            ->paginate();
+        $situations = Situation::with(['Matter', 'User', 'Category'])->whereDoesntHave('Matter', function ($query){
+            $query->where('form', '<', '3');
+        })->paginate();
 
         return view('admin.situation.people', compact('situations'));
     }

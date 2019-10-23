@@ -13,12 +13,15 @@ class SituationsController extends Controller
 {
     public function index(Situation  $situation)
     {
-//        $situations = Situation::with(['Matter', 'User', 'Category'])->paginate();
-        $situations = DB::table('user_has_matters as uhm')
-            ->leftJoin('users as u', 'uhm.user_id', '=', 'u.id')
-            ->leftJoin('matters as m', 'uhm.matter_id', '=', 'm.id')
-            ->where('form', '!=' ,'3')
-            ->paginate();
+        $situations = Situation::with(['Matter', 'User', 'Category'])->whereDoesntHave('Matter', function ($query){
+            $query->where('form', '=', '3');
+        })->paginate();
+
+//        $situations = DB::table('user_has_matters as uhm')
+//            ->leftJoin('users as u', 'uhm.user_id', '=', 'u.id')
+//            ->leftJoin('matters as m', 'uhm.matter_id', '=', 'm.id')
+//            ->where('form', '!=' ,'3')
+//            ->paginate();
         return view('admin.situation.index', compact('situations'));
     }
 
