@@ -32,6 +32,8 @@
                     </div>
                 </div>
                 <div class="ibox-content">
+                    <a href="{{ route('admin.patrolMatters.export') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> Excel导出</button>
+                    </a>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                         <tr>

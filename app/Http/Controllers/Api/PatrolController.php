@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\Api\PatrolResource;
 use Illuminate\Http\Request;
 
 class PatrolController extends Controller
@@ -23,5 +24,12 @@ class PatrolController extends Controller
 
             return $this->success('结束成功');
         }
+    }
+
+    public function patrolList()
+    {
+        $patrols = $this->user()->patrols()->whereDate('created_at',date('Y-m-d',time()))->get();
+
+        return response()->json(['data' => $patrols]);
     }
 }

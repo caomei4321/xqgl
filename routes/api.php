@@ -63,7 +63,7 @@ $api->version('v1', [
 
         $api->post('endMatter', 'MattersController@endImportMatter');   //完成12345任务
 
-
+        $api->get('patrolList', 'PatrolController@patrolList');   //巡查记录
 
 
         $api->post('startAndEndPatrol', 'PatrolController@startAndEndPatrol');  //开始和结束巡逻
