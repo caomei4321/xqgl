@@ -32,9 +32,15 @@ class PatrolMattersController extends Controller
         return response()->json(['status' => 1, 'msg' => '删除成功']);
     }
 
-    public function export(PatrolMatter $patrolMatter, Excel $excel)
+    public function export(Request $request, PatrolMatter $patrolMatter, Excel $excel)
     {
-        $patrolMatters = $patrolMatter->all();
+        $startTime = $request->start_time ? $request->start_time : date('Y-m-01', strtotime(date("Y-m-d")));
+        $endTime = $request->end_time ? $request->end_time : date('Y-m-d', time());
+
+
+        $patrolMatters = $patrolMatter->whereDate('created_at', '>=', $startTime)
+                                    ->whereDate('created_at', '<=', $endTime)
+                                    ->get();
         $cellData = [];
         $firstRow = ['姓名', '标题', '问题描述', '处理意见', '处理时间'];
         foreach ($patrolMatters as $matter) {
@@ -53,5 +59,23 @@ class PatrolMattersController extends Controller
                 $sheet->rows($cellData);
             });
         })->export('xls');
+    }
+
+    public function search(Request $request, PatrolMatter $patrolMatter)
+    {
+        $startTime = $request->start_time ? $request->start_time : date('Y-m-01', strtotime(date("Y-m-d")));
+        $endTime = $request->end_time ? $request->end_time : date('Y-m-d', time());
+
+        $filter['start_time'] = $startTime;
+        $filter['end_time'] = $endTime;
+        $patrolMatters = $patrolMatter->whereDate('created_at', '>=', $startTime)
+            ->whereDate('created_at', '<=', $endTime)
+            ->orderBy('id', 'desc')
+            ->paginate();
+        //dd($patrolMatters);
+        return view('admin.patrolMatter.index', [
+            'patrolMatters' => $patrolMatters,
+            'filter' => $filter
+        ]);
     }
 }
