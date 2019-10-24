@@ -19,6 +19,12 @@ class SituationsController extends Controller
         return view('admin.situation.index', compact('situations'));
     }
 
+    public function show(Request $request, Situation $situation)
+    {
+        $ret = Situation::with('Matter', 'User')->first();
+        return view('admin.situation.show', compact('ret'));
+    }
+
     public function export(Request $request, Situation $situation)
     {
         $situations = $situation->with(['Matter', 'User', 'Category'])->find($request->id);
@@ -91,6 +97,9 @@ class SituationsController extends Controller
             }else{
                 $templateProcessor->setValue('see_images2', '');
             }
+        } else {
+            $templateProcessor->setValue('see_images1', '');
+            $templateProcessor->setValue('see_images2', '');
         }
         $templateProcessor->setValue('information', $data['information']);
         $templateProcessor->saveAs($filePath);

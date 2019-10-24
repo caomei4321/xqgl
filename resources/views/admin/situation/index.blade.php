@@ -45,6 +45,7 @@
                             <th>处理信息</th>
                             <th>时间</th>
                             <th>状态</th>
+                            <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -67,13 +68,20 @@
                                 <td>{{ $situation->created_at }}</td>
                                 <td>
                                     @if($situation->status  == 0)
-                                        <button class="btn btn-default btn-sm" type="button"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;未处理</button>
+                                        <button class="btn btn-default btn-xs" type="button"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;未处理</button>
                                     @elseif( $situation->status  == 2)
-                                        <button class="btn btn-sm btn-default " type="button" readonly><i class="fa fa-warning"></i> <span class="bold">配合</span>
+                                        <button class="btn btn-xs btn-warning" type="button" readonly><i class="fa fa-warning"></i> <span class="bold">配合</span>
                                         </button>
-                                        <a href="{{ route('admin.situations.export', ['id' => $situation->id]) }}" class="btn btn-sm btn-warning"><i class="fa fa-warning"></i>转办单</a>
+
                                     @else
-                                        <button class="btn btn-sm btn-info " type="button"><i class="fa fa-paste"></i> 完成</button>
+                                        <button class="btn btn-xs btn-info " type="button"><i class="fa fa-paste"></i> 完成</button>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($situation->status  == 2)
+                                        <a href="{{ route('admin.situations.export', ['id' => $situation->id]) }}" class="btn btn-xs btn-danger"><i class="fa fa-warning"></i>转办单</a>
+                                    @else
+                                        <a href="{{ route('admin.situations.show', ['situations' => $situation->id]) }}"><button class="btn btn-xs btn-success " type="button"><i class="fa fa-paste"></i> 查看</button></a>
                                     @endif
                                 </td>
                             </tr>
@@ -88,6 +96,7 @@
                             <th>处理信息</th>
                             <th>时间</th>
                             <th>状态</th>
+                            <th>操作</th>
                         </tr>
                         </tfoot>
                     </table>

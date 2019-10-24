@@ -149,4 +149,10 @@ class PeopleController extends Controller
 
         return view('admin.situation.people', compact('situations'));
     }
+
+    public function showPeopleSituation(Request $request,Situation $situation)
+    {
+        $ret = Situation::with('Matter', 'User')->where('id', $request->id)->first();
+        return view('admin.situation.people_show', compact('ret'));
+    }
 }
