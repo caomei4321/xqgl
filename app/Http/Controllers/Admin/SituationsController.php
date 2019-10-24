@@ -75,6 +75,23 @@ class SituationsController extends Controller
         }else{
             $templateProcessor->setValue('see_image', '');
         }
+        if ($data['see_images']) {
+            $data['see_images'] = explode(';', $data['see_images']);
+            if ($data['see_images'][0]) {
+                $templateProcessor->setImageValue('see_images1', [
+                    'path' => "http://".$_SERVER['HTTP_HOST'].$data['see_images'][0],
+                ]);
+            }else{
+                $templateProcessor->setValue('see_images1', '');
+            }
+            if ($data['see_images'][1]) {
+                $templateProcessor->setImageValue('see_images2', [
+                    'path' => "http://".$_SERVER['HTTP_HOST'].$data['see_images'][1],
+                ]);
+            }else{
+                $templateProcessor->setValue('see_images2', '');
+            }
+        }
         $templateProcessor->setValue('information', $data['information']);
         $templateProcessor->saveAs($filePath);
         return response()->download($filePath, mt_rand(111111,999999).date('YmdHis',time()).'bd.doc');
