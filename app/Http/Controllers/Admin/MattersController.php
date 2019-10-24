@@ -145,25 +145,14 @@ class MattersController extends Controller
     }
 
     // 导出
-    public function export(Matter $matter, Excel $excel)
+    public function export(Request $request, Matter $matter, Excel $excel)
     {
-        $matters = $matter->all()->toArray();
+        $timeStart = $request->timeStart ? "$request->timeStart 00:00:00" : '2019-01-01 00:00:00';
+        $timeEnd = $request->timeEnd ? "$request->timeEnd 23:59:59" : date('Y-m-d H:i:s', time());
+        $matters = $matter->where('form', '<' ,'3')->whereBetween('created_at', [$timeStart, $timeEnd])->get()->toArray();
         $cellData = [];
-        $firstRow = ['受理员编号','办结时限','工单编号','紧急程度','来电类别','信息来源','是否回复','是否保密','联系人','联系电话','回复备注','问题分类','特办意见','领导批示','办理结果','标题', '地址', '内容', '创建时间'];
+        $firstRow = ['受理员编号','办结时限','工单编号','紧急程度','来电类别','信息来源','是否回复','是否保密','联系人','联系电话','联系地址','回复备注','问题分类','问题描述','特办意见','领导批示','办理结果','创建时间'];
         foreach ($matters as $matter) {
-
-            if ($matter['is_reply'] == 1) {
-                 $matter['is_reply'] = '是';
-            } else $matter['is_reply'] = '否';
-
-            if ($matter['is_secret'] == 1) {
-                $matter['is_secret'] = '是';
-            } else $matter['is_secret'] = '否';
-
-            $category = Category::find($matter['category_id']);
-
-            $matter['category_id'] = isset($category->name) ? $category->name : '';
-
             $data = [
                 $matter['accept_num'],
                 $matter['time_limit'],
@@ -175,14 +164,13 @@ class MattersController extends Controller
                 $matter['is_secret'],
                 $matter['contact_name'],
                 $matter['contact_phone'],
+                $matter['address'],
                 $matter['reply_remark'],
-                $matter['category_id'],
+                $matter['category'],
+                $matter['content'],
                 $matter['suggestion'],
                 $matter['approval'],
                 $matter['result'],
-                $matter['title'],
-                $matter['address'],
-                $matter['content'],
                 $matter['created_at']
             ];
             array_push($cellData, $data);

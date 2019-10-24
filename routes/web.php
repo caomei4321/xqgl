@@ -121,6 +121,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('people/open', 'Admin\PeopleController@open')->name('admin.people.open');
             Route::get('people/allocate', 'Admin\PeopleController@allocate')->name('admin.people.allocate');
             Route::post('people/allocates', 'Admin\PeopleController@allocates')->name('admin.people.allocates');
+            Route::get('people/export', 'Admin\PeopleController@export')->name('admin.people.export');
 
             // 公开隐藏
             Route::get('matters/open', 'Admin\MattersController@open')->name('admin.matters.open');

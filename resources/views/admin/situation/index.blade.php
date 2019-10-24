@@ -69,9 +69,9 @@
                                     @if($situation->status  == 0)
                                         <button class="btn btn-default btn-sm" type="button"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;未处理</button>
                                     @elseif( $situation->status  == 2)
-                                        <button class="btn btn-sm btn-warning " type="button"><i class="fa fa-warning"></i> <span class="bold">配合</span>
+                                        <button class="btn btn-sm btn-default " type="button" readonly><i class="fa fa-warning"></i> <span class="bold">配合</span>
                                         </button>
-                                        <a href="{{ route('admin.situations.export', ['id' => $situation->id]) }}" class="btn btn-sm btn-warning"><i class="fa fa-warning"></i>上报单</a>
+                                        <a href="{{ route('admin.situations.export', ['id' => $situation->id]) }}" class="btn btn-sm btn-warning"><i class="fa fa-warning"></i>转办单</a>
                                     @else
                                         <button class="btn btn-sm btn-info " type="button"><i class="fa fa-paste"></i> 完成</button>
                                     @endif
