@@ -98,6 +98,7 @@ $api->version('v1', [
         $api->get('historyMatters', 'ProgramUsersController@historyMatters');  //历史提交问题记录
         $api->get('weappUser', 'ProgramUsersController@weappUser');  // 当前用户信息
         $api->post('newsComment', 'NewsController@comment'); // 评论
+        $api->post('destroyComment', 'NewsController@destroyComment'); // 删除评论
     });
 
 
