@@ -6,7 +6,8 @@
         <ul class="nav" id="side-menu">
             <li class="nav-header">
                 <div class="dropdown profile-element">
-                    <span><img alt="image" class="img-circle" src="{{ asset('assets/admin/img/profile_small.jpg') }}" /></span>
+{{--                    <span><img alt="image" class="img-circle" src="{{ asset('assets/admin/img/profile_small.jpg') }}" /></span>--}}
+                    <span><img alt="image" style="height: 60px;" class="img-circle" src="{{ asset('assets/admin/img/zhwjz.png') }}" /></span>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
                                <span class="block m-t-xs"><strong class="font-bold">admin</strong></span>
@@ -43,10 +44,6 @@
 
             </li>
             <li>
-                <a class="J_menuItem" href="{{ route('admin.alarm.index') }}"><i class="fa fa-truck"></i> <span class="nav-label">智能告警事件管理</span></a>
-            </li>
-
-            <li>
                 <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">12345任务管理</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
@@ -66,21 +63,13 @@
                 </ul>
             </li>
             <li>
-                <a class="J_menuItem" href="{{ route('admin.version.index') }}"><i class="fa fa-vimeo"></i> <span class="nav-label">APP版本管理</span></a>
-            </li>
-            <li>
                 <a class="J_menuItem" href="{{ route('admin.programUsers.index') }}"><i class="fa fa-users"></i> <span class="nav-label">群众管理</span></a>
             </li>
             <li>
-                <a href="#"><i class="fa fa-table"></i> <span class="nav-label">系统管理</span><span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li><a class="J_menuItem" href="{{ route('admin.administrators.index') }}">管理员</a>
-                    </li>
-                    <li><a class="J_menuItem" href="{{ route('admin.roles.index') }}">角色</a>
-                    </li>
-                    <li><a class="J_menuItem" href="{{ route('admin.permissions.index') }}">权限</a>
-                    </li>
-                </ul>
+                <a class="J_menuItem" href="{{ route('admin.version.index') }}"><i class="fa fa-vimeo"></i> <span class="nav-label">APP版本管理</span></a>
+            </li>
+            <li>
+                <a class="J_menuItem" href="{{ route('admin.alarm.index') }}"><i class="fa fa-truck"></i> <span class="nav-label">智能告警事件管理</span></a>
             </li>
             <li>
                 <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">基础数据管理</span><span class="fa arrow"></span></a>
@@ -100,6 +89,17 @@
                     </li>
                     <li>
                         <a class="J_menuItem" href="{{ route('admin.news.index') }}"><i class="fa fa-file-image-o"></i> <span class="nav-label">要闻管理</span></a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-table"></i> <span class="nav-label">系统管理</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a class="J_menuItem" href="{{ route('admin.administrators.index') }}">管理员</a>
+                    </li>
+                    <li><a class="J_menuItem" href="{{ route('admin.roles.index') }}">角色</a>
+                    </li>
+                    <li><a class="J_menuItem" href="{{ route('admin.permissions.index') }}">权限</a>
                     </li>
                 </ul>
             </li>

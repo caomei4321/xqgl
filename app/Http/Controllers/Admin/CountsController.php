@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Matter;
+use App\Models\PatrolMatter;
 use Carbon\Carbon;
 use App\Handlers\Curl;
 use App\Models\Patrol;
@@ -10,6 +12,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Excel;
 
 class CountsController extends Controller
 {
@@ -119,4 +122,77 @@ class CountsController extends Controller
         return  response()->json($all);
     }
 
+    // 导出报表
+    public function export(Request $request, Matter $matter, PatrolMatter $patrolMatter, Patrol $patrol, Excel $excel)
+    {
+        $startTime = $request->start_time ? $request->start_time : date('Y-m-01',strtotime(date("Y-m-d")));
+        $endTime = $request->end_time ? $request->end_time : date('Y-m-d', time());
+
+        // 小程序每日上报问题数量
+        $programMattersCount = $matter
+                                     ->where('form',3)
+                                     ->whereBetween('created_at',[$startTime,$endTime])
+                                     //->whereDate('created_at', '>=', $startTime)
+                                     //->whereDate('created_at', '<=', $endTime)
+                                     ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
+                                     ->groupBy('date')
+                                     ->get()->toArray();
+        // 巡查每日发现问题数量
+        $patrolMattersCount = $patrolMatter->whereBetween('created_at',[$startTime,$endTime])
+                                            ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
+                                            ->groupBy('date')
+                                            ->get()->toArray();
+
+        // 每日巡查人数
+        $patrolUserCount = $patrol->whereBetween('created_at',[$startTime,$endTime])
+                                    //->selectRaw('')
+                                    ->selectRaw('DATE(created_at) as date,  COUNT(distinct user_id) as count')
+                                    ->groupBy('date')
+                                    ->get()->toArray();
+
+        $firstRow = ['日期', '群众上报问题数量', '每日巡查发现问题', '每日巡查人数'];
+
+        // excel 数据
+        $cellData = [];
+
+        // 按日期循环
+        for ($i = strtotime($startTime); $i <= strtotime($endTime);  $i += 86400) {
+
+            $date = date('Y-m-d',$i);
+
+            if ($key = array_search($date,array_column($programMattersCount,'date'))) {  // 二维数组查找
+                $programMatters = $programMattersCount[$key]['count'];
+            } else {
+                $programMatters = 0;
+            }
+
+            if ($key = array_search($date,array_column($patrolMattersCount,'date'))) {
+                $patrolMatters = $patrolMattersCount[$key]['count'];
+            } else {
+                $patrolMatters = 0;
+            }
+
+            if ($key = array_search($date,array_column($patrolUserCount,'date'))) {
+                $patrolUser = $patrolUserCount[$key]['count'];
+            } else {
+                $patrolUser = 0;
+            }
+
+            $data = [
+                $date,
+                $programMatters,
+                $patrolMatters,
+                $patrolUser
+            ];
+
+            array_push($cellData, $data);
+        }
+
+        $excel->create('数据统计', function ($excel) use ($cellData, $firstRow) {
+            $excel->sheet('matter', function ($sheet) use ($cellData, $firstRow) {
+                $sheet->prependRow(1, $firstRow);
+                $sheet->rows($cellData);
+            });
+        })->export('xls');
+    }
 }

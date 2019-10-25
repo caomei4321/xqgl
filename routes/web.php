@@ -177,6 +177,7 @@ Route::group(['prefix' => 'admin'], function () {
             ]);
             //巡查发现事件导出
             Route::get('export/patrolMatter', 'Admin\PatrolMattersController@export')->name('admin.patrolMatters.export');
+            Route::get('search/patrolMatter', 'Admin\PatrolMattersController@search')->name('admin.patrolMatters.search');
 
             // 巡查记录
             Route::resource('patrol', 'Admin\PatrolsController', ['except' => ['create', 'store', 'edit', 'update']])->names([
@@ -242,6 +243,9 @@ Route::group(['prefix' => 'admin'], function () {
 
         // 统计
         Route::get('count', 'Admin\CountsController@index')->name('admin.counts.index');
+
+        // 导出报表
+        Route::get('export', 'Admin\CountsController@export')->name('admin.counts.export');
 
         Route::get('allUserPatrol', 'Admin\CountsController@allUserPatrol')->name('admin.counts.allUserPatrol');
 
