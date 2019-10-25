@@ -152,15 +152,10 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('part/mapInfo', 'Admin\PartsController@mapInfo')->name('admin.part.mapInfo');
 
             // 任务情况
-            Route::resource('situations', 'Admin\SituationsController')->names([
+            Route::resource('situations', 'Admin\SituationsController', ['except' => ['show','create','store','edit', 'update']])->names([
                 'index'     =>  'admin.situations.index',
-                'create'    =>  'admin.situations.create',
-                'store'     =>  'admin.situations.store',
-                'show'      =>  'admin.situations.show',
-                'edit'      =>  'admin.situations.edit',
-                'update'    =>  'admin.situations.update',
-                'destroy'   =>  'admin.situations.destroy',
             ]);
+            Route::get('showSituation', 'Admin\SituationsController@showSituation')->name('admin.situations.show');
             Route::get('situationsExport', 'Admin\SituationsController@export')->name('admin.situations.export');
 
 

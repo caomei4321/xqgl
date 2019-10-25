@@ -81,7 +81,7 @@
                                     @if($situation->status  == 2)
                                         <a href="{{ route('admin.situations.export', ['id' => $situation->id]) }}" class="btn btn-xs btn-danger"><i class="fa fa-warning"></i>转办单</a>
                                     @else
-                                        <a href="{{ route('admin.situations.show', ['situations' => $situation->id]) }}"><button class="btn btn-xs btn-success " type="button"><i class="fa fa-paste"></i> 查看</button></a>
+                                        <a href="{{ route('admin.situations.show', ['id' => $situation->id]) }}"><button class="btn btn-xs btn-success " type="button"><i class="fa fa-paste"></i> 查看</button></a>
                                     @endif
                                 </td>
                             </tr>
