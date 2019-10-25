@@ -16,13 +16,13 @@ class SituationsController extends Controller
         $situations = Situation::with(['Matter', 'User', 'Category'])->whereDoesntHave('Matter', function ($query){
             $query->where('form', '=', '3');
         })->paginate();
-
-//        $situations = DB::table('user_has_matters as uhm')
-//            ->leftJoin('users as u', 'uhm.user_id', '=', 'u.id')
-//            ->leftJoin('matters as m', 'uhm.matter_id', '=', 'm.id')
-//            ->where('form', '!=' ,'3')
-//            ->paginate();
         return view('admin.situation.index', compact('situations'));
+    }
+
+    public function show(Request $request, Situation $situation)
+    {
+        $ret = Situation::with('Matter', 'User')->first();
+        return view('admin.situation.show', compact('ret'));
     }
 
     public function export(Request $request, Situation $situation)
@@ -49,18 +49,17 @@ class SituationsController extends Controller
             'result' => $situations->matter->result,
             'user' => $situations->user->name,
             'see_image' => $situations->see_image,
-            'information' => $situations->information
+            'information' => $situations->information,
+            'see_images' => $situations->see_images,
         ];
         $phpword = new PhpWord();
         $path = 'word/temp.docx';
         $filePath = 'word/import.docx';
         $templateProcessor = new TemplateProcessor($path);
         $templateProcessor->setValue('accept_num', $data['accept_num']);
-
         $templateProcessor->setValue('time_limit', $data['time_limit']);
         $templateProcessor->setValue('work_num', $data['work_num']);
         $templateProcessor->setValue('level', $data['level']);
-//        dd($templateProcessor);
         $templateProcessor->setValue('type', $data['type']);
         $templateProcessor->setValue('source', $data['source']);
         $templateProcessor->setValue('is_reply', $data['is_reply']);
@@ -76,9 +75,31 @@ class SituationsController extends Controller
         $templateProcessor->setValue('result', $data['result']);
         $templateProcessor->setValue('user', $data['user']);
         if ($data['see_image']) {
-            $templateProcessor->setImageValue('see_image', ['path' => "http://".$_SERVER['HTTP_HOST'].$data['see_image']]);
+            $templateProcessor->setImageValue('see_image', [
+                'path' => "http://".$_SERVER['HTTP_HOST'].$data['see_image'],
+            ]);
         }else{
             $templateProcessor->setValue('see_image', '');
+        }
+        if ($data['see_images']) {
+            $data['see_images'] = explode(';', $data['see_images']);
+            if ($data['see_images'][0]) {
+                $templateProcessor->setImageValue('see_images1', [
+                    'path' => "http://".$_SERVER['HTTP_HOST'].$data['see_images'][0],
+                ]);
+            }else{
+                $templateProcessor->setValue('see_images1', '');
+            }
+            if ($data['see_images'][1]) {
+                $templateProcessor->setImageValue('see_images2', [
+                    'path' => "http://".$_SERVER['HTTP_HOST'].$data['see_images'][1],
+                ]);
+            }else{
+                $templateProcessor->setValue('see_images2', '');
+            }
+        } else {
+            $templateProcessor->setValue('see_images1', '');
+            $templateProcessor->setValue('see_images2', '');
         }
         $templateProcessor->setValue('information', $data['information']);
         $templateProcessor->saveAs($filePath);

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Handlers\JPushHandler;
 use App\Models\Category;
+use Maatwebsite\Excel\Excel;
 
 class PeopleController extends Controller
 {
@@ -115,19 +116,43 @@ class PeopleController extends Controller
         ]);
     }
 
-
+    // 群众上报导出导出
+    public function export(Request $request, Matter $matter, Excel $excel)
+    {
+        $timeStart = $request->timeStart ? "$request->timeStart 00:00:00" : '2019-01-01 00:00:00';
+        $timeEnd = $request->timeEnd ? "$request->timeEnd 23:59:59" : date('Y-m-d H:i:s', time());
+        $matters = $matter->where('form','3')->whereBetween('created_at', [$timeStart, $timeEnd])->get()->toArray();
+        $cellData = [];
+        $firstRow = ['标题','地址','问题描述', '创建时间'];
+        foreach ($matters as $matter) {
+            $data = [
+                $matter['title'],
+                $matter['address'],
+                $matter['content'],
+                $matter['created_at']
+            ];
+            array_push($cellData, $data);
+        }
+        $excel->create('群众上报清单', function ($excel) use ($cellData, $firstRow) {
+            $excel->sheet('list', function ($sheet) use ($cellData, $firstRow) {
+                $sheet->prependRow(1, $firstRow);
+                $sheet->rows($cellData);
+            });
+        })->export('xls');
+    }
 
     public function peopleSituation(Situation $situation)
     {
-//        $situations = DB::table('user_has_matters as uhm')
-//            ->leftJoin('users as u', 'uhm.user_id', '=', 'u.id')
-//            ->leftJoin('matters as m', 'uhm.matter_id', '=', 'm.id')
-//            ->where('form', '3')
-//            ->paginate();
         $situations = Situation::with(['Matter', 'User', 'Category'])->whereDoesntHave('Matter', function ($query){
             $query->where('form', '<', '3');
         })->paginate();
 
         return view('admin.situation.people', compact('situations'));
+    }
+
+    public function showPeopleSituation(Request $request,Situation $situation)
+    {
+        $ret = Situation::with('Matter', 'User')->where('id', $request->id)->first();
+        return view('admin.situation.people_show', compact('ret'));
     }
 }

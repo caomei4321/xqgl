@@ -36,11 +36,20 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <a href="{{ route('admin.matters.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加任务</button>
+                    <a href="{{ route('admin.matters.create') }}"><button class="btn btn-info" type="button"><i class="fa fa-paste"></i> 添加任务</button>
                     </a>
                     {{--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" onclick="fun()" id="fp-btn">分配到人</button>--}}
-                    <button class="btn btn-info " type="button" data-toggle="modal" data-target="#importModal" data-whatever="@mdo"><i class="fa fa-paste"></i> Word导入</button>
-                    {{--<a href="{{ route('admin.matters.export') }}"> <button class="btn btn-warning" type="button"><i class="fa fa-paste"></i> Excel导出</button></a>--}}
+                    <button class="btn btn-info" type="button" data-toggle="modal" data-target="#importModal" data-whatever="@mdo"><i class="fa fa-paste"></i> Word导入</button>
+
+                    <form action="{{ route('admin.matters.export') }}" method="get">
+                        <div class="col-sm-2" style="display: inline-block">
+                            <input class="form-control inline" type="date" name="timeStart">
+                        </div>
+                        <div class="col-sm-2" style="display: inline-block">
+                            <input class="form-control inline" type="date" name="timeEnd">
+                        </div>
+                        <button class="btn btn-info" type="submit" style="display: inline-block"><i class="fa fa-paste"></i>导出12345任务清单</button>
+                    </form>
                     {{--<a href="{{ route('admin.matters.mouse') }}"> <button class="btn btn-warning" type="button"><i class="fa fa-paste"></i> 鼠标点线面</button></a>--}}
                     {{--导入model start--}}
                     <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">

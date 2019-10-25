@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Models\News;
 use App\Models\ProgramUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class NewsController extends Controller
 {
@@ -40,5 +41,12 @@ class NewsController extends Controller
 
         return response()->json(['status' => '201', 'msg' => '评论成功', 'data' => $comment ]);
 
+    }
+
+    // 删除评论
+    public function destroyComment(Request $request)
+    {
+        DB::table('comments')->where('id', $request->id)->delete();
+        return response()->json(['status' => '201', 'msg' => '删除成功']);
     }
 }

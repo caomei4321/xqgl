@@ -121,6 +121,8 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('people/open', 'Admin\PeopleController@open')->name('admin.people.open');
             Route::get('people/allocate', 'Admin\PeopleController@allocate')->name('admin.people.allocate');
             Route::post('people/allocates', 'Admin\PeopleController@allocates')->name('admin.people.allocates');
+            Route::get('people/export', 'Admin\PeopleController@export')->name('admin.people.export');
+            Route::get('people/show', 'Admin\PeopleController@showPeopleSituation')->name('admin.people.show');
 
             // 公开隐藏
             Route::get('matters/open', 'Admin\MattersController@open')->name('admin.matters.open');
@@ -150,10 +152,11 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('part/mapInfo', 'Admin\PartsController@mapInfo')->name('admin.part.mapInfo');
 
             // 任务情况
-            Route::resource('situations', 'Admin\SituationsController', ['except' => ['show']])->names([
+            Route::resource('situations', 'Admin\SituationsController')->names([
                 'index'     =>  'admin.situations.index',
                 'create'    =>  'admin.situations.create',
                 'store'     =>  'admin.situations.store',
+                'show'      =>  'admin.situations.show',
                 'edit'      =>  'admin.situations.edit',
                 'update'    =>  'admin.situations.update',
                 'destroy'   =>  'admin.situations.destroy',
