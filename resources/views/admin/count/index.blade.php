@@ -5,6 +5,8 @@
     <link href="{{ asset('assets/admin/css/plugins/dataTables/dataTables.bootstrap.css') }}" rel="stylesheet">
     <!-- Sweet Alert -->
     <link href="{{ asset('assets/admin/css/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet">
+    <!-- Data picker -->
+    <link href="{{ asset('assets/admin/css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet">
 @endsection
 <script src="{{ asset('assets/admin/js/jquery.min.js') }}"></script>
 
@@ -228,12 +230,52 @@
         </div>
     </div>
 
+    <form id="form" method="get" action="{{ route('admin.counts.export') }}">
+        <div class="form-group form-inline row text-left" id="data_5">
+            <label class="font-noraml">范围选择</label>
+            {{ csrf_field() }}
+            <div class="input-daterange input-group" id="datepicker">
+
+                <input type="text" class="input-sm form-control" name="start_time" value="" />
+                <span class="input-group-addon">到</span>
+                <input type="text" class="input-sm form-control" name="end_time" value="" />
+
+            </div>
+            <div class="form-group">
+
+                <input type="submit" class="btn btn-primary" id="search" value="导出报表">
+            </div>
+
+        </div>
+    </form>
+
 @endsection
 
 @section('scripts')
     <script src="{{ asset('assets/admin/js/echarts.js') }}"></script>
+    <!-- Data picker -->
+    <script src="{{ asset('assets/admin/js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
 @endsection
 
 @section('javascript')
-
+    <script>
+        $(document).ready(function () {
+            $('#datepicker').datepicker();
+            var config = {
+                '.chosen-select': {},
+                '.chosen-select-deselect': {
+                    allow_single_deselect: true
+                },
+                '.chosen-select-no-single': {
+                    disable_search_threshold: 10
+                },
+                '.chosen-select-no-results': {
+                    no_results_text: 'Oops, nothing found!'
+                },
+                '.chosen-select-width': {
+                    width: "95%"
+                }
+            };
+        })
+    </script>
 @endsection

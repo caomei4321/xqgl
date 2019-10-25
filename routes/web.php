@@ -246,6 +246,9 @@ Route::group(['prefix' => 'admin'], function () {
         // 统计
         Route::get('count', 'Admin\CountsController@index')->name('admin.counts.index');
 
+        // 导出报表
+        Route::get('export', 'Admin\CountsController@export')->name('admin.counts.export');
+
         Route::get('allUserPatrol', 'Admin\CountsController@allUserPatrol')->name('admin.counts.allUserPatrol');
 
         Route::get('dataInfo', 'Admin\CountsController@dataInfo')->name('admin.counts.dataInfo');
