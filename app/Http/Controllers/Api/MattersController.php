@@ -139,10 +139,16 @@ class MattersController extends Controller
             $see_images = substr($see_images,0,-1);
         }
 
-        if ($request->result === 1) {  // result 1表示处理完成，0表示无权处理
-            $status = 1;
-        } else {
+        /*
+         * status 表示任务状态
+         *      0：默认状态，表示未处理
+         *      1：表示处理完成
+         *      2：表示无权处理
+         * */
+        if ($request->result == 1) {  // result 1表示无权处理，0表示处理完成
             $status = 2;
+        } else {
+            $status = 1;
         }
 
         $situation->update([
