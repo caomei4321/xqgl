@@ -208,6 +208,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('alarm', 'Admin\AlarmsController@index')->name('admin.alarm.index');
             Route::get('alarm/detail', 'Admin\AlarmsController@detail')->name('admin.alarm.detail');
             Route::get('alarm/detailmap', 'Admin\AlarmsController@detailMap')->name('admin.alarm.detailmap');
+            Route::get('alarm/export', 'Admin\AlarmsController@export')->name('admin.alarm.export');
 
             Route::resource('programUser', 'Admin\ProgramUsersController', ['except' => ['create', 'store', 'edit', 'update']])->names([
                 'index'     =>  'admin.programUsers.index',

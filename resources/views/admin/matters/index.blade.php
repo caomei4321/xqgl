@@ -39,7 +39,7 @@
                     <a href="{{ route('admin.matters.create') }}"><button class="btn btn-info" type="button"><i class="fa fa-paste"></i> 添加任务</button>
                     </a>
                     {{--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" onclick="fun()" id="fp-btn">分配到人</button>--}}
-                    <button class="btn btn-info" type="button" data-toggle="modal" data-target="#importModal" data-whatever="@mdo"><i class="fa fa-paste"></i> Word导入</button>
+                    <button class="btn btn-info" type="button" data-toggle="modal" data-target="#importModal" data-whatever="@mdo"><i class="fa fa-paste"></i> 12345任务导入</button>
 
                     <form action="{{ route('admin.matters.export') }}" method="get">
                         <div class="col-sm-2" style="display: inline-block">
@@ -48,7 +48,7 @@
                         <div class="col-sm-2" style="display: inline-block">
                             <input class="form-control inline" type="date" name="timeEnd">
                         </div>
-                        <button class="btn btn-info" type="submit" style="display: inline-block"><i class="fa fa-paste"></i>导出12345任务清单</button>
+                        <button class="btn btn-info" type="submit" style="display: inline-block"><i class="fa fa-paste"></i>12345任务报表生成</button>
                     </form>
                     {{--<a href="{{ route('admin.matters.mouse') }}"> <button class="btn btn-warning" type="button"><i class="fa fa-paste"></i> 鼠标点线面</button></a>--}}
                     {{--导入model start--}}
@@ -68,10 +68,10 @@
                                         {{ csrf_field() }}
                                         <div class="form-group">
                                             <label for="import_file" class="control-label">选择指定格式Word文件</label>
-                                            <input type="file" class="form-control"  name="import_file" value=""  >
+                                            <input type="file" class="form-control"  name="import_file" value=""  required>
                                         </div>
                                         <button type="reset" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                        <button type="submit" onclick="submit()" class="btn btn-primary">确定</button>
+                                        <button type="submit" class="btn btn-primary">确定</button>
                                     </form>
                                 </div>
                             </div>
@@ -100,7 +100,7 @@
                                             </select>
                                         </div>
                                         <button type="reset" id="model_reset" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                        <button type="submit" onclick="submit()" class="btn btn-primary">确定</button>
+                                        <button type="submit" class="btn btn-primary">确定</button>
                                     </form>
                                 </div>
                             </div>
