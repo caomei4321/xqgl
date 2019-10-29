@@ -64,7 +64,7 @@
             <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="{{ url('admin/count') }}" frameborder="0" data-id="{{ url('admin/count') }}" seamless></iframe>
         </div>
         <div class="navbar navbar-fixed-bottom">
-            <div class="footer" >
+            <div class="" style="position: fixed" >
                 <div class="pull-right">&copy; 2019-2020 <a href="#" target="_blank">三晖科技</a>
                 </div>
             </div>

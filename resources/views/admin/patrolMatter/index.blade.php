@@ -14,7 +14,7 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>巡查上报问题</small></h5>
+                    <h5><small>巡查上报问题</small></h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -36,7 +36,7 @@
                 <div class="ibox-content">
                     {{--<a href="{{ route('admin.patrolMatters.export') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> Excel导出</button>
                     </a>--}}
-                    <button class="btn btn-info " id="download" type="button"><i class="fa fa-paste"></i> 下载excel</button>
+                    <button class="btn btn-info " id="download" type="button"><i class="fa fa-paste"></i> 巡查事件上报统计</button>
                     <form id="form" method="get" action="">
                         <div class="form-group form-inline row text-left" id="data_5">
                             <label class="font-noraml">范围选择</label>
