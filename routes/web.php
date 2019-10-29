@@ -211,6 +211,11 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('alarm/export', 'Admin\AlarmsController@export')->name('admin.alarm.export');
             Route::delete('alarm/{alarm}', 'Admin\AlarmsController@destroy')->name('admin.alarm.destroy');
 
+            Route::resource('hats', 'Admin\HatsController')->names([
+                'index' => 'admin.hats.index',
+                'destroy' => 'admin.hats.destroy'
+            ]);
+
             Route::resource('programUser', 'Admin\ProgramUsersController', ['except' => ['create', 'store', 'edit', 'update']])->names([
                 'index'     =>  'admin.programUsers.index',
                 'show'      =>  'admin.programUsers.show',

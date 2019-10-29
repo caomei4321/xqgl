@@ -72,6 +72,9 @@
                 <a class="J_menuItem" href="{{ route('admin.alarm.index') }}"><i class="fa fa-truck"></i> <span class="nav-label">智能告警事件管理</span></a>
             </li>
             <li>
+                <a class="J_menuItem" href="{{ route('admin.hats.index') }}"><i class="fa fa-truck"></i> <span class="nav-label">安全帽智能检测管理</span></a>
+            </li>
+            <li>
                 <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">基础数据管理</span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li><a class="J_menuItem" href="{{ route('admin.categories.index') }}">责任类别</a></li>
