@@ -75,6 +75,8 @@ $api->version('v1', [
 
     $api->post('alarm', 'AlarmsController@alarm');  // 摄像头告警
 
+    $api->post('helmetAlarm', 'HatsController@helmetAlarm'); // 安全帽检测
+
 
     $api->post('importMatter', 'MattersController@findMatterAndEnd');  //发现并提交问题
 

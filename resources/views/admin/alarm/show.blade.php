@@ -93,6 +93,39 @@
                                     <p class="form-control-static"><span class="lng">{{ $alarms->longitude }}</span>---<span class="lat">{{ $alarms->latitude }}</span></p>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">状态</label>
+
+                                <div class="col-sm-10">
+                                    <p class="form-control-static">{{ $alarms->status == 0 ? '未完成': '已完成' }}</p>
+                                </div>
+                            </div>
+                            @if($alarms->status == 1)
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">执行人</label>
+
+                                <div class="col-sm-10">
+                                    <p class="form-control-static">{{ $alarms->name}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">信息</label>
+
+                                <div class="col-sm-10">
+                                    <p class="form-control-static">{{ $alarms->information}}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">完成图片</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static pic">
+                                        <a class="fancybox" href="{{ $alarms->see_image }}" title="图片">
+                                            <img alt="image" style="width: 600px;" src="{{ $alarms->see_image }}" />
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                            @endif
                             <div class="form-group" style="position: absolute;left: 588px;top: 50px;">
                                 <label class="col-sm-2 control-label">告警图片</label>
                                 <div class="col-sm-10">

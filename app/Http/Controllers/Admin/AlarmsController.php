@@ -25,7 +25,9 @@ class AlarmsController extends Controller
         $alarms = DB::table('alarms as a')
             ->leftJoin('parts as p', 'a.device_serial', '=', 'p.num')
             ->leftJoin('coordinates as c', 'p.coordinate_id', '=', 'c.id')
-            ->select('a.id', 'a.alarm_id', 'a.channel_name', 'a.alarm_type', 'a.alarm_start', 'a.device_serial', 'a.alarm_pic_url', 'a.created_at', 'p.address', 'p.longitude', 'p.latitude', 'p.coordinate_id', 'c.number')
+            ->leftJoin('alarm_users as au', 'a.id', '=', 'au.alarm_id')
+            ->leftJoin('users as u', 'au.user_id', '=', 'u.id')
+            ->select('a.id', 'a.alarm_id', 'a.channel_name', 'a.alarm_type', 'a.alarm_start', 'a.device_serial', 'a.alarm_pic_url', 'a.created_at', 'p.address', 'p.longitude', 'p.latitude', 'p.coordinate_id', 'c.number', 'au.user_id', 'au.see_image', 'au.information', 'au.status', 'u.name')
             ->where('a.id', $request->id)
             ->first();
         return view('admin.alarm.show', compact('alarms'));
