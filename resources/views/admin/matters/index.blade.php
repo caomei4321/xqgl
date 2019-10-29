@@ -48,7 +48,7 @@
                         <div class="col-sm-2" style="display: inline-block">
                             <input class="form-control inline" type="date" name="timeEnd">
                         </div>
-                        <button class="btn btn-info" type="submit" style="display: inline-block"><i class="fa fa-paste"></i>12345任务报表生成</button>
+                        <button class="btn btn-info" type="submit" style="display: inline-block"><i class="fa fa-paste"></i>12345任务统计</button>
                     </form>
                     {{--<a href="{{ route('admin.matters.mouse') }}"> <button class="btn btn-warning" type="button"><i class="fa fa-paste"></i> 鼠标点线面</button></a>--}}
                     {{--导入model start--}}
