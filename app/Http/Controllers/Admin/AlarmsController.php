@@ -42,6 +42,12 @@ class AlarmsController extends Controller
         return view('admin.alarm.show_map', compact('alarms'));
     }
 
+    public function destroy(Alarm $alarm)
+    {
+        $alarm->delete();
+        return response()->json(['status' => 1, 'msg' => '删除成功']);
+    }
+
     public function export(Request $request, Excel $excel)
     {
         $timeStart = $request->timeStart ? "$request->timeStart 00:00:00" : '2019-01-01 00:00:00';
