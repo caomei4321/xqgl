@@ -32,7 +32,15 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-
+                    <form action="{{ route('admin.alarm.export') }}" method="get">
+                        <div class="col-sm-2" style="display: inline-block">
+                            <input class="form-control inline" type="date" name="timeStart">
+                        </div>
+                        <div class="col-sm-2" style="display: inline-block">
+                            <input class="form-control inline" type="date" name="timeEnd">
+                        </div>
+                        <button class="btn btn-info" type="submit" style="display: inline-block"><i class="fa fa-paste"></i>智能告警事件报表生成</button>
+                    </form>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                         <tr>
@@ -65,7 +73,7 @@
                                 <td class="center">
                                     <a href="{{ route('admin.alarm.detail', ['id' => $alarm->id]) }}" class="btn btn-info btn-xs">查看</a>
                                     <a href="{{ route('admin.alarm.detailmap', ['id' => $alarm->id]) }}" class="btn btn-info btn-xs">查看监控</a>
-                                    <button class="btn btn-warning btn-xs delete" data-id="">删除</button>
+                                    <button class="btn btn-warning btn-xs delete" data-id="{{$alarm->id}}">删除</button>
                                 </td>
                             </tr>
                         @endforeach
@@ -101,33 +109,33 @@
 
 @section('javascript')
     <script>
-        // $('.delete').click(function () {
-        //     var id = $(this).data('id');
-        //     swal({
-        //         title: "您确定要删除这条信息吗",
-        //         text: "删除后将无法恢复，请谨慎操作！",
-        //         type: "warning",
-        //         showCancelButton: true,
-        //         confirmButtonColor: "#DD6B55",
-        //         confirmButtonText: "删除",
-        //         cancelButtonText: "取消",
-        //         closeOnConfirm: false
-        //     }, function () {
-        //         $.ajaxSetup({
-        //             headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-        //             type:"delete",
-        //             url: '/admin/alarm/'+id,
-        //             success:function (res) {
-        //                 if (res.status == 1){
-        //                     swal(res.msg, "您已经永久删除了这条信息。", "success");
-        //                     location.reload();
-        //                 }else {
-        //                     swal(res.msg, "请稍后重试。", "waring");
-        //                 }
-        //             },
-        //         });
-        //         $.ajax();
-        //     });
-        // });
+        $('.delete').click(function () {
+            var id = $(this).data('id');
+            swal({
+                title: "您确定要删除这条信息吗",
+                text: "删除后将无法恢复，请谨慎操作！",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "删除",
+                cancelButtonText: "取消",
+                closeOnConfirm: false
+            }, function () {
+                $.ajaxSetup({
+                    headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    type:"delete",
+                    url: '/admin/alarm/'+id,
+                    success:function (res) {
+                        if (res.status == 1){
+                            swal(res.msg, "您已经永久删除了这条信息。", "success");
+                            location.reload();
+                        }else {
+                            swal(res.msg, "请稍后重试。", "waring");
+                        }
+                    },
+                });
+                $.ajax();
+            });
+        });
     </script>
 @endsection

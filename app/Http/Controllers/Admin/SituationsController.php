@@ -19,9 +19,9 @@ class SituationsController extends Controller
         return view('admin.situation.index', compact('situations'));
     }
 
-    public function show(Request $request, Situation $situation)
+    public function showSituation(Request $request, Situation $situation)
     {
-        $ret = Situation::with('Matter', 'User')->first();
+        $ret = Situation::with('Matter', 'User')->where('id', $request->id)->first();
         return view('admin.situation.show', compact('ret'));
     }
 

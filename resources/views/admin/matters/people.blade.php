@@ -43,7 +43,7 @@
                         <div class="col-sm-2" style="display: inline-block">
                             <input class="form-control inline" type="date" name="timeEnd">
                         </div>
-                        <button class="btn btn-info" type="submit" style="display: inline-block"><i class="fa fa-paste"></i>导出群众上报清单</button>
+                        <button class="btn btn-info" type="submit" style="display: inline-block"><i class="fa fa-paste"></i>群众任务报表生成</button>
                     </form>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>

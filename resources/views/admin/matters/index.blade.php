@@ -68,10 +68,10 @@
                                         {{ csrf_field() }}
                                         <div class="form-group">
                                             <label for="import_file" class="control-label">选择指定格式Word文件</label>
-                                            <input type="file" class="form-control"  name="import_file" value=""  >
+                                            <input type="file" class="form-control"  name="import_file" value=""  required>
                                         </div>
                                         <button type="reset" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                        <button type="submit" onclick="submit()" class="btn btn-primary">确定</button>
+                                        <button type="submit" class="btn btn-primary">确定</button>
                                     </form>
                                 </div>
                             </div>
@@ -100,7 +100,7 @@
                                             </select>
                                         </div>
                                         <button type="reset" id="model_reset" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                        <button type="submit" onclick="submit()" class="btn btn-primary">确定</button>
+                                        <button type="submit" class="btn btn-primary">确定</button>
                                     </form>
                                 </div>
                             </div>
