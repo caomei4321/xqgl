@@ -54,7 +54,7 @@ class SituationsController extends Controller
         ];
         $phpword = new PhpWord();
         $path = 'word/temp.docx';
-        $filePath = 'word/import.docx';
+        $filePath = 'word/import/'.date('YmdHis', time()).mt_rand(111111,999999).'zbd.docx';
         $templateProcessor = new TemplateProcessor($path);
         $templateProcessor->setValue('accept_num', $data['accept_num']);
         $templateProcessor->setValue('time_limit', $data['time_limit']);
