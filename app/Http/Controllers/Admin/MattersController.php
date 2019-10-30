@@ -178,52 +178,11 @@ class MattersController extends Controller
         $excel->create('12345任务报表统计', function ($excel) use ($cellData, $firstRow) {
             $excel->sheet('matter', function ($sheet) use ($cellData, $firstRow) {
                 $sheet->prependRow(1, $firstRow);
+                $sheet->setWidth(array('C' => '30'));
                 $sheet->rows($cellData);
             });
         })->export('xls');
     }
-    // 导入Excel
-//    public function import(Request $request, Excel $excel)
-//    {
-//        $filePath = $this->uploadFile($request->import_file);
-//        $path = $filePath['path'];
-//        iconv('UTF-8', 'GBK', $path);
-//        try {
-//            $excel->load($path, function ($reader) {
-//                $reader->noHeading();
-//                $reader = $reader->getSheet(0);
-//                $result = $reader->toArray();
-////                unset($result[0]);    // 删除表头
-//                $excelData = [
-//                    'title' => $result[0][0],
-//                    'accept_num' => intval($result[3][1]),
-//                    'time_limit' => $result[3][3],
-//                    'work_num' => $result[4][1],
-//                    'level' => $result[4][3],
-//                    'type' => $result[5][1],
-//                    'source' => $result[5][3],
-//                    'is_reply' => $result[6][1],
-//                    'is_secret' => $result[6][3],
-//                    'contact_name' => $result[7][1],
-//                    'contact_phone' => number_format($result[7][3],0,'',''),
-//                    'address' => $result[8][1],
-//                    'reply_remark' => $result[9][1],
-//                    'category' => $result[10][1],
-//                    'content' => $result[11][1],
-//                    'suggestion' => $result[12][1],
-////                    'approval' => $result[13][1],
-////                    'result' => $result[14][1],
-//                    'created_at' => date('Y-m-d H:i:s', time()),
-//                    'updated_at' => date('Y-m-d H:i:s', time()),
-//
-//                ];
-//                DB::table('matters')->insert($excelData);
-//            });
-//        }catch (\Exception $e) {
-//            return redirect()->route('admin.matters.index')->withErrors('导入失败，请选择正确的文件和按正确的文件填写方式导入');
-//        }
-//        return redirect()->route('admin.matters.index')->withErrors('导入成功');
-//    }
 
     // 导入Word
     public function import(Request $request)
@@ -353,12 +312,12 @@ class MattersController extends Controller
     // 导入上传文件
     public function uploadFile($file)
     {
-        $folder_name = "word";
+        $folder_name = "word/import";
         $upload_path = public_path() . '/' . $folder_name;
 
         $extension = strtolower($file->getClientOriginalExtension()) ? 'docx' : 'docx';
 
-        $filename =   'word' . '.' . $extension;
+        $filename =   date('YmdHis', time()). mt_rand(111111,999999) .'word' . '.' . $extension;
 
         if ( ! in_array($extension, ['doc', 'docx'])) {
             return false;
@@ -374,8 +333,8 @@ class MattersController extends Controller
     // 导入下载模板
     public function download()
     {
-        $filePath = 'excel/word.doc';
-        return response()->download($filePath, 'Word导入模板.doc');
+        $filePath = 'word/word.doc';
+        return response()->download($filePath, '导入模板.doc');
     }
 
     // 鼠标绘制点线面

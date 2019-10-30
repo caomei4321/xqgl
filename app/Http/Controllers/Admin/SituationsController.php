@@ -103,7 +103,7 @@ class SituationsController extends Controller
         }
         $templateProcessor->setValue('information', $data['information']);
         $templateProcessor->saveAs($filePath);
-        return response()->download($filePath, mt_rand(111111,999999).date('YmdHis',time()).'bd.doc');
+        return response()->download($filePath, '转办单.doc');
     }
 
 }

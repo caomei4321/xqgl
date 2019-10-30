@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Excel;
 
 class UsersController extends Controller
 {
@@ -59,7 +60,6 @@ class UsersController extends Controller
 
         return view('admin.user.show', compact('user','matters','patrolMatters'));
     }
-
 
     public function edit(User $user, Curl $curl, Coordinate $coordinate)
     {
@@ -180,5 +180,28 @@ class UsersController extends Controller
             }
         }*/
         return $latestPoint;
+    }
+
+    public function export(User $user, Excel $excel)
+    {
+        $users = $user->all();
+        $cellData = [];
+        $firstRow = ['姓名','手机号','责任网格', '设备名', '添加时间'];
+        foreach ($users as $user) {
+            $data = [
+                $user->name,
+                $user->phone,
+                $user->responsible_area,
+                $user->entity_name,
+                $user->created_at,
+            ];
+            array_push($cellData, $data);
+        }
+        $excel->create('人员信息', function ($excel) use ($cellData, $firstRow) {
+            $excel->sheet('users', function ($sheet) use ($cellData, $firstRow) {
+                $sheet->prependRow(1, $firstRow);
+                $sheet->rows($cellData);
+            });
+        })->export('xls');
     }
 }

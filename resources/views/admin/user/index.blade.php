@@ -34,6 +34,8 @@
                 <div class="ibox-content">
                     <a href="{{ route('admin.users.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加人员</button>
                     </a>
+                    <a href="{{ route('admin.users.export') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 人员信息报表生成</button>
+                    </a>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                         <tr>

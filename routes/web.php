@@ -40,6 +40,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('users/ajaxAddress', 'Admin\UsersController@ajaxAddress')->name('admin.users.ajaxAddress');
             Route::post('users/latestPoint', 'Admin\UsersController@latestPoint')->name('admin.users.latestPoint');
 
+            Route::get('users/export', 'Admin\UsersController@export')->name('admin.users.export');
 
             //Route::get('convenientTask','Admin\ConvenientTaskController@index')->name('admin.convenientTask.index');
             //Route::get('convenientTask/create','Admin\ConvenientTaskController@create')->name('admin.convenientTask.create');
