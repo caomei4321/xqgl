@@ -15,7 +15,7 @@ class HatsController extends Controller
             'device_serial' => $request->deviceId,
             'sum' => $request->sum,
             'alarm_time' => $request->alarmTime,
-            'alarm_img_url' => $request->url,
+            'alarm_img_url' => base64_decode($request->url)
         ];
 
         $hat->fill($data);
