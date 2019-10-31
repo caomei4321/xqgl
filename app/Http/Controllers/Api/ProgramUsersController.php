@@ -28,24 +28,10 @@ class ProgramUsersController extends Controller
             'content' => $request->contents,
             'form' => 3
         ];
-        $file = $request->file('image');
-        $filePath = [];
-        foreach ($file as $key=>$value) {
-            if (!$value->isValid()) {
-                return '上传错误';
-            }
-            if (!empty($value)) {
-                $path = $uploader->save($value, 'matters', 'mt');
-                array_push($filePath, $path['path']);
-            }
-        }
-        if (count($filePath) == 1) {
-            $data['image'] = $filePath['0'];
-        } else {
-            $data['image'] = $filePath['0'];
-            unset($filePath['0']);
-            $data['many_images'] = implode(';', $filePath);
-        }
+
+        $path = Storage::disk('public')->putFile('miniProgramImg',$request->file('image'));
+        $data['image'] = '/storage/' . $path;
+        
         $this->user()->matters()->create($data);
         return $this->success('上报成功');
     }
