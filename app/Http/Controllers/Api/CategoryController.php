@@ -13,9 +13,9 @@ class CategoryController extends Controller
     public function categories()
     {
 
-        $standards = GovernanceStandard::all();
+        $standards = GovernanceStandard::orderBy('created_at', 'desc')->all();
 
-        $categories = CategoryResource::collection(Category::all());
+        $categories = CategoryResource::collection(Category::orderBy('created_at', 'desc')->all());
         $data = [
             'categories' => $categories,
             'standards' => $standards
