@@ -60,7 +60,7 @@
                                             <select class="chosen-select" data-placement="选择角色权限" name="permission[]" multiple style="width: 350px;" tabindex="2">
                                                 @if($role->id)
                                                     @foreach($permissions as $permission)
-                                                        <option value="{{ $permission->name }}" @if(array_search($permission->name,array_column($role_permission,'name'))) selected="selected" @endif>{{ $permission->mark }}</option>
+                                                        <option value="{{ $permission->name }}" @if(array_search($permission->name,array_column($role_permission,'name','id'))) selected="selected" @endif>{{ $permission->mark }}</option>
                                                     @endforeach
                                                 @else
                                                     @foreach($permissions as $permission)
