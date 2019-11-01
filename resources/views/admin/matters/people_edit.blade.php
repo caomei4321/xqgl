@@ -99,8 +99,25 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+
+                            <div class="col-sm-6">
+                                <div id="file-pretty">
+                                    <div id="prompt3">
+
+                                    </div>
+                                    @for( $i = 1; $i < count($many_images); $i++)
+                                    <a class="fancybox" id="img" href="{{ $many_images[$i] }}" >
+                                        <img src="{{ $many_images[$i] }}" id="img3"  style="width: 160px;" />
+                                    </a>
+                                    @endfor
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+
                         <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-2">
                                 <button class="btn btn-primary" id="add_device">提交</button>

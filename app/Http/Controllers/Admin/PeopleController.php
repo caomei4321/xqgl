@@ -74,7 +74,8 @@ class PeopleController extends Controller
     {
         $category = Category::all();
         $matter = $matter->find($request->id);
-        return view('admin.matters.people_edit', compact('matter', 'category'));
+        $many_images = explode(',', $matter->many_images);
+        return view('admin.matters.people_edit', compact('matter', 'category', 'many_images'));
     }
 
     public function update(Request $request, ImageUploadHandler $uploader)
