@@ -44,7 +44,8 @@ class ProgramUsersController extends Controller
             'address' => $request->address,
             'content' => $request->contents,
             'form' => 3,
-            'image' => $request->many_images
+            'image' => explode(',',$request->many_images)[0],
+            'many_images' => $request->many_images
         ];
 
         $this->user()->matters()->create($data);
