@@ -92,7 +92,6 @@ class CountsController extends Controller
         $info = [];
         foreach ($patrols as $patrol) {
             $data = [
-                'name'=> $patrol->user->name,
                 'created_at' => $patrol->created_at->toDateTimeString(),
                 'end_at' => $patrol->end_at
             ];
@@ -100,7 +99,6 @@ class CountsController extends Controller
                 array_push($info, $data);
             }
         }
-
        return count($info);
 
     }
