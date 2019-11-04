@@ -103,7 +103,7 @@
                                         <label class="col-sm-2 control-label">主体责任：</label>
 
                                         <div class="col-sm-6">
-                                            <select class="form-control" name="  " required>
+                                            <select class="form-control" name="subject_duty" required>
                                                 <option value="0" {{ $responsibility->subject_duty == 0 ? 'selected' : '' }}>部门</option>
                                                 <option value="1" {{ $responsibility->subject_duty == 1 ? 'selected' : '' }}>镇街</option>
                                             </select>
