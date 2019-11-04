@@ -59,7 +59,7 @@ $api->version('v1', [
 
         $api->get('matter', 'MattersController@matter');   //任务详情
 
-        $api->get('categories', 'CategoryController@categories');  //责任清单分类
+        //$api->get('categories', 'CategoryController@categories');  //责任清单分类
 
         $api->post('endMatter', 'MattersController@endImportMatter');   //完成12345任务
 
