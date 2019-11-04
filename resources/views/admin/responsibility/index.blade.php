@@ -52,7 +52,11 @@
                         @foreach($responsibility as $res)
                             <tr class="gradeC">
                                 <td>{{ $res->id }}</td>
+                                @if(isset($res->category->name))
                                 <td style="width: 70px">{{ $res->category->name }}</td>
+                                @else
+                                <td style="width: 70px">{{ $res->category_id }}</td>
+                                @endif
                                 <td>{{ $res->item }}</td>
                                 <td>{{ $res->county }}</td>
                                 <td>{{ $res->town }}</td>
@@ -61,7 +65,7 @@
                                 <td style="width: 70px">{{ $res->cooperate_duty ===1 ? '配合责任' : '主体责任' }}</td>
                                 <td class="center">
                                     <a href="{{ route('admin.responsibility.edit',['responsibility' => $res->id]) }}"><button type="button" class="btn btn-primary btn-xs">编辑</button></a>
-                                    <button class="btn btn-warning btn-xs delete" data-id="{{ $res->id }}">删除</button>
+                                    {{--<button class="btn btn-warning btn-xs delete" data-id="{{ $res->id }}">删除</button>--}}
                                 </td>
                             </tr>
                         @endforeach
