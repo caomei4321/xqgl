@@ -19,7 +19,12 @@ class PatrolMattersController extends Controller
 
     public function show(PatrolMatter $patrolMatter)
     {
-        $images = explode(';', $patrolMatter->images);
+        if ($patrolMatter->images) {
+            $images = explode(';', $patrolMatter->images);
+        } else {
+            $images = $patrolMatter->images;
+        }
+
 
         $host = env('APP_URL');
 
