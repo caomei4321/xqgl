@@ -101,6 +101,7 @@ $api->version('v1', [
         $api->post('matterStoreInfo', 'ProgramUsersController@matterStoreInfo'); // 上报问题信息
         $api->post('matterStoreImage', 'ProgramUsersController@matterStoreImage'); // 上报问题图片
         $api->get('historyMatters', 'ProgramUsersController@historyMatters');  //历史提交问题记录
+        $api->get('historyMattersDetail/{id}', 'ProgramUsersController@historyMattersDetail'); // 历史提交问题详情
         $api->get('weappUser', 'ProgramUsersController@weappUser');  // 当前用户信息
         $api->post('newsComment', 'NewsController@comment'); // 评论
         $api->post('destroyComment', 'NewsController@destroyComment'); // 删除评论

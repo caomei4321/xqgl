@@ -70,6 +70,13 @@ class ProgramUsersController extends Controller
         return $matters;
     }
 
+    public function historyMattersDetail(Request $request)
+    {
+        $matterDetail = $this->user()->matters()->situation()->find($request->id);
+
+        return $matterDetail;
+    }
+
     public function weappUser()
     {
         return $this->user();
