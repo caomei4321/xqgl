@@ -5,6 +5,9 @@
     <link href="{{ asset('assets/admin/css/plugins/dataTables/dataTables.bootstrap.css') }}" rel="stylesheet">
     <!-- Sweet Alert -->
     <link href="{{ asset('assets/admin/css/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="{{ asset('assets/admin/css/plugins/iCheck/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/admin/js/plugins/fancybox/jquery.fancybox.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -32,44 +35,48 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <form action="{{ route('admin.alarm.export') }}" method="get">
-                        <div class="col-sm-2" style="display: inline-block">
-                            <input class="form-control inline" type="date" name="timeStart">
-                        </div>
-                        <div class="col-sm-2" style="display: inline-block">
-                            <input class="form-control inline" type="date" name="timeEnd">
-                        </div>
-                        <button class="btn btn-info" type="submit" style="display: inline-block"><i class="fa fa-paste"></i>智能告警事件报表生成</button>
-                    </form>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>设备编号</th>
-                            <th>告警时间</th>
                             <th>告警类型</th>
-                            <th>告警位置</th>
-                            <th>是否分配</th>
+                            <th>执行人</th>
+                            <th>现场处理图片</th>
+                            <th>处理信息</th>
+                            <th>时间</th>
+                            <th>状态</th>
                             <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($matters as $matter)
+                        @foreach($situations as $situation)
                             <tr class="gradeC">
-                                <td>{{ $matter->id }}</td>
-                                <td>{{ $matter->device_serial }}</td>
-                                <td>{{ $matter->alarm_start }}</td>
-                                <td>{{ $matter->alarm_type }}</td>
-                                <td>{{ $matter->address }}</td>
+                                <td>{{ $situation->id }}</td>
+                                <td>{{ $situation->matter->alarm_type }}</td>
+                                <td>{{ $situation->user->name }}</td>
                                 <td>
-                                    @if($matter->allocate == 0)
-                                        <a href="{{ route('admin.alarm.allocate', ['id' => $matter->id]) }}"><button type="button" class="btn btn-warning btn-xs">未分配</button></a>
+                                    <a class="fancybox" id="img" href="{{ $situation->see_image }}" >
+                                        <img src="{{ $situation->see_image }}"  style="width: 40px;" />
+                                    </a>
+                                </td>
+                                <td>{{ $situation->information }}</td>
+                                <td>{{ $situation->created_at }}</td>
+                                <td>
+                                    @if($situation->status  == 0)
+                                        <button class="btn btn-default btn-xs" type="button"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;未处理</button>
+                                    @elseif( $situation->status  == 2)
+                                        <button class="btn btn-xs btn-warning " type="button"><i class="fa fa-warning"></i> <span class="bold">配合</span>
+                                        </button>
                                     @else
-                                        <button type="button" class="btn btn-primary btn-xs" disabled>已分配</button>
+                                        <button class="btn btn-xs btn-info " type="button"><i class="fa fa-paste"></i> 完成</button>
                                     @endif
                                 </td>
-                                <td class="center">
-                                    <button class="btn btn-warning btn-xs delete" data-id="{{$matter->id}}">删除</button>
+                                <td>
+                                    @if( $situation->status  == 2)
+                                        <a href="{{ route('admin.situations.export', ['id' => $situation->id]) }}" class="btn btn-xs btn-danger"><i class="fa fa-warning"></i>转办单</a>
+                                    @else
+                                        <a href="{{ route('admin.people.show', ['id' => $situation->id]) }}"><button class="btn btn-xs btn-success " type="button"><i class="fa fa-paste"></i> 查看</button></a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -77,17 +84,18 @@
                         <tfoot>
                         <tr>
                             <th>ID</th>
-                            <th>设备编号</th>
-                            <th>告警时间</th>
                             <th>告警类型</th>
-                            <th>告警位置</th>
-                            <th>是否分配</th>
+                            <th>执行人</th>
+                            <th>现场处理图片</th>
+                            <th>处理信息</th>
+                            <th>时间</th>
+                            <th>状态</th>
                             <th>操作</th>
                         </tr>
                         </tfoot>
                     </table>
                 </div>
-                {{ $matters->links() }}
+                {{ $situations->links() }}
             </div>
         </div>
     </div>
@@ -100,10 +108,29 @@
 
     <!-- Sweet alert -->
     <script src="{{ asset('assets/admin/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
+
+    <!-- iCheck -->
+    <script src="{{ asset('assets/admin/js/plugins/iCheck/icheck.min.js') }}"></script>
+    <!-- Fancy box -->
+    <script src="{{ asset('assets/admin/js/plugins/fancybox/jquery.fancybox.js') }}"></script>
 @endsection
 
 @section('javascript')
     <script>
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+            $('.fancybox').fancybox({
+                openEffect: 'none',
+                closeEffect: 'none'
+            });
+            function showImg(){
+                $('#img').click();
+            }
+        });
+
         $('.delete').click(function () {
             var id = $(this).data('id');
             swal({
@@ -119,7 +146,7 @@
                 $.ajaxSetup({
                     headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                     type:"delete",
-                    url: '/admin/matters/'+id,
+                    url: '/admin/situation/'+id,
                     success:function (res) {
                         if (res.status == 1){
                             swal(res.msg, "您已经永久删除了这条信息。", "success");

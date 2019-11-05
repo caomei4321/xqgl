@@ -207,10 +207,11 @@ Route::group(['prefix' => 'admin'], function () {
 
             // 告警
             Route::get('alarm', 'Admin\AlarmsController@index')->name('admin.alarm.index');
-            Route::get('alarm/detail', 'Admin\AlarmsController@detail')->name('admin.alarm.detail');
-            Route::get('alarm/detailmap', 'Admin\AlarmsController@detailMap')->name('admin.alarm.detailmap');
+            Route::get('alarm/allocate', 'Admin\AlarmsController@allocate')->name('admin.alarm.allocate');
+            Route::post('alarm/allocates', 'Admin\AlarmsController@allocates')->name('admin.alarm.allocates');
             Route::get('alarm/export', 'Admin\AlarmsController@export')->name('admin.alarm.export');
-            Route::delete('alarm/{alarm}', 'Admin\AlarmsController@destroy')->name('admin.alarm.destroy');
+            Route::get('alarmSituation', 'Admin\AlarmsController@alarmSituation')->name('admin.alarm.alarmSituation');
+
 
             Route::resource('hats', 'Admin\HatsController')->names([
                 'index' => 'admin.hats.index',

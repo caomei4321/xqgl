@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Handlers\JPushHandler;
 use App\Models\Alarm;
+use App\Models\Matter;
+use App\Models\Part;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -11,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 class AlarmsController extends Controller
 {
     // 接收告警信息， 推送任务到该设备区域所有人
-    public function alarm(Request $request, Alarm $alarm, JPushHandler $JPushHandler)
+    public function alarm(Request $request, Matter $matter, Part $part)
     {
         $data = [
             'alarm_id' => $request->alarmId,
@@ -19,43 +21,50 @@ class AlarmsController extends Controller
             'alarm_type' => $request->alarmType,
             'alarm_start' => $request->alarmStart,
             'device_serial' => $request->deviceSerial,
-            'alarm_pic_url' => $request->alarmPicUrl
+            'alarm_pic_url' => $request->alarmPicUrl,
+            'address' => $part->where('num', $request->deviceSerial)->value('address'),
+            'content' => $request->alarmStart .';'. $request->alarmType,
+            'form' => '4',
         ];
+        $matter->fill($data);
+        $matter->save();
 
-        DB::beginTransaction();
-        $alarm->fill($data);
-        $alarm->save();
+        return response()->json(['status' => '1', 'msg' => 'success']);
 
-        // 报警信息
-        $alarm = $alarm->where('alarm_id', $request->alarmId)->first();
-//        dd($alarm);
-        // 网格
-        $wangge = DB::table('parts') ->where('num', $alarm->device_serial)->first();
-        // 根据网格查找该网格所有的人
-        $users = DB::table('users')->where('responsible_area', $wangge->coordinate_id)->get();
-        $info = [];
-        $time = date('Y-m-d H:i:s', time());
-        foreach ($users as $value){
-            $array = [
-                'user_id' => $value->id,
-                'alarm_id' => $alarm->id,
-                'created_at' => $time,
-                'updated_at' => $time
-            ];
-            array_push($info, $array);
-        }
-        $ret = DB::table('alarm_users')->insert($info);
-        // 推送
-//        foreach ($users as $value) {
-//            $JPushHandler->testJpush($value->reg_id);
+//        DB::beginTransaction();
+//        $alarm->fill($data);
+//        $alarm->save();
+//
+//        // 报警信息
+//        $alarm = $alarm->where('alarm_id', $request->alarmId)->first();
+////        dd($alarm);
+//        // 网格
+//        $wangge = DB::table('parts') ->where('num', $alarm->device_serial)->first();
+//        // 根据网格查找该网格所有的人
+//        $users = DB::table('users')->where('responsible_area', $wangge->coordinate_id)->get();
+//        $info = [];
+//        $time = date('Y-m-d H:i:s', time());
+//        foreach ($users as $value){
+//            $array = [
+//                'user_id' => $value->id,
+//                'alarm_id' => $alarm->id,
+//                'created_at' => $time,
+//                'updated_at' => $time
+//            ];
+//            array_push($info, $array);
 //        }
-        if ($ret) {
-            DB::commit();
-            return response()->json(['status' => '1', 'msg' => '上传成功']);
-        } else {
-            DB::rollBack();
-            return response()->json(['status' => '1', 'msg' => '上传成功']);
-        }
+//        $ret = DB::table('alarm_users')->insert($info);
+//        // 推送
+////        foreach ($users as $value) {
+////            $JPushHandler->testJpush($value->reg_id);
+////        }
+//        if ($ret) {
+//            DB::commit();
+//            return response()->json(['status' => '1', 'msg' => '上传成功']);
+//        } else {
+//            DB::rollBack();
+//            return response()->json(['status' => '1', 'msg' => '上传成功']);
+//        }
 
     }
 

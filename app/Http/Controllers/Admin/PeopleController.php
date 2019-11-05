@@ -117,7 +117,7 @@ class PeopleController extends Controller
         ]);
     }
 
-    // 群众上报导出导出
+    // 群众上报导出
     public function export(Request $request, Matter $matter, Excel $excel)
     {
         $timeStart = $request->timeStart ? "$request->timeStart 00:00:00" : '2019-01-01 00:00:00';
@@ -145,7 +145,7 @@ class PeopleController extends Controller
     public function peopleSituation(Situation $situation)
     {
         $situations = Situation::with(['Matter', 'User', 'Category'])->whereDoesntHave('Matter', function ($query){
-            $query->where('form', '<', '3');
+            $query->where('form', '!=', '3');
         })->paginate();
 
         return view('admin.situation.people', compact('situations'));

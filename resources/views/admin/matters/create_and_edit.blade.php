@@ -13,9 +13,9 @@
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     @if($matter->id)
-                        <h5>修改问题</h5>
+                        <h5>修改12345任务</h5>
                     @else
-                        <h5>添加问题</h5>
+                        <h5>添加12345任务</h5>
                     @endif
                     <div class="ibox-tools">
                         <a class="collapse-link">
@@ -47,23 +47,90 @@
                             </div>
                             {{ csrf_field() }}
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">问题分类：</label>
-
-                                <div class="col-sm-6">
-                                    <select class="form-control" name="category_id" required>
-                                        <option value="" hidden disabled selected>请选择分类</option>
-                                        @foreach ($category as $value)
-                                            <option value="{{ $value->id }}" {{ $matter->category_id == $value->id ? 'selected': '' }}>{{ $value->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="hr-line-dashed"></div>
-                            <div class="form-group">
                                 <label class="col-sm-2 control-label">标题：</label>
 
                                 <div class="col-sm-6">
                                     <input name="title"  type="text" class="form-control" value="{{ old('title',$matter->title) }}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">受理员编号：</label>
+
+                                <div class="col-sm-6">
+                                    <input name="accept_num"  type="text" class="form-control" value="{{ old('accept_num',$matter->accept_num) }}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">办结时限：</label>
+
+                                    <div class="col-sm-6">
+                                        <input class="form-control layer-date" name="time_limit" placeholder="YYYY-MM-DD hh:mm:ss" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" value="{{ old('time_limit', $matter->time_limit) }}">
+                                    </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">工单编号：</label>
+
+                                <div class="col-sm-6">
+                                    <input name="work_num"  type="text" class="form-control" value="{{ old('work_num',$matter->work_num) }}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">紧急程度：</label>
+
+                                <div class="col-sm-6">
+                                    <input name="level"  type="text" class="form-control" value="{{ old('level',$matter->level) }}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">来电类别：</label>
+
+                                <div class="col-sm-6">
+                                    <input name="type"  type="text" class="form-control" value="{{ old('type',$matter->type) }}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">信息来源：</label>
+
+                                <div class="col-sm-6">
+                                    <input name="source"  type="text" class="form-control" value="{{ old('source',$matter->source) }}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">是否回复：</label>
+
+                                <div class="col-sm-6">
+                                    <input name="is_reply"  type="text" class="form-control" value="{{ old('is_reply',$matter->is_reply) }}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">是否保密：</label>
+
+                                <div class="col-sm-6">
+                                    <input name="is_secret"  type="text" class="form-control" value="{{ old('is_secret',$matter->is_secret) }}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">联系人：</label>
+
+                                <div class="col-sm-6">
+                                    <input name="contact_name"  type="text" class="form-control" value="{{ old('contact_name',$matter->contact_name) }}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">联系电话：</label>
+
+                                <div class="col-sm-6">
+                                    <input name="contact_phone"  type="text" class="form-control" value="{{ old('contact_phone',$matter->contact_phone) }}">
                                 </div>
                             </div>
                             <div class="hr-line-dashed"></div>
@@ -76,6 +143,22 @@
                             </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
+                                <label class="col-sm-2 control-label">回复备注：</label>
+
+                                <div class="col-sm-6">
+                                    <input name="reply_remark"  type="text" class="form-control" value="{{ old('reply_remark',$matter->reply_remark) }}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">问题分类：</label>
+
+                                <div class="col-sm-6">
+                                    <input name="category"  type="text" class="form-control" value="{{ old('category',$matter->category) }}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">问题描述：</label>
 
                                 <div class="col-sm-6">
@@ -84,18 +167,28 @@
                             </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">图片依据：</label>
+                                <label class="col-sm-2 control-label">转办意见：</label>
 
                                 <div class="col-sm-6">
-                                    <div id="file-pretty">
-                                        <div id="prompt3">
-                                            <input type="file" name="image" class="form-control" id="file" onchange="changepic(this)" accept="image/*">
-                                        </div>
-                                        <img src="{{ old('image', $matter->image) }}" id="img3" style="width: 160px;" />
-                                    </div>
+                                    <textarea name="suggestion" class="form-control" rows="6" placeholder="请输入转办意见">{{ old('suggestion', $matter->suggestion) }}</textarea>
                                 </div>
                             </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">办理单位/领导批示：</label>
 
+                                <div class="col-sm-6">
+                                    <textarea name="approval" class="form-control" rows="6" placeholder="请输入批示">{{ old('approval', $matter->approval) }}</textarea>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">办理结果：</label>
+
+                                <div class="col-sm-6">
+                                    <textarea name="result" class="form-control" rows="6" placeholder="请输入批示">{{ old('result', $matter->result) }}</textarea>
+                                </div>
+                            </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                                 <div class="col-sm-4 col-sm-offset-2">
@@ -135,7 +228,7 @@
                                         <label class="col-sm-2 control-label">办结时限：</label>
 
                                         <div class="col-sm-6">
-                                            <input name="time_limit"  type="text" class="form-control" value="{{ old('time_limit',$matter->time_limit) }}">
+                                            <input class="form-control layer-date" name="time_limit" placeholder="YYYY-MM-DD hh:mm:ss" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" value="{{ old('time_limit', $matter->time_limit) }}">
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>
@@ -247,7 +340,7 @@
                                         <label class="col-sm-2 control-label">转办单位领导批示：</label>
 
                                         <div class="col-sm-6">
-                                            <input name="approval"  type="text" class="form-control" value="{{ old('approval',$matter->approval) }}">
+                                            <textarea name="approval" class="form-control" rows="6" placeholder="">{{ old('approval', $matter->approval) }}</textarea>
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>
@@ -255,38 +348,9 @@
                                         <label class="col-sm-2 control-label">办理结果：</label>
 
                                         <div class="col-sm-6">
-                                            <input name="result"  type="text" class="form-control" value="{{ old('result',$matter->result) }}">
+                                            <textarea name="result" class="form-control" rows="6" placeholder="">{{ old('result', $matter->result) }}</textarea>
                                         </div>
                                     </div>
-                                    {{--<div class="hr-line-dashed"></div>--}}
-                                    {{--<div class="form-group">--}}
-                                        {{--<label class="col-sm-2 control-label">问题分类：</label>--}}
-
-                                        {{--<div class="col-sm-6">--}}
-                                            {{--<select class="form-control" name="category_id" required>--}}
-                                                {{--<option value="" hidden disabled selected>请选择分类</option>--}}
-                                                {{--@foreach ($category as $value)--}}
-                                                    {{--<option value="{{ $value->id }}" {{ $matter->category_id == $value->id ? 'selected': '' }}>{{ $value->name }}</option>--}}
-                                                {{--@endforeach--}}
-                                            {{--</select>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                    <div class="hr-line-dashed"></div>
-                                    <div class="form-group">
-                                        <label class="col-sm-2 control-label">图片依据：</label>
-
-                                        <div class="col-sm-6">
-                                            <div id="file-pretty">
-                                                <div id="prompt3">
-                                                    <input type="file" name="image" class="form-control" id="file" onchange="changepic(this)" accept="image/*">
-                                                </div>
-                                                <a class="fancybox" id="img" href="{{ $matter->image }}" >
-                                                    <img src="{{ old('image', $matter->image) }}" id="img3"  style="width: 160px;" />
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <div class="hr-line-dashed"></div>
                                     <div class="form-group">
                                         <div class="col-sm-4 col-sm-offset-2">
@@ -306,6 +370,8 @@
     <script src="{{ asset('assets/admin/js/plugins/iCheck/icheck.min.js') }}"></script>
     <!-- Fancy box -->
     <script src="{{ asset('assets/admin/js/plugins/fancybox/jquery.fancybox.js') }}"></script>
+
+    <script src="{{ asset('assets/admin/js/plugins/layer/laydate/laydate.js') }}"></script>
 @endsection
 
 @section('javascript')

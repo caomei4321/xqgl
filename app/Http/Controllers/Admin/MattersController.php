@@ -31,20 +31,13 @@ class MattersController extends Controller
 
     public function create(Matter $matter)
     {
-        $category = Category::all();
-        return view('admin.matters.create_and_edit', compact('matter', 'category'));
+        return view('admin.matters.create_and_edit', compact('matter'));
     }
 
-    public function store(Request $request, Matter $matter, ImageUploadHandler $uploader)
+    public function store(Request $request, Matter $matter)
     {
         $this->rules($request);
         $data = $request->all();
-        if (!empty($request->image)){
-            $result = $uploader->save($request->image, 'matters', 'mt');
-            if ($result) {
-                $data['image'] = $result['path'];
-            }
-        }
         $matter->fill($data);
         $matter->save();
 
@@ -53,20 +46,13 @@ class MattersController extends Controller
 
     public function edit(Matter $matter)
     {
-        $category = Category::all();
-        return view('admin.matters.create_and_edit', compact('matter', 'category'));
+        return view('admin.matters.create_and_edit', compact('matter'));
     }
 
     public function update(Request $request, Matter $matter, ImageUploadHandler $uploader)
     {
         $this->rules($request);
         $data = $request->all();
-        if (!empty($request->image)){
-            $result = $uploader->save($request->image, 'matters', 'mt');
-            if ($result) {
-                $data['image'] = $result['path'];
-            }
-        }
         $matter->update($data);
 
         return redirect()->route('admin.matters.index');
@@ -131,16 +117,19 @@ class MattersController extends Controller
     public function rules(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required|string|min:2',
-            'content' => 'required|string|min:3',
-            'image' => 'mimes:jpeg,bmp,png,gif|dimensions:min_width=200, min_height=200',
+            'title' => 'required|min:2',
+            'accept_num' => 'required',
+            'time_limit' => 'required',
+            'work_num' => 'required',
+            'content' => 'required|min:3'
         ], [
-            'title.required' => '标题不能为空',
+            'title.required' => '标题必填',
             'title.min' => '标题至少两个字符',
-            'content.required' => '内容不能为空',
-            'content.min' => '内容至少三个字符',
-            'image.mimes' => '必须是jpeg, bmp, png, gif格式的图片',
-            'image.dimensions' => '图片清晰度不够， 宽和高需要 200px 以上'
+            'accept_num.required' => '受理员编号必填',
+            'time_limit.required' => '办结时限必填',
+            'work_num.required' => '工单编号必填',
+            'content.required' => '问题描述必填',
+            'content.min' => '问题描述至少三个字符'
         ]);
     }
 
