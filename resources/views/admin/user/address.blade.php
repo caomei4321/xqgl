@@ -72,7 +72,10 @@
 
         points = [];
         entityList = [];
-        var myIcon = new BMap.Icon("/assets/admin/img/user_icon2.png", new BMap.Size(48,85));
+        var myIcon = new BMap.Icon("/assets/admin/img/user_icon2.png", new BMap.Size(48,85),{
+            imageSize: new BMap.Size(40,40),
+            imageOffset:new BMap.Size(5,5)
+        });
         reloadMap();
 
         setInterval('reloadMap()',5000);  //5秒
@@ -110,7 +113,7 @@
                                     });
                                 }
 
-                                if (distance > 150) { // 距离大于 150认为飘点，则把上一次的点当作当前次的点
+                                if (distance > 1500) { // 距离大于 150认为飘点，则把上一次的点当作当前次的点
                                     points[index]['point'].push(lastPoint[0]);
 
                                     points[index]['marker'] = new BMap.Marker(lastPoint[0],{icon:myIcon});

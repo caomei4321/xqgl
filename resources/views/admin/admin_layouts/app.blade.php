@@ -33,9 +33,7 @@
     <!--右侧部分开始-->
     <div id="page-wrapper" class="gray-bg dashbard-1">
         <div class="row content-tabs">
-            <button class="roll-nav roll-left J_tabLeft" onclick="function f() {
-                history.back(-1);
-                    }"><i class="fa fa-backward"></i>
+            <button class="roll-nav roll-left J_tabLeft" onclick="window.history.back(-1);"><i class="fa fa-backward"></i>
             </button>
             <nav class="page-tabs J_menuTabs">
                 <div class="page-tabs-content">
