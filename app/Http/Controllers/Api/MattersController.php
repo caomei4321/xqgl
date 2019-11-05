@@ -122,7 +122,9 @@ class MattersController extends Controller
         $see_images = '';
 
         if ($situation->see_image) {  // 如果已经有数据则追加，不更新 see_img
-            $see_images = $situation->see_images . ';'; //拼接 分号 ，统一格式后面截掉
+            if ($situation->see_images) {
+                $see_images = $situation->see_images . ';'; //拼接 分号 ，统一格式后面截掉
+            }
             if (is_array($imgdata)) {
                 for ($i = 0; $i < count($imgdata); $i++) {
                     $image = base64_decode($imgdata[$i]);
