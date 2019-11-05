@@ -19,7 +19,7 @@ class PatrolsController extends Controller
 
     public function show(Patrol $patrol, Curl $curl)
     {
-        $entity_name  = $patrol->user->entity_name;
+        $entity_name  = $patrol->entity_name;
         //   http://yingyan.baidu.com/api/v3/track/gettrack
 
         if ($patrol->end_at) {

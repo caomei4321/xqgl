@@ -10,7 +10,10 @@ class PatrolController extends Controller
     public function startAndEndPatrol(Request $request)
     {
         if ($request->start_time) {
-            $patrol = $this->user()->patrols()->create();
+            //return $this->user();
+            $patrol = $this->user()->patrols()->create([
+                'entity_name' => $this->user()->entity_name,
+            ]);
 
             return $this->success([
                 'id' =>  $patrol->id

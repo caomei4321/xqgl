@@ -23,7 +23,7 @@ class AuthorizationsController extends Controller
 
         $hisUser = User::where('entity_name', $request->entity_name)->first();
 
-        if ($hisUser) {
+        if ($hisUser && $hisUser->id  != $user->id) {
             $hisUser->update([
                 'entity_name' => null,
                 'reg_id' => null
