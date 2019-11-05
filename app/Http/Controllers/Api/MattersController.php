@@ -18,7 +18,7 @@ class MattersController extends Controller
         /*return $this->user()->whereHas('situation', function ($query) {
             $query->where('user_has_matters.status','0');
         })->get();*/
-        return new MatterCollection($this->user()->situation()->where('user_has_matters.status',0)->orderBy('created_at', 'desc')->get());
+        return new MatterCollection($this->user()->situation()->whereIn('user_has_matters.status',[0,3])->orderBy('created_at', 'desc')->get());
     }
 
     public function userCompleteMatters()
@@ -144,9 +144,12 @@ class MattersController extends Controller
          *      0：默认状态，表示未处理
          *      1：表示处理完成
          *      2：表示无权处理
+         *      3：表示处理中
          * */
-        if ($request->result == 1) {  // result 1表示无权处理，0表示处理完成
+        if ($request->result == 1) {  // result  0表示处理完成 1表示无权处理，  2表示处理中
             $status = 2;
+        } elseif ($request->result == 2) {
+            $status = 3;
         } else {
             $status = 1;
         }
