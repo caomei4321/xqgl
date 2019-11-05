@@ -121,16 +121,19 @@ class MattersController extends Controller
 
         $see_images = '';
 
-        if (!empty($situation->see_img)) {  // 如果已经有数据则追加，不更新 see_img
-            $see_images = $situation->see_iamges . ';'; //拼接 分号 ，统一格式后面截掉
-            for ($i = 0; $i < count($imgdata); $i++) {
-                $image = base64_decode($imgdata[$i]);
+        if ($situation->see_image) {  // 如果已经有数据则追加，不更新 see_img
+            $see_images = $situation->see_images . ';'; //拼接 分号 ，统一格式后面截掉
+            if (is_array($imgdata)) {
+                for ($i = 0; $i < count($imgdata); $i++) {
+                    $image = base64_decode($imgdata[$i]);
 
-                $imgname = 'mt' . '_' . time() . '_' . str_random(10) . '.jpg';
-                Storage::disk('public')->put($imgname, $image);
+                    $imgname = 'mt' . '_' . time() . '_' . str_random(10) . '.jpg';
+                    Storage::disk('public')->put($imgname, $image);
 
-                $see_images = $see_images . '/storage/' . $imgname . ';';
+                    $see_images = $see_images . '/storage/' . $imgname . ';';
+                }
             }
+            $see_image = $situation->see_image;
         } else {
             if (is_array($imgdata)) {
                 for ($i = 0; $i < count($imgdata); $i++) {
