@@ -84,11 +84,11 @@ class ProgramUsersController extends Controller
             'created_at' => $matters->created,
             'image' => $matters->image,
             'many_images' => explode(',', $matters->many_images),
-            'userName' => $matters->situation->user->name,
-            'see_image' => $matters->situation->see_image,
-            'information' => $matters->situation->information,
-            'process' => $matters->situation->status,
-            'see_images' => explode(';', $matters->see_images)
+            'userName' => $matters['situation']['user']['name'],
+            'see_image' => $matters['situation']['see_image'],
+            'information' => $matters['situation']['information'],
+            'process' => $matters['situation']['status'],
+            'see_images' => explode(';', $matters['situation']['see_images'])
         ];
 
         return $data;
