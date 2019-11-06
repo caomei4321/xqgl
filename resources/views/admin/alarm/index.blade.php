@@ -59,7 +59,15 @@
                                 <td>{{ $matter->id }}</td>
                                 <td>{{ $matter->device_serial }}</td>
                                 <td>{{ $matter->alarm_start }}</td>
-                                <td>{{ $matter->alarm_type }}</td>
+                                <td>
+                                    @if($matter->alarm_type == 'leftdetection')
+                                        物品遗留
+                                    @elseif($matter->alarm_type == 'enterareadetection')
+                                        进入区域
+                                    @else
+                                        {{ $matter->alarm_type }}
+                                    @endif
+                                </td>
                                 <td>{{ $matter->address }}</td>
                                 <td>
                                     @if($matter->allocate == 0)
