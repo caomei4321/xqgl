@@ -81,7 +81,7 @@ class ProgramUsersController extends Controller
             'address' => $matters->address,
             'content' => $matters->content,
             'status' => $matters->status,
-            'created_at' => $matters->created_at,
+            'created_at' => $matters->created_at->toDateTimeString(),
             'image' => $matters->image,
             'many_images' => explode(',', $matters->many_images),
             'userName' => $matters['situation']['user']['name'],
