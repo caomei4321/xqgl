@@ -211,7 +211,8 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('alarm/allocates', 'Admin\AlarmsController@allocates')->name('admin.alarm.allocates');
             Route::get('alarm/export', 'Admin\AlarmsController@export')->name('admin.alarm.export');
             Route::get('alarmSituation', 'Admin\AlarmsController@alarmSituation')->name('admin.alarm.alarmSituation');
-
+            Route::get('alarm/edit', 'Admin\AlarmsController@edit')->name('admin.alarm.edit');
+            Route::post('alarm/update', 'Admin\AlarmsController@update')->name('admin.alarm.update');
 
             Route::resource('hats', 'Admin\HatsController')->names([
                 'index' => 'admin.hats.index',

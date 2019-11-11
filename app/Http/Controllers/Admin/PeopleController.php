@@ -23,10 +23,10 @@ class PeopleController extends Controller
         return view('admin.matters.people', compact('matters'));
     }
 
-    public function open(Request $request)
+    public function open(Request $request,Matter $matter)
     {
         $data = $request->all();
-        DB::table('matters')->where('id', $data['id'])->update($data);
+        $matter->where('id', $request->id)->update($data);
         return redirect()->route('admin.people.index');
     }
 
@@ -38,28 +38,22 @@ class PeopleController extends Controller
         return view('admin.matters.allocatewx', compact('matterInfo', 'users', 'responsibility'));
     }
 
-    public function allocates(Request $request, JPushHandler $JPushHandler)
+    public function allocates(Request $request,Matter $matter,Situation $situation, User $user, JPushHandler $JPushHandler)
     {
         $data = $request->only(['matter_id', 'user_id', 'category_id', 'responsibility_id']);
+        // 截止日期
         $hour = Responsibility::where('id', $data['responsibility_id'])->value('deadline');
         $time = time() + $hour * 60 * 60;
         // 将matters表中数据allocate更新为1， 代表已分配
-        $matters = [
-            'id' => $data['matter_id'],
+        $matter->where('id', $request->matter_id)->update([
             'allocate' => '1',
             'time_limit' => date('Y-m-d H:i:s', $time)
-        ];
-        DB::table('matters')->where('id', $data['matter_id'])->update($matters);
+        ]);
         // 分配信息存入user_has_matters表中
-        $allocate = [
-            'matter_id' => $data['matter_id'],
-            'user_id' => $data['user_id'],
-            'category_id' => $data['category_id'],
-            'created_at' => date('Y-m-d H:i:s', time()),
-            'updated_at' => date('Y-m-d H:i:s', time()),
-        ];
-        DB::table('user_has_matters')->insert($allocate);
-        $reg_id = DB::table('users')->where('id', $data['user_id'])->value('reg_id');
+        $situation->fill($data);
+        $situation->save();
+        // 获取用户 reg_id 推送消息
+        $reg_id = $user->where('id', $request->user_id)->value('reg_id');
         try {
             $JPushHandler->testJpush($reg_id);
         }catch (\Exception $exception) {
@@ -70,15 +64,18 @@ class PeopleController extends Controller
     }
 
 
-    public function edit(Request $request, Matter $matter)
+    public function edit(Request $request, Matter $matter, Situation $situation, User $user)
     {
         $category = Category::all();
         $matter = $matter->find($request->id);
         $many_images = explode(',', $matter->many_images);
-        return view('admin.matters.people_edit', compact('matter', 'category', 'many_images'));
+        // 修改已分配执行人
+        $user_id= $matter->situation['user_id'];
+        $users = $user->all();
+        return view('admin.matters.people_edit', compact('matter', 'category', 'many_images', 'user_id', 'users'));
     }
 
-    public function update(Request $request, ImageUploadHandler $uploader)
+    public function update(Request $request, Matter $matter, Situation $situation, ImageUploadHandler $uploader)
     {
         $this->rules($request);
         $data = [
@@ -94,7 +91,10 @@ class PeopleController extends Controller
                 $data['image'] = $result['path'];
             }
         }
-        DB::table('matters')->where('id', $data['id'])->update($data);
+        $situation->where('matter_id', $request->id)->update([
+            'user_id' => $request->user_id
+        ]);
+        $matter->where('id', $request->id)->update($data);
         return redirect()->route('admin.people.index');
     }
 

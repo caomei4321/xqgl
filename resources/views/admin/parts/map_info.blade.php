@@ -3,7 +3,7 @@
 @section('styles')
     <style type="text/css">
         body, html {width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
-        #allmap{width:100%;height:600px;}
+        #allmap{width:100%;height:800px;}
         p{margin-left:5px; font-size:14px;}
     </style>
 @endsection
@@ -89,10 +89,13 @@
                     <div id="r-result">
                         <input type="button" class="btn-info" onclick="add_control();" value="添加控件" />
                         <input type="button" class="btn-info" onclick="delete_control();" value="删除控件" />
-                        <span class="img">垃圾桶<img src="{{ asset('assets/admin/img/t1.png') }}" alt=""></span>
-                        <span class="img">公厕<img src="{{ asset('assets/admin/img/t2.png') }}" alt=""></span>
-                        <span class="img">广告牌<img src="{{ asset('assets/admin/img/t3.png') }}" alt=""></span>
-                        <span class="img">路灯<img src="{{ asset('assets/admin/img/t4.png') }}" alt=""></span>
+                        <span class="img">垃圾桶<img src="{{ asset('assets/admin/img/part1.png') }}" alt=""></span>
+                        <span class="img">广告牌<img src="{{ asset('assets/admin/img/part2.png') }}" alt=""></span>
+                        <span class="img">公厕<img src="{{ asset('assets/admin/img/part3.png') }}" alt=""></span>
+                        <span class="img">路灯/摄像头<img src="{{ asset('assets/admin/img/part4.png') }}" alt=""></span>
+                        <span class="img">井盖<img src="{{ asset('assets/admin/img/part5.png') }}" alt=""></span>
+                        <span class="img">自行车停放点<img src="{{ asset('assets/admin/img/part6.png') }}" alt=""></span>
+                        <span class="img">其他<img src="{{ asset('assets/admin/img/part7.png') }}" alt=""></span>
                     </div>
                 </div>
             </div>
@@ -144,15 +147,19 @@
 
         for(var i=0;i<data_info.length;i++){
             if ( data_info[i][6].indexOf('1') != '-1') {
-                var myIcon = new BMap.Icon(host+"/assets/admin/img/t1.png", new BMap.Size(35,35));
+                var myIcon = new BMap.Icon(host+"/assets/admin/img/part1.png", new BMap.Size(35,35));
             }else if (data_info[i][6].indexOf('2') != '-1'){
-                var myIcon = new BMap.Icon(host+"/assets/admin/img/t3.png", new BMap.Size(35,35));
+                var myIcon = new BMap.Icon(host+"/assets/admin/img/part2.png", new BMap.Size(35,35));
             } else if(data_info[i][6].indexOf('3') != '-1') {
-                var myIcon = new BMap.Icon(host+"/assets/admin/img/t2.png", new BMap.Size(35,35));
+                var myIcon = new BMap.Icon(host+"/assets/admin/img/part3.png", new BMap.Size(35,35));
             } else if (data_info[i][6].indexOf('4') != '-1') {
-                var myIcon = new BMap.Icon(host+"/assets/admin/img/t4.png", new BMap.Size(35,35));
+                var myIcon = new BMap.Icon(host+"/assets/admin/img/part4.png", new BMap.Size(35,35));
+            }else if (data_info[i][6].indexOf('5') != '-1') {
+                var myIcon = new BMap.Icon(host+"/assets/admin/img/part5.png", new BMap.Size(35,35));
+            }else if (data_info[i][6].indexOf('6') != '-1') {
+                var myIcon = new BMap.Icon(host+"/assets/admin/img/part6.png", new BMap.Size(35,35));
             } else {
-                var myIcon = new BMap.Icon(host+"/assets/admin/img/al1.png", new BMap.Size(35,35));
+                var myIcon = new BMap.Icon(host+"/assets/admin/img/part7.png", new BMap.Size(35,35));
             }
             var marker = new BMap.Marker(new BMap.Point(data_info[i][0],data_info[i][1]), {
                 icon: myIcon
