@@ -85,7 +85,7 @@ class JPushHandler
         $params['builderId'] = 1;
         // 附加字段（这里自定义 Key / value 信息，以供业务使用）
         $params['extras'] = [
-            'orderid' => 13545,
+            'time' => date('Y-m-d H:i:s', time()),
         ];
         // 推送类型 1-别名 2-注册id 3-全部
         $params['type'] = 2;

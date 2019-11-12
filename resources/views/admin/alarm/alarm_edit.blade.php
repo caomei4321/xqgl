@@ -12,11 +12,7 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    @if($matter->id)
-                        <h5>修改问题</h5>
-                    @else
-                        <h5>添加问题</h5>
-                    @endif
+                        <h5>修改告警事件</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -36,7 +32,7 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <form method="POST" action="{{ route('admin.people.update') }}" class="form-horizontal" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('admin.alarm.update') }}" class="form-horizontal" enctype="multipart/form-data">
                         <input type="hidden" name="id" value="{{ $matter->id }}">
 
                         <div class="form-group">
@@ -81,7 +77,7 @@
                             <label class="col-sm-2 control-label">问题描述：</label>
 
                             <div class="col-sm-6">
-                                <textarea name="content" class="form-control" rows="6" placeholder="请输入至少三个字符的内容">{{ old('content', $matter->content) }}</textarea>
+                                <textarea name="content" class="form-control" rows="3" placeholder="请输入至少三个字符的内容">{{ old('content', $matter->content) }}</textarea>
                             </div>
                         </div>
                         <div class="hr-line-dashed"></div>
@@ -100,33 +96,34 @@
                         </div>
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">图片依据：</label>
+                            <label class="col-sm-2 control-label">告警类型：</label>
 
                             <div class="col-sm-6">
-                                <div id="file-pretty">
-                                    <div id="prompt3">
-                                        <input type="file" name="image" class="form-control" id="file" onchange="changepic(this)" accept="image/*">
-                                    </div>
-                                    <a class="fancybox" id="img" href="{{ $matter->image }}" >
-                                        <img src="{{ old('image', $matter->image) }}" id="img3"  style="width: 160px;" />
-                                    </a>
+                                <input type="text" name="alarm_type" class="form-control" value="{{ old('alarm_type',$matter->alarm_type) }}" >
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">告警时间：</label>
+
+                            <div class="col-sm-6">
+                                <div class="col-sm-6">
+                                    <input class="form-control layer-date" name="alarm_start" placeholder="YYYY-MM-DD hh:mm:ss" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" value="{{ old('alarm_start', $matter->alarm_start) }}">
                                 </div>
                             </div>
                         </div>
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
-                            <label class="col-sm-2 control-label"></label>
+                            <label class="col-sm-2 control-label">告警图片：</label>
 
                             <div class="col-sm-6">
                                 <div id="file-pretty">
                                     <div id="prompt3">
-
+                                        <input type="file" name="alarm_pic_url" class="form-control" id="file" onchange="changepic(this)" accept="image/*">
                                     </div>
-                                    @for( $i = 1; $i < count($many_images); $i++)
-                                    <a class="fancybox" id="img" href="{{ $many_images[$i] }}" >
-                                        <img src="{{ $many_images[$i] }}" id="img3"  style="width: 160px;" />
+                                    <a class="fancybox" id="img" href="{{ $matter->alarm_pic_url }}" >
+                                        <img src="{{ old('alarm_pic_url', $matter->alarm_pic_url) }}" id="img3"  style="width: 160px;" />
                                     </a>
-                                    @endfor
                                 </div>
                             </div>
                         </div>
@@ -150,6 +147,7 @@
     <script src="{{ asset('assets/admin/js/plugins/chosen/chosen.jquery.js') }}"></script>
     <!-- Fancy box -->
     <script src="{{ asset('assets/admin/js/plugins/fancybox/jquery.fancybox.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/plugins/layer/laydate/laydate.js') }}"></script>
 
     <script src="{{ asset('assets/admin/js/demo/form-advanced-demo.js') }}"></script>
 @endsection

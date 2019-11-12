@@ -77,6 +77,7 @@
                                     @endif
                                 </td>
                                 <td class="center">
+                                    <a href="{{ route('admin.alarm.edit',['id' => $matter->id]) }}"><button type="button" class="btn btn-primary btn-xs">编辑</button></a>
                                     <button class="btn btn-warning btn-xs delete" data-id="{{$matter->id}}">删除</button>
                                 </td>
                             </tr>

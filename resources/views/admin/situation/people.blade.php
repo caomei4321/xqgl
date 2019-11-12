@@ -51,7 +51,7 @@
                         <tbody>
                         @foreach($situations as $situation)
                             <tr class="gradeC">
-                                <td>{{ $situation->id }}</td>
+                                <td>{{ $situation->matter->id }}</td>
                                 <td>{{ $situation->matter->title }}</td>
                                 <td>{{ $situation->user->name }}</td>
                                 <td>

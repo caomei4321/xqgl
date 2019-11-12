@@ -103,7 +103,10 @@
                                                 <option value="1" {{ $part->kind_id == 1 ? 'selected' : '' }}>垃圾桶</option>
                                                 <option value="2" {{ $part->kind_id == 2 ? 'selected' : '' }}>广告牌</option>
                                                 <option value="3" {{ $part->kind_id == 3 ? 'selected' : '' }}>公厕</option>
-                                                <option value="4" {{ $part->kind_id == 4 ? 'selected' : '' }}>路灯/监控</option>
+                                                <option value="4" {{ $part->kind_id == 4 ? 'selected' : '' }}>路灯/摄像头</option>
+                                                <option value="5" {{ $part->kind_id == 5 ? 'selected' : '' }}>井盖</option>
+                                                <option value="6" {{ $part->kind_id == 6 ? 'selected' : '' }}>自行车停放点</option>
+                                                <option value="7" {{ $part->kind_id == 7 ? 'selected' : '' }}>其他</option>
                                             </select>
                                         </div>
                                     </div>

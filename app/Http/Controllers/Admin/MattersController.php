@@ -44,16 +44,28 @@ class MattersController extends Controller
         return redirect()->route('admin.matters.index');
     }
 
-    public function edit(Matter $matter)
+    public function edit(Matter $matter, Situation $situation, User $user)
     {
-        return view('admin.matters.create_and_edit', compact('matter'));
+        // 修改已分配执行人
+        $user_id= $matter->situation['user_id'];
+        $users = $user->all();
+        return view('admin.matters.create_and_edit', compact('matter', 'user_id', 'users'));
     }
 
-    public function update(Request $request, Matter $matter, ImageUploadHandler $uploader)
+    public function update(Request $request, Matter $matter, Situation $situation, ImageUploadHandler $uploader)
     {
         $this->rules($request);
+
+        if ($request->user_id !== $matter->situation['user_id']) {
+            $user_id = [
+                'user_id' => $request->user_id
+            ];
+            $matter->situation->update($user_id);
+        }
+
         $data = $request->all();
-        $matter->update($data);
+        $matter->fill($data);
+        $matter->save();
 
         return redirect()->route('admin.matters.index');
     }
@@ -86,25 +98,18 @@ class MattersController extends Controller
         return view('admin.matters.allocate', compact('matterInfo', 'users'));
     }
 
-    public function allocates(Request $request, JPushHandler $JPushHandler)
+    public function allocates(Request $request, Matter $matter, Situation $situation, User $user, JPushHandler $JPushHandler)
     {
         $data = $request->only(['matter_id', 'user_id', 'category_id']);
         // 将matters表中数据allocate更新为1， 代表已分配
-        $matters = [
-            'id' => $data['matter_id'],
+        $matter->where('id', $request->matter_id)->update([
             'allocate' => '1'
-        ];
-        DB::table('matters')->where('id', $data['matter_id'])->update($matters);
+        ]);
         // 分配信息存入user_has_matters表中
-        $allocate = [
-            'matter_id' => $data['matter_id'],
-            'user_id' => $data['user_id'],
-            'category_id' => $data['category_id'],
-            'created_at' => date('Y-m-d H:i:s', time()),
-            'updated_at' => date('Y-m-d H:i:s', time()),
-        ];
-        DB::table('user_has_matters')->insert($allocate);
-        $reg_id = DB::table('users')->where('id', $data['user_id'])->value('reg_id');
+        $situation->fill($data);
+        $situation->save();
+        // 获取用户 reg_id 推送消息
+        $reg_id = $user->where('id', $request->user_id)->value('reg_id');
         try {
             $JPushHandler->testJpush($reg_id);
         }catch (\Exception $exception) {
