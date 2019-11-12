@@ -78,7 +78,7 @@ class MattersController extends Controller
      * */
     public function findMatterAndEnd(Request $request,PatrolMatter $patrolMatter)
     {
-        $data['images'] = '';
+
 
         if ($request->id) {  // 更新已有数据
             // 更新数据不需要更新经纬度信息
@@ -87,6 +87,8 @@ class MattersController extends Controller
             $patrolMatter = $patrolMatter->find($request->id);
             if ($patrolMatter->images) {
                 $data['images'] = $patrolMatter->images . ';'; //拼接 分号 ，统一格式后面截掉
+            } else {
+                $data['images'] = '';
             }
 
             $imgdata = $request->img;
