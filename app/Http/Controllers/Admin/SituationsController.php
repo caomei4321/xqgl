@@ -14,7 +14,7 @@ class SituationsController extends Controller
     public function index(Situation  $situation)
     {
         $situations = Situation::with(['Matter', 'User', 'Category'])->whereDoesntHave('Matter', function ($query){
-            $query->where('form', '=', '3');
+            $query->whereIn('form', ['3', '4']);
         })->paginate();
         return view('admin.situation.index', compact('situations'));
     }

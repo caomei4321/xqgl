@@ -15,7 +15,15 @@ class AlarmsController extends Controller
     // 接收告警信息， 推送任务到该设备区域所有人
     public function alarm(Request $request, Matter $matter, Part $part)
     {
+        if ($request->alarmType === 'leftdetection') {
+            $content = '物品遗留';
+        }elseif ($request->alarmType === 'enterareadetection') {
+            $content = '进入区域';
+        }else{
+            $content = $request->alarmType;
+        }
         $data = [
+            'title' => '告警提示',
             'alarm_id' => $request->alarmId,
             'channel_name' => $request->channelName,
             'alarm_type' => $request->alarmType,
@@ -23,7 +31,7 @@ class AlarmsController extends Controller
             'device_serial' => $request->deviceSerial,
             'alarm_pic_url' => $request->alarmPicUrl,
             'address' => $part->where('num', $request->deviceSerial)->value('address'),
-            'content' => $request->alarmStart .';'. $request->alarmType,
+            'content' => $request->alarmStart .';'. $content,
             'form' => '4',
         ];
         $matter->fill($data);

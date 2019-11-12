@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Handlers\ImageUploadHandler;
 use App\Handlers\JPushHandler;
 use App\Models\Alarm;
+use App\Models\Category;
 use App\Models\Matter;
 use App\Models\Responsibility;
 use App\Models\Situation;
@@ -21,6 +23,39 @@ class AlarmsController extends Controller
         return view('admin.alarm.index', compact('matters'));
     }
 
+    public function edit(Request $request,Matter $matter, Situation $situation, User $user)
+    {
+        $category = Category::all();
+        $user_id = $situation->where('matter_id', $request->id)->value('user_id');
+        $users = $user->all();
+        $matter = $matter->find($request->id);
+        return view('admin.alarm.alarm_edit', compact('matter', 'category', 'users', 'user_id'));
+    }
+
+    public function update(Request $request, Matter $matter, Situation $situation, ImageUploadHandler $uploader)
+    {
+        $data = [
+            'id' => $request->id,
+            'title' => $request->title,
+            'address' => $request->address,
+            'content' => $request->content,
+            'category_id' => $request->category_id,
+            'alarm_type' => $request->alarm_type,
+            'alarm_start' => $request->alarm_start
+        ];
+        if (!empty($request->alarm_pic_url)){
+            $result = $uploader->save($request->alarm_pic_url, 'matters', 'am');
+            if ($result) {
+                $data['alarm_pic_url'] = $result['path'];
+            }
+        }
+        $situation->where('matter_id', $request->id)->update([
+            'user_id' => $request->user_id
+        ]);
+        $matter->where('id', $request->id)->update($data);
+        return redirect()->route('admin.alarm.index');
+    }
+
     public function allocate(Request $request, Matter $matter, Responsibility $responsibility,  User $user)
     {
         $matterInfo =  $matter->find($request->id);
@@ -29,28 +64,22 @@ class AlarmsController extends Controller
         return view('admin.alarm.alarm_allocate', compact('matterInfo', 'users', 'responsibility'));
     }
 
-    public function allocates(Request $request, JPushHandler $JPushHandler)
+    public function allocates(Request $request,Matter $matter,Situation $situation,User $user, JPushHandler $JPushHandler)
     {
         $data = $request->only(['matter_id', 'user_id', 'category_id', 'responsibility_id']);
+        // 截止日期
         $hour = Responsibility::where('id', $data['responsibility_id'])->value('deadline');
         $time = time() + $hour * 60 * 60;
-        // 将matters表中数据allocate更新为1， 代表已分配
-        $matters = [
-            'id' => $data['matter_id'],
+        // 分配更新字段allocate=1
+        $matter->where('id', $request->matter_id)->update([
             'allocate' => '1',
             'time_limit' => date('Y-m-d H:i:s', $time)
-        ];
-        DB::table('matters')->where('id', $data['matter_id'])->update($matters);
-        // 分配信息存入user_has_matters表中
-        $allocate = [
-            'matter_id' => $data['matter_id'],
-            'user_id' => $data['user_id'],
-            'category_id' => $data['category_id'],
-            'created_at' => date('Y-m-d H:i:s', time()),
-            'updated_at' => date('Y-m-d H:i:s', time()),
-        ];
-        DB::table('user_has_matters')->insert($allocate);
-        $reg_id = DB::table('users')->where('id', $data['user_id'])->value('reg_id');
+        ]);
+        // 新增数据
+        $situation->fill($data);
+        $situation->save();
+        // 获取用户 reg_id 推送消息
+        $reg_id = $user->where('id', $request->user_id)->value('reg_id');
         try {
             $JPushHandler->testJpush($reg_id);
         }catch (\Exception $exception) {

@@ -5,6 +5,8 @@
     <link href="{{ asset('assets/admin/css/plugins/iCheck/custom.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/admin/js/plugins/fancybox/jquery.fancybox.css') }}" rel="stylesheet">
 
+    <link href="{{ asset('assets/admin/css/plugins/chosen/chosen.css') }}" rel="stylesheet">
+
 @endsection
 
 @section('content')
@@ -215,6 +217,22 @@
                                             <input name="title"  type="text" class="form-control" value="{{ old('title',$matter->title) }}">
                                         </div>
                                     </div>
+                                    @if($user_id)
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">已分配执行人：</label>
+
+                                        <div class="col-sm-6">
+                                            {{--<input name="user_id"  type="text" class="form-control" value="{{ old('user_id', $user_id) }}">--}}
+
+                                            <select data-placeholder="选择执行人..." name="user_id" class="chosen-select" style="width:350px;" tabindex="2">
+                                                @foreach($users as $user)
+                                                <option value="{{ $user->id }}" hassubinfo="true" {{$user->id == $user_id ? 'selected' : ''}} >{{ $user->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    @endif
                                     <div class="hr-line-dashed"></div>
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">受理员编号：</label>
@@ -368,10 +386,14 @@
 @section('scripts')
     <!-- iCheck -->
     <script src="{{ asset('assets/admin/js/plugins/iCheck/icheck.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/plugins/chosen/chosen.jquery.js') }}"></script>
+
     <!-- Fancy box -->
     <script src="{{ asset('assets/admin/js/plugins/fancybox/jquery.fancybox.js') }}"></script>
 
     <script src="{{ asset('assets/admin/js/plugins/layer/laydate/laydate.js') }}"></script>
+
+    <script src="{{ asset('assets/admin/js/demo/form-advanced-demo.js') }}"></script>
 @endsection
 
 @section('javascript')
