@@ -42,7 +42,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function situation()
     {
-        return $this->belongsToMany('App\Models\Matter', 'user_has_matters', 'user_id', 'matter_id')->withPivot('see_image', 'information', 'status');
+        return $this->belongsToMany('App\Models\Matter', 'user_has_matters', 'user_id', 'matter_id')->withPivot('see_image', 'see_images', 'information', 'status');
     }
 
     public function patrolMatters()
@@ -59,5 +59,4 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->belongsToMany('App\Models\Alarm', 'alarm_users', 'user_id', 'alarm_id')->withPivot('see_image', 'information', 'status');
     }
-
 }

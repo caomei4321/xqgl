@@ -14,34 +14,30 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Excel;
 use App\Handlers\JPushHandler;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\PhpWord;
 
 class MattersController extends Controller
 {
     protected  $table = "user_ has_matters";
 
+    // 12345 任务管理
     public function index(Matter $matter, Request $request)
     {
-        $matters = $matter->orderBy('allocate', 'asc')->paginate();
+        $matters = $matter->where('form', [1,2])->orderBy('allocate', 'asc')->paginate();
 
         return view('admin.matters.index', compact('matters'));
     }
 
     public function create(Matter $matter)
     {
-        $category = Category::all();
-        return view('admin.matters.create_and_edit', compact('matter', 'category'));
+        return view('admin.matters.create_and_edit', compact('matter'));
     }
 
-    public function store(Request $request, Matter $matter, ImageUploadHandler $uploader)
+    public function store(Request $request, Matter $matter)
     {
         $this->rules($request);
         $data = $request->all();
-        if (!empty($request->image)){
-            $result = $uploader->save($request->image, 'matters', 'mt');
-            if ($result) {
-                $data['image'] = $result['path'];
-            }
-        }
         $matter->fill($data);
         $matter->save();
 
@@ -50,20 +46,13 @@ class MattersController extends Controller
 
     public function edit(Matter $matter)
     {
-        $category = Category::all();
-        return view('admin.matters.create_and_edit', compact('matter', 'category'));
+        return view('admin.matters.create_and_edit', compact('matter'));
     }
 
     public function update(Request $request, Matter $matter, ImageUploadHandler $uploader)
     {
         $this->rules($request);
         $data = $request->all();
-        if (!empty($request->image)){
-            $result = $uploader->save($request->image, 'matters', 'mt');
-            if ($result) {
-                $data['image'] = $result['path'];
-            }
-        }
         $matter->update($data);
 
         return redirect()->route('admin.matters.index');
@@ -125,81 +114,34 @@ class MattersController extends Controller
         return redirect()->route('admin.matters.index');
     }
 
-    // （已废弃） 一次多个分配到人逻辑， 页面上隐藏了分配到人按钮
-    public function mattersToUser(Request $request, Situation $situation, Matter $matter)
-    {
-        $this->validate($request, [
-            'user_id' => 'required',
-            'matter_id' => 'required'
-        ], [
-            'matter_id.required' => '没选中任务， 请选中任务再分配',
-            'user_id.required' => '分配请选择人员',
-        ]);
-
-        $data = $request->only(['user_id', 'matter_id']);
-        $mt_id = explode(',', $data['matter_id']);
-        $newArr = [];
-        foreach ($mt_id as $item) {
-            $newArr[] = [
-                'user_id' => $data['user_id'],
-                'matter_id' => $item,
-                'category_id' => $matter->where('id', $item)->value('category_id'),
-                'created_at' => date('Y-m-d H:i:s', time()),
-                'updated_at' => date('Y-m-d H:i:s', time()),
-            ];
-        }
-
-        foreach ($mt_id as $item) {
-            $allocate = [
-                'allocate' => 1,
-            ];
-            $matter->where('id', $item)->update($allocate);
-        }
-        DB::table('user_has_matters')->insert($newArr);
-
-        return redirect()->route('admin.matters.index');
-
-    }
-
     public function rules(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required|string|min:2',
-            'address' => 'required|string|min:2',
-            'content' => 'required|string|min:3',
-            'image' => 'mimes:jpeg,bmp,png,gif|dimensions:min_width=200, min_height=200',
+            'title' => 'required|min:2',
+            'accept_num' => 'required',
+            'time_limit' => 'required',
+            'work_num' => 'required',
+            'content' => 'required|min:3'
         ], [
-            'title.required' => '标题不能为空',
+            'title.required' => '标题必填',
             'title.min' => '标题至少两个字符',
-            'address.required' => '地址不能为空',
-            'address.min' => '地址至少两个字符',
-            'content.required' => '内容不能为空',
-            'content.min' => '内容至少三个字符',
-            'image.mimes' => '必须是jpeg, bmp, png, gif格式的图片',
-            'image.dimensions' => '图片清晰度不够， 宽和高需要 200px 以上'
+            'accept_num.required' => '受理员编号必填',
+            'time_limit.required' => '办结时限必填',
+            'work_num.required' => '工单编号必填',
+            'content.required' => '问题描述必填',
+            'content.min' => '问题描述至少三个字符'
         ]);
     }
 
     // 导出
-    public function export(Matter $matter, Excel $excel)
+    public function export(Request $request, Matter $matter, Excel $excel)
     {
-        $matters = $matter->all()->toArray();
+        $timeStart = $request->timeStart ? "$request->timeStart 00:00:00" : '2019-01-01 00:00:00';
+        $timeEnd = $request->timeEnd ? "$request->timeEnd 23:59:59" : date('Y-m-d H:i:s', time());
+        $matters = $matter->where('form', '<' ,'3')->whereBetween('created_at', [$timeStart, $timeEnd])->get()->toArray();
         $cellData = [];
-        $firstRow = ['受理员编号','办结时限','工单编号','紧急程度','来电类别','信息来源','是否回复','是否保密','联系人','联系电话','回复备注','问题分类','特办意见','领导批示','办理结果','标题', '地址', '内容', '创建时间'];
+        $firstRow = ['受理员编号','办结时限','工单编号','紧急程度','来电类别','信息来源','是否回复','是否保密','联系人','联系电话','联系地址','回复备注','问题分类','问题描述','特办意见','领导批示','办理结果','创建时间'];
         foreach ($matters as $matter) {
-
-            if ($matter['is_reply'] == 1) {
-                 $matter['is_reply'] = '是';
-            } else $matter['is_reply'] = '否';
-
-            if ($matter['is_secret'] == 1) {
-                $matter['is_secret'] = '是';
-            } else $matter['is_secret'] = '否';
-
-            $category = Category::find($matter['category_id']);
-
-            $matter['category_id'] = isset($category->name) ? $category->name : '';
-
             $data = [
                 $matter['accept_num'],
                 $matter['time_limit'],
@@ -211,79 +153,162 @@ class MattersController extends Controller
                 $matter['is_secret'],
                 $matter['contact_name'],
                 $matter['contact_phone'],
+                $matter['address'],
                 $matter['reply_remark'],
-                $matter['category_id'],
+                $matter['category'],
+                $matter['content'],
                 $matter['suggestion'],
                 $matter['approval'],
                 $matter['result'],
-                $matter['title'],
-                $matter['address'],
-                $matter['content'],
                 $matter['created_at']
             ];
             array_push($cellData, $data);
         }
-        $excel->create('事件记录', function ($excel) use ($cellData, $firstRow) {
+        $excel->create('12345任务报表统计', function ($excel) use ($cellData, $firstRow) {
             $excel->sheet('matter', function ($sheet) use ($cellData, $firstRow) {
                 $sheet->prependRow(1, $firstRow);
+                $sheet->setWidth(array('C' => '30'));
                 $sheet->rows($cellData);
             });
         })->export('xls');
     }
-    // 导入
-    public function import(Request $request, Excel $excel)
+
+    // 导入Word
+    public function import(Request $request)
     {
         $filePath = $this->uploadFile($request->import_file);
         $path = $filePath['path'];
         iconv('UTF-8', 'GBK', $path);
-        try {
-            $excel->load($path, function ($reader) {
-                $reader->noHeading();
-                $reader = $reader->getSheet(0);
-                $result = $reader->toArray();
-//                unset($result[0]);    // 删除表头
-                $excelData = [
-                    'title' => $result[0][0],
-                    'accept_num' => intval($result[3][1]),
-                    'time_limit' => $result[3][3],
-                    'work_num' => intval($result[4][1]),
-                    'level' => intval($result[4][3]),
-                    'type' => intval($result[5][1]),
-                    'source' => $result[5][3],
-                    'is_reply' => $result[6][1],
-                    'is_secret' => $result[6][3],
-                    'contact_name' => $result[7][1],
-                    'contact_phone' => number_format($result[7][3],0,'',''),
-                    'address' => $result[8][1],
-                    'reply_remark' => $result[9][1],
-                    'category_id' => intval($result[10][1]),
-                    'content' => $result[11][1],
-                    'suggestion' => $result[12][1],
-                    'approval' => $result[13][1],
-                    'result' => $result[14][1],
-                    'created_at' => date('Y-m-d H:i:s', time()),
-                    'updated_at' => date('Y-m-d H:i:s', time()),
+        try{
+            $phpWord = new PhpWord();
+            $S1 = IOFactory::load($path)->getSections();
+            $arr = [];
+            foreach ($S1 as $S) {
+                $elements = $S->getElements();
+                $arr=$this->copyElement($elements, $section);
+            }
+            $word = [];
+            foreach ($arr['text'] as $value) {
+                foreach ($value as $text){
+                    if ($text) {
+                        $text = preg_replace('# #','',implode('',array_column($text, 'text')));
+                    }
+                    array_push($word, $text);
+                }
+            }
+            $wordData = [
+                'title' => '12345承办单',
+                'accept_num' => $word[1],
+                'time_limit' => $word[3],
+                'work_num' => $word[5],
+                'level' => $word[7],
+                'type' => $word[9],
+                'source' => $word[11],
+                'is_reply' => $word[13],
+                'is_secret' => $word[15],
+                'contact_name' => $word[17],
+                'contact_phone' => $word[19],
+                'address' => $word[21],
+                'reply_remark' => $word[23],
+                'category' => $word[25],
+                'content' => $word['27'],
+                'suggestion' => $word[29],
+                'approval' => $word[31],
+                'result' => $word[33],
+                'created_at' => date('Y-m-d H:i:s', time()),
+                'updated_at' => date('Y-m-d H:i:s', time()),
+            ];
 
-                ];
-                DB::table('matters')->insert($excelData);
-            });
-        }catch (\Exception $e) {
+            DB::table('matters')->insert($wordData);
+        }catch (\Exception $exception){
             return redirect()->route('admin.matters.index')->withErrors('导入失败，请选择正确的文件和按正确的文件填写方式导入');
         }
         return redirect()->route('admin.matters.index')->withErrors('导入成功');
     }
+    // 复制元素
+    public function copyElement($elements, &$container)
+    {
+        $arrx = [];
+        foreach ($elements as $el) {
+            $class=get_class($el);
+            $elname=explode("\\", $class)[3];
+
+            if ($elname == "PageBreak") {
+                $this->currentPage++;
+            } else {
+                $this->currentPage=1;
+            }
+
+            if ($elname=='TextRun') {
+                $arrx['tmptext'][]=$this->getTextElement($el);
+            }
+
+            if ($elname=='Table') {
+                $rows=count($el->getRows());
+                $cells=$el->CountColumns();
+                $arrx['rows'] = $rows;
+                $arrx['cells'] = $cells;
+                for($i=0;$i<$rows;$i++) {
+                    $rows_a=$el->getRows()[$i];
+                    for($j = 0; $j < $cells; $j++) {
+                        if ($j < 2) {
+                            $x=$rows_a->getCells()[$j];
+                            $arrx['text'][$i+1][$j+1]=$this->getTextElement($x);
+                        }else{
+                            if (isset($rows_a->getCells()[$j])) {
+                                $x=$rows_a->getCells()[$j];
+                                $arrx['text'][$i+1][$j+1]=$this->getTextElement($x);
+                            } else {
+                                continue;
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+        return $arrx;
+
+    }
+    // 得到文本
+    public function getTextElement($E)
+    {
+        $elements = $E->getElements();
+        $result = [];
+        $inResult=[];
+        foreach($elements as $inE) {
+            $ns = get_class($inE);
+            $elName = explode('\\', $ns)[3];
+            if($elName == 'Text') {
+                $result[] = $this->textarr($inE);
+            } elseif (method_exists($inE, 'getElements')) {
+                $inResult = $this->getTextElement($inE);
+            }
+            if(!is_null($inResult)) {
+                $result = array_merge($result, $inResult);
+            }
+        }
+        return count($result) > 0 ? $result : null;
+    }
+    // 文本数组
+    public function textarr($e)
+    {
+        $textArr['text']=$e->getText();
+        return $textArr;
+    }
+
     // 导入上传文件
     public function uploadFile($file)
     {
-        $folder_name = "uploads/import/" . date("Ym/d", time());
-
+        $folder_name = "word/import";
         $upload_path = public_path() . '/' . $folder_name;
 
-        $extension = strtolower($file->getClientOriginalExtension()) ?: 'xls';
+        $extension = strtolower($file->getClientOriginalExtension()) ? 'docx' : 'docx';
 
-        $filename =   time() . '_' . str_random(10) . '.' . $extension;
+        $filename =   date('YmdHis', time()). mt_rand(111111,999999) .'word' . '.' . $extension;
 
-        if ( ! in_array($extension, ['xls', 'xlsl'])) {
+        if ( ! in_array($extension, ['doc', 'docx'])) {
             return false;
         }
 
@@ -297,8 +322,8 @@ class MattersController extends Controller
     // 导入下载模板
     public function download()
     {
-        $filePath = 'excel/excel.xls';
-        return response()->download($filePath, 'Excel导入模板');
+        $filePath = 'word/word.doc';
+        return response()->download($filePath, '导入模板.doc');
     }
 
     // 鼠标绘制点线面

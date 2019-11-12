@@ -67,17 +67,17 @@ class ResponsibilityController extends Controller
     {
         $this->validate($request, [
             'item' => 'required|string|min:2',
-            'county' => 'required|string|min:3',
-            'town' => 'required|string|min:3',
-            'legal_doc' => 'required|string',
+            //'county' => 'required|string|min:3',
+            //'town' => 'required|string|min:3',
+            //'legal_doc' => 'required|string',
         ], [
             'item.required' => '请输入具体事项',
             'item.min' => '具体事项最少2个字符',
-            'county.required' => '请输入县级部门职责',
-            'county.min' => '县级部门职责最少3个字符',
-            'town.required' => '请输入乡镇街道职责',
-            'town.min' => '乡镇街道职责最少3个字符',
-            'legal_doc' => '请输入法律法规及文件依据',
+            //'county.required' => '请输入县级部门职责',
+            //'county.min' => '县级部门职责最少3个字符',
+            //'town.required' => '请输入乡镇街道职责',
+            //'town.min' => '乡镇街道职责最少3个字符',
+            //'legal_doc' => '请输入法律法规及文件依据',
         ]);
     }
 }

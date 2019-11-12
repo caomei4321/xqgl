@@ -33,4 +33,10 @@ class ProgramUser extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Matter::class, 'program_user_id');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'user_id');
+    }
+
 }

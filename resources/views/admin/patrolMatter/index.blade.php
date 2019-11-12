@@ -5,6 +5,8 @@
     <link href="{{ asset('assets/admin/css/plugins/dataTables/dataTables.bootstrap.css') }}" rel="stylesheet">
     <!-- Sweet Alert -->
     <link href="{{ asset('assets/admin/css/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet">
+    <!-- Data picker -->
+    <link href="{{ asset('assets/admin/css/plugins/datapicker/datepicker3.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
@@ -12,7 +14,7 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>巡查上报问题</small></h5>
+                    <h5><small>巡查上报问题</small></h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -32,6 +34,27 @@
                     </div>
                 </div>
                 <div class="ibox-content">
+                    {{--<a href="{{ route('admin.patrolMatters.export') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> Excel导出</button>
+                    </a>--}}
+                    <button class="btn btn-info " id="download" type="button"><i class="fa fa-paste"></i> 巡查事件上报统计</button>
+                    <form id="form" method="get" action="">
+                        <div class="form-group form-inline row text-left" id="data_5">
+                            <label class="font-noraml">范围选择</label>
+                            {{ csrf_field() }}
+                            <div class="input-daterange input-group" id="datepicker">
+
+                                <input type="text" class="input-sm form-control" name="start_time" value="{{ isset($filter['start_time']) ? $filter['start_time'] : '' }}" />
+                                <span class="input-group-addon">到</span>
+                                <input type="text" class="input-sm form-control" name="end_time" value="{{ isset($filter['end_time']) ? $filter['end_time'] : date("Y-m-d",time()) }}" />
+
+                            </div>
+                            <div class="form-group">
+
+                                <input type="submit" class="btn btn-primary" id="search" value="搜索">
+                            </div>
+
+                        </div>
+                    </form>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                         <tr>
@@ -94,10 +117,43 @@
 
     <!-- Sweet alert -->
     <script src="{{ asset('assets/admin/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
+    <!-- Data picker -->
+    <script src="{{ asset('assets/admin/js/plugins/datapicker/bootstrap-datepicker.js') }}"></script>
 @endsection
 
 @section('javascript')
     <script>
+        $(document).ready(function () {
+            $('#datepicker').datepicker();
+            var config = {
+                '.chosen-select': {},
+                '.chosen-select-deselect': {
+                    allow_single_deselect: true
+                },
+                '.chosen-select-no-single': {
+                    disable_search_threshold: 10
+                },
+                '.chosen-select-no-results': {
+                    no_results_text: 'Oops, nothing found!'
+                },
+                '.chosen-select-width': {
+                    width: "95%"
+                }
+            };
+            $('.dataTables-example').dataTable({
+                "lengthChange": false,
+                "paging": false,
+                "order": [[ 3, 'desc' ]],
+            });
+            $('#download').click(function () {
+                $("#form").attr('action',"{{ route('admin.patrolMatters.export') }}");
+                $("#form").submit();
+            });
+            $('#search').click(function () {
+                $("#form").attr('action',"{{ route('admin.patrolMatters.search') }}");
+                $("#form").submit();
+            })
+        })
         $('.delete').click(function () {
             var id = $(this).data('id');
             swal({

@@ -39,36 +39,51 @@
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>任务地址</th>
+                            <th>工单编号</th>
                             <th>执行人</th>
                             <th>现场处理图片</th>
                             <th>处理信息</th>
                             <th>时间</th>
                             <th>状态</th>
+                            <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($situations as $situation)
                             <tr class="gradeC">
                                 <td>{{ $situation->id }}</td>
-                                <td>{{ $situation->matter->address }}</td>
+                                <td>{{ $situation->matter->work_num }}</td>
                                 <td>{{ $situation->user->name }}</td>
                                 <td>
                                     <a class="fancybox" id="img" href="{{ $situation->see_image }}" >
                                         <img src="{{ $situation->see_image }}"  style="width: 40px;" />
                                     </a>
+                                    @foreach($situation->getImagesAttributes() as $image)
+                                    <a class="fancybox" id="img" href="{{ $image }}" >
+                                        <img src="{{ $image }}"  style="width: 40px;" />
+                                    </a>
+                                    @endforeach
                                 </td>
                                 <td>{{ $situation->information }}</td>
                                 <td>{{ $situation->created_at }}</td>
                                 <td>
                                     @if($situation->status  == 0)
-                                        <button class="btn btn-default btn-sm" type="button"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;未处理</button>
+                                        <button class="btn btn-default btn-xs" type="button"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;未处理</button>
                                     @elseif( $situation->status  == 2)
-                                        <button class="btn btn-sm btn-warning " type="button"><i class="fa fa-warning"></i> <span class="bold">配合</span>
+                                        <button class="btn btn-xs btn-warning" type="button" readonly><i class="fa fa-warning"></i> <span class="bold">配合</span>
                                         </button>
-                                        <a href="{{ route('admin.situations.export', ['id' => $situation->id]) }}" class="btn btn-sm btn-warning"><i class="fa fa-warning"></i>上报单</a>
+
+                                    @elseif($situation->status == 3)
+                                        <button class="btn btn-xs btn-info " type="button"><i class="fa fa-paste"></i> 处理中</button>
                                     @else
-                                        <button class="btn btn-sm btn-info " type="button"><i class="fa fa-paste"></i> 完成</button>
+                                        <button class="btn btn-xs btn-info " type="button"><i class="fa fa-paste"></i> 完成</button>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if($situation->status  == 2)
+                                        <a href="{{ route('admin.situations.export', ['id' => $situation->id]) }}" class="btn btn-xs btn-danger"><i class="fa fa-warning"></i>转办单</a>
+                                    @else
+                                        <a href="{{ route('admin.situations.show', ['id' => $situation->id]) }}"><button class="btn btn-xs btn-success " type="button"><i class="fa fa-paste"></i> 查看</button></a>
                                     @endif
                                 </td>
                             </tr>
@@ -77,12 +92,13 @@
                         <tfoot>
                         <tr>
                             <th>ID</th>
-                            <th>任务地址</th>
+                            <th>工单编号</th>
                             <th>执行人</th>
                             <th>现场处理图片</th>
                             <th>处理信息</th>
                             <th>时间</th>
                             <th>状态</th>
+                            <th>操作</th>
                         </tr>
                         </tfoot>
                     </table>

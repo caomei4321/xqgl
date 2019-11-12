@@ -36,11 +36,20 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <a href="{{ route('admin.matters.create') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 添加任务</button>
+                    <a href="{{ route('admin.matters.create') }}"><button class="btn btn-info" type="button"><i class="fa fa-paste"></i> 添加任务</button>
                     </a>
                     {{--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo" onclick="fun()" id="fp-btn">分配到人</button>--}}
-                    <button class="btn btn-info " type="button" data-toggle="modal" data-target="#importModal" data-whatever="@mdo"><i class="fa fa-paste"></i> Excel导入</button>
-                    <a href="{{ route('admin.matters.export') }}"> <button class="btn btn-warning" type="button"><i class="fa fa-paste"></i> Excel导出</button></a>
+                    <button class="btn btn-info" type="button" data-toggle="modal" data-target="#importModal" data-whatever="@mdo"><i class="fa fa-paste"></i> 12345任务导入</button>
+
+                    <form action="{{ route('admin.matters.export') }}" method="get">
+                        <div class="col-sm-2" style="display: inline-block">
+                            <input class="form-control inline" type="date" name="timeStart">
+                        </div>
+                        <div class="col-sm-2" style="display: inline-block">
+                            <input class="form-control inline" type="date" name="timeEnd">
+                        </div>
+                        <button class="btn btn-info" type="submit" style="display: inline-block"><i class="fa fa-paste"></i>12345任务统计</button>
+                    </form>
                     {{--<a href="{{ route('admin.matters.mouse') }}"> <button class="btn btn-warning" type="button"><i class="fa fa-paste"></i> 鼠标点线面</button></a>--}}
                     {{--导入model start--}}
                     <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
@@ -53,16 +62,16 @@
                                 <div class="modal-body">
                                     <div class="form-group">
                                         <span style="font-size: 12px; color: red; opacity: 0.5; margin-bottom: 5px;">***导入之前请先下载模板，按指定格式填写数据***</span> <br>
-                                        <a href="{{ route('admin.matters.download') }}">《Excel导入模板》下载</a>
+                                        <a href="{{ route('admin.matters.download') }}">《Word导入模板》下载</a>
                                     </div>
                                     <form id="form1" action="{{ route('admin.matters.import') }}"  method="post" enctype="multipart/form-data">
                                         {{ csrf_field() }}
                                         <div class="form-group">
-                                            <label for="import_file" class="control-label">选择指定格式Excel文件</label>
-                                            <input type="file" class="form-control"  name="import_file" value=""  >
+                                            <label for="import_file" class="control-label">选择指定格式Word文件</label>
+                                            <input type="file" class="form-control"  name="import_file" value=""  required>
                                         </div>
                                         <button type="reset" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                        <button type="submit" onclick="submit()" class="btn btn-primary">确定</button>
+                                        <button type="submit" class="btn btn-primary">确定</button>
                                     </form>
                                 </div>
                             </div>
@@ -91,7 +100,7 @@
                                             </select>
                                         </div>
                                         <button type="reset" id="model_reset" class="btn btn-default" data-dismiss="modal">关闭</button>
-                                        <button type="submit" onclick="submit()" class="btn btn-primary">确定</button>
+                                        <button type="submit" class="btn btn-primary">确定</button>
                                     </form>
                                 </div>
                             </div>
@@ -109,10 +118,9 @@
                         <thead>
                         <tr>
                             <th>ID</th>
-                            <th>标题</th>
-                            <th>地址</th>
-                            <th>内容</th>
-                            <th>图片</th>
+                            <th>工单编号</th>
+                            <th>问题描述</th>
+                            <th>紧急程度</th>
                             <th>现场查看</th>
                             <th>添加时间</th>
                             <th>是否分配</th>
@@ -125,18 +133,10 @@
                             <tr class="gradeC">
                                 <td class="check_id">
                                     {{ $matter->id }}
-                                    {{--@if( $matter->allocate == 0)--}}
-                                        {{--<input type="checkbox" name="matter" value="{{ $matter->id }}">--}}
-                                    {{--@endif--}}
                                 </td>
-                                <td>{{ $matter->title }}</td>
-                                <td>{{ $matter->address }}</td>
-                                <td>{{ $matter->content }}</td>
-                                <td>
-                                    <a class="fancybox" id="img" href="{{ $matter->image }}" >
-                                        <img src="{{ $matter->image }}"  style="width: 40px;" />
-                                    </a>
-                                </td>
+                                <td>{{ $matter->work_num }}</td>
+                                <td style="max-width: 580px;overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $matter->content }}</td>
+                                <td>{{ $matter->level }}</td>
                                 <td>
                                     @if( $matter->status  == 0)
                                         <button class="btn btn-sm btn-warning btn-circle" type="button"><i class="fa fa-times"></i>
@@ -171,10 +171,9 @@
                         <tfoot>
                         <tr>
                             <th>ID</th>
-                            <th>标题</th>
-                            <th>地址</th>
-                            <th>内容</th>
-                            <th>图片</th>
+                            <th>工单编号</th>
+                            <th>问题描述</th>
+                            <th>紧急程度</th>
                             <th>现场查看</th>
                             <th>添加时间</th>
                             <th>是否分配</th>

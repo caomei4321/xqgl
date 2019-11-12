@@ -72,7 +72,7 @@
                                         <label class="col-sm-2 control-label">县级部门职责：</label>
 
                                         <div class="col-sm-6">
-                                            <textarea name="county" class="form-control" id=""  rows="6" placeholder="请输入至少三个字符的内容" required>{{ old('county', $responsibility->county) }}</textarea>
+                                            <textarea name="county" class="form-control" id=""  rows="6">{{ old('county', $responsibility->county) }}</textarea>
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>
@@ -80,7 +80,7 @@
                                         <label class="col-sm-2 control-label">乡镇(街道)职责：</label>
 
                                         <div class="col-sm-6">
-                                            <textarea name="town" class="form-control" id=""  rows="6" placeholder="请输入至少三个字符的内容" required>{{ old('town', $responsibility->town) }}</textarea>
+                                            <textarea name="town" class="form-control" id=""  rows="6">{{ old('town', $responsibility->town) }}</textarea>
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>
@@ -89,6 +89,13 @@
 
                                         <div class="col-sm-6">
                                             <input name="legal_doc"  type="text" class="form-control" value="{{ old('legal_doc',$responsibility->legal_doc) }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">处理时限(小时)：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="deadline"  type="number" class="form-control" value="{{ old('deadline',$responsibility->deadline) }}">
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>

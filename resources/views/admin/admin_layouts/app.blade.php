@@ -33,9 +33,7 @@
     <!--右侧部分开始-->
     <div id="page-wrapper" class="gray-bg dashbard-1">
         <div class="row content-tabs">
-            <button class="roll-nav roll-left J_tabLeft" onclick="function f() {
-                history.back(-1);
-                    }"><i class="fa fa-backward"></i>
+            <button class="roll-nav roll-left J_tabLeft" onclick="window.history.back(-1);"><i class="fa fa-backward"></i>
             </button>
             <nav class="page-tabs J_menuTabs">
                 <div class="page-tabs-content">
@@ -64,7 +62,7 @@
             <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="{{ url('admin/count') }}" frameborder="0" data-id="{{ url('admin/count') }}" seamless></iframe>
         </div>
         <div class="navbar navbar-fixed-bottom">
-            <div class="footer" >
+            <div class="" style="position: fixed" >
                 <div class="pull-right">&copy; 2019-2020 <a href="#" target="_blank">三晖科技</a>
                 </div>
             </div>

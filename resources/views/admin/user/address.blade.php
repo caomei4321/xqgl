@@ -54,7 +54,7 @@
         var map = new BMap.Map("users-address");
         //var point = new BMap.Point(120.76938270267108, 31.279379881924105);
         var point = new BMap.Point(117.010813,36.671952);
-	map.centerAndZoom(point, 15);
+        map.centerAndZoom(point, 15);
         map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
         /*map.setMapStyleV2({
             styleId: '4164dc3852e0db5655f892b8f46d98d6'
@@ -72,11 +72,14 @@
 
         points = [];
         entityList = [];
+        var myIcon = new BMap.Icon("/assets/admin/img/user_icon2.png", new BMap.Size(48,85),{
+            imageSize: new BMap.Size(40,40),
+            imageOffset:new BMap.Size(5,5)
+        });
         reloadMap();
 
         setInterval('reloadMap()',5000);  //5秒
         //setInterval('reloadMap()',1000);
-
         var data = [];
         function reloadMap() {
             $.ajaxSetup({
@@ -89,6 +92,11 @@
                     map.clearOverlays();
                     $.each(res,function (index,value) {
 
+                        sContent =
+                            "<h4 style='margin-left: 13px; margin-bottom: 5px;'>"+ "人员信息" +" </h4></br>" +
+                            "<span style='margin: 0 12px;'>姓名 :" + value.latest_location.desc_name + "</span></br>" +
+                            "<p style='margin: 0 12px; font-size: 12px; color: rgb(77,77,77);'>"+"更新时间："+ UnixToDate(value.latest_location.loc_time)  +"</p></br>" +
+                            "<p style=' margin: 0 12px;font-size: 12px; color: rgb(127,127,127); overflow: hidden;text-overflow: ellipsis;'>";
                         //entityList.push(value.entity_name);
                         if(value.latest_location){  // 如果有最新轨迹点信息则标注
                             var point = new BMap.Point(value.latest_location.longitude, value.latest_location.latitude);
@@ -99,19 +107,43 @@
                                     var distance = map.getDistance(lastPoint[0],point).toFixed(2);  // 计算两点距离，单位米，保留两位小数
                                 } catch (e) {
                                     points[index]['point'].push(lastPoint[0]);
+                                    points[index]['marker'] = new BMap.Marker(lastPoint[0],{icon:myIcon});
+                                    points[index]['marker'].addEventListener("click", function () {
+                                        this.openInfoWindow(points[index]['infoWindow']);
+                                    });
                                 }
 
-                                if (distance > 150) { // 距离大于 150认为飘点，则把上一次的点当作当前次的点
+                                if (distance > 1500) { // 距离大于 150认为飘点，则把上一次的点当作当前次的点
                                     points[index]['point'].push(lastPoint[0]);
+
+                                    points[index]['marker'] = new BMap.Marker(lastPoint[0],{icon:myIcon});
+                                    map.addOverlay( points[index]['marker']);
+                                    points[index]['marker'].addEventListener("click", function () {
+                                        this.openInfoWindow(points[index]['infoWindow']);
+                                    });
                                 } else {
                                     points[index]['point'].push(point);
+                                    points[index]['marker'] = new BMap.Marker(point,{icon:myIcon});
+                                    map.addOverlay( points[index]['marker']);
+                                    points[index]['marker'].addEventListener("click", function () {
+                                        this.openInfoWindow(points[index]['infoWindow']);
+                                    });
                                 }
 
                             } else {
+
                                 points[index] = [];
                                 points[index]['color'] = getColor();
                                 points[index]['point'] = [];
                                 points[index]['point'].push(point);
+                                points[index]['sContent'] = sContent;
+
+                                points[index]['infoWindow'] = new BMap.InfoWindow(points[index]['sContent']);
+                                points[index]['marker'] = new BMap.Marker(point,{icon:myIcon});
+                                map.addOverlay( points[index]['marker']);
+                                points[index]['marker'].addEventListener("click", function () {
+                                    this.openInfoWindow(points[index]['infoWindow']);
+                                });
                             }
 
                             if (points[index]['point'].length > 1) {
@@ -126,15 +158,15 @@
                                 console.log(points[index]['color'])
                                 map.addOverlay(polyline);
                             }
-                            var myIcon = new BMap.Icon("/assets/admin/img/user_icon.png", new BMap.Size(48,85));
-                            if (value.latest_location.hasOwnProperty('desc_name')) {
+
+                            /*if (value.latest_location.hasOwnProperty('desc_name')) {
                                 var label = new BMap.Label(value.latest_location.desc_name+';'+UnixToDate(value.latest_location.loc_time), {offset:new BMap.Size(-30,-20)});
                             } else {
                                 var label = new BMap.Label(value.desc_name+';'+UnixToDate(value.latest_location.loc_time), {offset:new BMap.Size(-30,-20)});
-                            }
+                            }*/
                             //var label = new BMap.Label(value.entity_name+';上次更新时间：'+UnixToDate(value.latest_location.loc_time), {offset:new BMap.Size(-30,-20)});
-                            label.setStyle({ color : "red", fontSize : "15px" });
-                            addMarker(point,myIcon,label);
+                            //label.setStyle({ color : "red", fontSize : "15px" });
+                            //addMarker(point,myIcon,label);
                             console.log(points);
                         }
                     });
@@ -161,74 +193,9 @@
             $.ajax();
         }
 
-        /*for (var i = 0; ; i++) {
-            for (var j = 0; j < entityList.length; j++) {
-                latestPoint(j,entityList[j]);
-                sleep(5000);
-            }
-
-        }
-
-        function sleep(numberMillis) {
-            var now = new Date();
-            var exitTime = now.getTime() + numberMillis;
-            while (true) {
-                now = new Date();
-                if (now.getTime() > exitTime)
-                    return;
-            }
-        }
-
-
-
-
-        function latestPoint(index,entity_name) {
-            $.ajaxSetup({
-                headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                type:"post",
-                url: '/admin/users/latestPoint',
-                async: false,
-                data: {
-                    'entity_name' : entity_name
-                },
-                success:function (res) {
-                    res = JSON.parse(res);*/
-                    /*console.log(points);
-                    map.clearOverlays();
-
-                    var point = new BMap.Point(res.latest_point.longitude, res.latest_point.latitude);
-                    points[index].push(point);
-                    var polyline = new BMap.Polyline(points[index], {
-                        enableEditing: false,
-                        enableClicking: true,
-                        strokeWeight: '3',
-                        strokeOpacity: '0.5',
-                        strokeColor: "red"
-                    });
-                    map.addOverlay(polyline);*/
-                    /*$.each(points, function (index, value) {
-                        var polyline = new BMap.Polyline(value, {
-                            enableEditing: false,
-                            enableClicking: true,
-                            strokeWeight: '3',
-                            strokeOpacity: '0.5',
-                            strokeColor: "red"
-                        });
-                        map.addOverlay(polyline);
-
-                    });*/
-                    /*var myIcon = new BMap.Icon("/assets/admin/img/user_icon.png", new BMap.Size(48,85));
-                    var label = new BMap.Label(entity_name+';上次更新时间：'+UnixToDate(res.loc_time), {offset:new BMap.Size(-30,-20)});
-                    label.setStyle({ color : "red", fontSize : "15px" });
-                    addMarker(point,myIcon,label);*/
-                    /*document.getElementById('users-address').onload = function (){
-                        infoWindow.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
-                    }*/
-             /*   },
-            });
-            $.ajax();
-        }*/
-
+        var markers = [];
+        var sContent = [];
+        var infoWindow = [];
         // 添加标注
         function addMarker(point,myIcon,label){
             var marker = new BMap.Marker(point,{icon:myIcon});
@@ -285,9 +252,9 @@
             }
             var time = new Date(unixTime * 1000);
             var ymdhis = "";
-            /*ymdhis += time.getUTCFullYear() + "-";
+            ymdhis += time.getUTCFullYear() + "-";
             ymdhis += ((time.getUTCMonth()+1) < 10 ? "0" + (time.getUTCMonth()+1) : (time.getUTCMonth()+1)) + "-";
-            ymdhis += (time.getUTCDate() < 10 ? "0" + time.getUTCDate() : time.getUTCDate()) + " ";*/
+            ymdhis += (time.getUTCDate() < 10 ? "0" + time.getUTCDate() : time.getUTCDate()) + " ";
             ymdhis += (time.getHours() < 10 ? "0" + time.getHours() : time.getHours()) + ":";
             ymdhis += (time.getUTCMinutes() < 10 ? "0" + time.getUTCMinutes() : time.getUTCMinutes()) + ":";
             ymdhis += (time.getUTCSeconds() < 10 ? "0" + time.getUTCSeconds() : time.getUTCSeconds());

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Handlers\Curl;
 use App\Models\Patrol;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Excel;
@@ -18,7 +19,7 @@ class PatrolsController extends Controller
 
     public function show(Patrol $patrol, Curl $curl)
     {
-        $entity_name  = $patrol->user->entity_name;
+        $entity_name  = $patrol->entity_name;
         //   http://yingyan.baidu.com/api/v3/track/gettrack
 
         if ($patrol->end_at) {
@@ -76,7 +77,7 @@ class PatrolsController extends Controller
     {
         $patrols = $patrol->all();
         $cellData = [];
-        $firstRow = ['姓名','发现问题数量','开始时间','结束时间'];
+        $firstRow = ['姓名','发现问题数量','开始时间','结束时间', '时长(分钟)'];
         foreach ($patrols as $patrol) {
 
             //dd($patrol->patrol_matter);
@@ -84,7 +85,8 @@ class PatrolsController extends Controller
                 $patrol->user->name,
                 $patrol->patrol_matter()->count(),
                 $patrol->created_at,
-                $patrol->end_at
+                $patrol->end_at,
+                floor((strtotime($patrol->end_at) - strtotime($patrol->created_at))/60)
             ];
             array_push($cellData, $data);
         }

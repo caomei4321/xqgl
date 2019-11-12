@@ -17,8 +17,8 @@ class ProgramImagesController extends Controller
 
     public function matters(Matter $matter)
     {
-        $matters = $matter->where('open', '1')->get();
-
+        $matters = $matter->where('open', '1')->orderBy('id', 'desc')->get();
+        
         return $matters;
     }
 }

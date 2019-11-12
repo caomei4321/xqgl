@@ -12,7 +12,7 @@
         <div class="col-sm-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>巡查上报问题</small></h5>
+                    <h5><small>巡查记录</small></h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <a href="{{ route('admin.patrols.export') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> Excel导出</button>
+                    <a href="{{ route('admin.patrols.export') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 巡查记录报表</button>
                     </a>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>

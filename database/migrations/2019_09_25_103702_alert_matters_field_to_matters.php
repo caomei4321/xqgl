@@ -14,8 +14,8 @@ class AlertMattersFieldToMatters extends Migration
     public function up()
     {
         Schema::table('matters', function (Blueprint $table) {
-            $table->string('is_reply')->nullable()->change();
-            $table->string('is_secret')->nullable()->change();
+            $table->string('is_reply')->nullable(true)->change();
+            $table->string('is_secret')->nullable(true)->change();
         });
     }
 
@@ -27,8 +27,8 @@ class AlertMattersFieldToMatters extends Migration
     public function down()
     {
         Schema::table('matters', function (Blueprint $table) {
-            $table->dropColumn('is_reply');
-            $table->dropColumn('is_secret');
+            $table->string('is_reply')->nullable(false)->change();
+            $table->string('is_secret')->nullable(false)->change();
         });
     }
 }

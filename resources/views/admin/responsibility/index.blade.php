@@ -52,7 +52,11 @@
                         @foreach($responsibility as $res)
                             <tr class="gradeC">
                                 <td>{{ $res->id }}</td>
+                                @if(isset($res->category->name))
                                 <td style="width: 70px">{{ $res->category->name }}</td>
+                                @else
+                                <td style="width: 70px">{{ $res->category_id }}</td>
+                                @endif
                                 <td>{{ $res->item }}</td>
                                 <td>{{ $res->county }}</td>
                                 <td>{{ $res->town }}</td>
