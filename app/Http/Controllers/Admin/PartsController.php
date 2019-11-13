@@ -100,8 +100,7 @@ class PartsController extends Controller
     // 地图标注
     public function mapInfo()
     {
-        $parts = Part::all();
-        return view('admin.parts.map_info', compact('parts'));
+        return view('admin.parts.map_info');
     }
 
     public function mapJsonInfo()
