@@ -18,7 +18,7 @@
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
                         </a>
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="graph_flot.html#">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="">
                             <i class="fa fa-wrench"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-user">
@@ -33,58 +33,6 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <div id="data" style="display: none">
-                        <table class="table table-striped table-bordered table-hover dataTables-example">
-                            <thead>
-                            <tr>
-                                <th>经度</th>
-                                <th>纬度</th>
-                                <th>物品+编号</th>
-                                <th>地址</th>
-                                <th>描述</th>
-                                <th>图片</th>
-                                <th>图标</th>
-                                <th>状态</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($parts as $part)
-                            <tr class="data">
-                                <td class="t1">{{ $part->longitude }}</td>
-                                <td class="t2">{{ $part->latitude }}</td>
-                                <td class="t3">
-                                    {{ $part->things }} {{ $part->num }}
-                                    <span style="float: right; margin-right: 20px;">
-                                    @if($part->status == 0)
-                                        正在使用
-                                    @else
-                                        已损坏
-                                    @endif
-                                    </span>
-                                </td>
-                                <td class="t4">{{ $part->address }}</td>
-                                <td class="t5">{{ $part->info }}</td>
-                                <td class="t6"><image style='width: 324px;height: 101px; margin-left: 13px; margin-bottom: 5px;' src="{{ $part->image }}" /></td>
-                                <td class="t7">
-                                    {{ $part->kind_id }}
-                                </td>
-                            </tr>
-                            @endforeach
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                <th>经度</th>
-                                <th>纬度</th>
-                                <th>物品+编号</th>
-                                <th>地址</th>
-                                <th>描述</th>
-                                <th>图片</th>
-                                <th>图标</th>
-                            </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-
                     <div id="allmap"></div>
                     <div id="r-result">
                         <input type="button" class="btn-info" onclick="add_control();" value="添加控件" />
@@ -105,8 +53,8 @@
 
 @section('scripts')
     <!-- 百度地图js -->
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=HzdI6uW2xAsdwGmxQbdWitq0ZGGhO02G"></script>
-    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=HzdI6uW2xAsdwGmxQbdWitq0ZGGhO02G"></script>
+    {{--<script src="https://libs.baidu.com/jquery/1.9.0/jquery.js"></script>--}}
     <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=HzdI6uW2xAsdwGmxQbdWitq0ZGGhO02G"></script>
 @endsection
 
@@ -122,20 +70,6 @@
         /*缩放控件type有四种类型:
         BMAP_NAVIGATION_CONTROL_SMALL：仅包含平移和缩放按钮；BMAP_NAVIGATION_CONTROL_PAN:仅包含平移按钮；BMAP_NAVIGATION_CONTROL_ZOOM：仅包含缩放按钮*/
 
-        var lng = $('.t1'); // 经度
-        var lat = $('.t2'); // 纬度
-        var things = $('.t3'); // 物品+编号
-        var address = $('.t4'); // 地址
-        var info = $('.t5'); // 信息
-        var img = $('.t6'); //图片
-        var kind = $('.t7'); // 种类
-        var lenght = $('.t1').length;
-        var data_info = [];
-        for (var i = 0; i < lenght; i++) {
-            var data_array = [lng[i].innerHTML, lat[i].innerHTML, things[i].innerHTML, address[i].innerHTML, info[i].innerHTML, img[i].innerHTML, kind[i].innerHTML];
-            data_info.push(data_array);
-        }
-        console.log(data_info);
         var opts = {
             width : 350,     // 信息窗口宽度
             height: 200,     // 信息窗口高度
@@ -145,36 +79,47 @@
 
         var host = window.location.protocol+"//"+window.location.host;
 
-        for(var i=0;i<data_info.length;i++){
-            if ( data_info[i][6].indexOf('1') != '-1') {
-                var myIcon = new BMap.Icon(host+"/assets/admin/img/part1.png", new BMap.Size(35,35));
-            }else if (data_info[i][6].indexOf('2') != '-1'){
-                var myIcon = new BMap.Icon(host+"/assets/admin/img/part2.png", new BMap.Size(35,35));
-            } else if(data_info[i][6].indexOf('3') != '-1') {
-                var myIcon = new BMap.Icon(host+"/assets/admin/img/part3.png", new BMap.Size(35,35));
-            } else if (data_info[i][6].indexOf('4') != '-1') {
-                var myIcon = new BMap.Icon(host+"/assets/admin/img/part4.png", new BMap.Size(35,35));
-            }else if (data_info[i][6].indexOf('5') != '-1') {
-                var myIcon = new BMap.Icon(host+"/assets/admin/img/part5.png", new BMap.Size(35,35));
-            }else if (data_info[i][6].indexOf('6') != '-1') {
-                var myIcon = new BMap.Icon(host+"/assets/admin/img/part6.png", new BMap.Size(35,35));
-            } else {
-                var myIcon = new BMap.Icon(host+"/assets/admin/img/part7.png", new BMap.Size(35,35));
-            }
-            var marker = new BMap.Marker(new BMap.Point(data_info[i][0],data_info[i][1]), {
-                icon: myIcon
-            });  // 创建标注
-            console.log(marker);
-            var content =
-                "<h4 style='margin-left: 13px; margin-bottom: 5px;'>"+ data_info[i][2] +" </h4>" +
-                "<p style='margin-left: 0px; margin-bottom:0px; '>"+  data_info[i][5] +"</p>" +
-                "<p style='margin: 0 12px; font-size: 12px; color: rgb(77,77,77);'>"+"地址："+  data_info[i][3] +"</p>" +
-                "<p style=' margin: 0 12px;font-size: 12px; color: rgb(127,127,127); overflow: hidden;text-overflow: ellipsis;'>"+"物品信息："+ data_info[i][4] +"</p>" +
-                "</div>";
-            // var content = data_info[i][2];
-            map.addOverlay(marker);               // 将标注添加到地图中
-            addClickHandler(content,marker);
-        }
+        $(document).ready(function () {
+            $.ajax({
+                url: "/admin/partInfo",
+                dataType: "json",
+                type: "get",
+                async: false,
+                success: function (data) {
+                    console.log(data[0]);
+                    for (var i=0; i < data.length; i++) {
+                        if ( data[i]['kind_id'] == '1') {
+                            var myIcon = new BMap.Icon(host+"/assets/admin/img/part1.png", new BMap.Size(35,35));
+                        }else if (data[i]['kind_id'] == '2'){
+                            var myIcon = new BMap.Icon(host+"/assets/admin/img/part2.png", new BMap.Size(35,35));
+                        } else if(data[i]['kind_id'] == '3') {
+                            var myIcon = new BMap.Icon(host+"/assets/admin/img/part3.png", new BMap.Size(35,35));
+                        } else if (data[i]['kind_id'] == '4') {
+                            var myIcon = new BMap.Icon(host+"/assets/admin/img/part4.png", new BMap.Size(35,35));
+                        }else if (data[i]['kind_id'] == '5') {
+                            var myIcon = new BMap.Icon(host+"/assets/admin/img/part5.png", new BMap.Size(35,35));
+                        }else if (data[i]['kind_id'] == '6') {
+                            var myIcon = new BMap.Icon(host+"/assets/admin/img/part6.png", new BMap.Size(35,35));
+                        } else {
+                            var myIcon = new BMap.Icon(host+"/assets/admin/img/part7.png", new BMap.Size(35,35));
+                        }
+                        marker = new BMap.Marker(new BMap.Point(data[i]['longitude'], data[i]['latitude']), {
+                            icon: myIcon
+                        });  // 创建标注
+                        content =
+                            "<h4 style='margin-left: 13px; margin-bottom: 5px;'>"+ data[i]['things'] + data[i]['num'] +" </h4>" +
+                            "<p style='margin-left: 0px; margin-bottom:0px; '>"+  "<img style='width: 324px;height: 101px; margin-left: 13px; margin-bottom: 5px;' src="+data[i]['image']+">" +"</p>" +
+                            "<p style='margin: 0 12px; font-size: 12px; color: rgb(77,77,77);'>"+"地址："+  data[i]['address'] +"</p>" +
+                            "<p style=' margin: 0 12px;font-size: 12px; color: rgb(127,127,127); overflow: hidden;text-overflow: ellipsis;'>"+"物品信息："+ data[i]['things'] +"</p>" +
+                            "</div>";
+                        map.addOverlay(marker);               // 将标注添加到地图中
+                        addClickHandler(content,marker);
+                    }
+
+                }
+            })
+        });
+
         function addClickHandler(content,marker){
             marker.addEventListener("click",function(e){
                 openInfo(content,e)}
@@ -186,7 +131,6 @@
             var infoWindow = new BMap.InfoWindow(content,opts);  // 创建信息窗口对象
             map.openInfoWindow(infoWindow,point); //开启信息窗口
         }
-
 
         //添加控件和比例尺
         function add_control(){

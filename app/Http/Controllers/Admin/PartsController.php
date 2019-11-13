@@ -103,4 +103,10 @@ class PartsController extends Controller
         $parts = Part::all();
         return view('admin.parts.map_info', compact('parts'));
     }
+
+    public function mapJsonInfo()
+    {
+        $parts = Part::all();
+        return response()->json($parts);
+    }
 }

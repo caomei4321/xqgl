@@ -54,6 +54,7 @@
                             <th>地址</th>
                             <th>现场查看</th>
                             <th>添加时间</th>
+                            <th>截止日期</th>
                             <th>是否分配</th>
                             <th>是否公开</th>
                             <th>操作</th>
@@ -78,6 +79,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $matter->created_at }}</td>
+                                <td>{{ $matter->time_limit }}</td>
                                 <td>
                                     @if($matter->allocate == 0)
                                         <a href="{{ route('admin.people.allocate', ['id' => $matter->id]) }}"><button type="button" class="btn btn-warning btn-xs">未分配</button></a>
@@ -107,6 +109,7 @@
                             <th>地址</th>
                             <th>现场查看</th>
                             <th>添加时间</th>
+                            <th>截止日期</th>
                             <th>是否分配</th>
                             <th>是否公开</th>
                             <th>操作</th>
