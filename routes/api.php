@@ -65,6 +65,9 @@ $api->version('v1', [
 
         $api->get('patrolList', 'PatrolController@patrolList');   //巡查记录
 
+        $api->post('importMatter', 'MattersController@findMatterAndEnd');  //发现并提交问题
+
+        $api->get('patrolMatters', 'MattersController@patrolMatters'); //用户巡查中上报的全部任务
 
         $api->post('startAndEndPatrol', 'PatrolController@startAndEndPatrol');  //开始和结束巡逻
 
@@ -76,9 +79,6 @@ $api->version('v1', [
     $api->post('alarm', 'AlarmsController@alarm');  // 摄像头告警
 
     $api->post('helmetAlarm', 'HatsController@helmetAlarm'); // 安全帽检测
-
-
-    $api->post('importMatter', 'MattersController@findMatterAndEnd');  //发现并提交问题
 
     $api->get('carouselMap', 'ProgramImagesController@carouselMap');
 

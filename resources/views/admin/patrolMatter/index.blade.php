@@ -63,7 +63,7 @@
                             <th>问题描述</th>
                             <th>现场图片</th>
                             <th>添加时间</th>
-                            <th>是否处理完成</th>
+                            <th>问题状态</th>
                             <th>操作</th>
                         </tr>
                         </thead>
@@ -76,12 +76,12 @@
                                 <td><image src="{{ $patrolMatter->img_url }}"  style="width: 40px;"/></td>
                                 <td class="center">{{ $patrolMatter->created_at }}</td>
                                 <td class="center">
-                                    @if( $patrolMatter->status  == 0)
-                                        <button class="btn btn-sm btn-warning btn-circle" type="button"><i class="fa fa-times"></i>
-                                        </button>
-                                    @else
-                                        <button class="btn btn-sm btn-info btn-circle" type="button"><i class="fa fa-check"></i>
-                                        </button>
+                                    @if( $patrolMatter->status  == 1)
+                                        处理完成
+                                    @elseif( $patrolMatter->status  == 2)
+                                        无权处理
+                                    @elseif( $patrolMatter->status  == 3)
+                                        处理中
                                     @endif
                                 </td>
                                 <td class="center">

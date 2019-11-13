@@ -6,6 +6,7 @@ use App\Http\Resources\Api\MatterCollection;
 use App\Http\Resources\Api\MatterResource;
 use App\Http\Resources\Api\UserResource;
 use App\Models\Matter;
+use App\Models\PatrolMatter;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -68,18 +69,121 @@ class MattersController extends Controller
         return new MatterResource($matter);
     }
 
-
+    public function patrolMatters()
+    {
+        return new MatterCollection($this->user()->patrolMatters()->orderBy('id', 'desc')->get());
+    }
     /*
      * 巡查发现的问题处理
      * */
-    public function findMatterAndEnd(Request $request,Matter $matter)
+    public function findMatterAndEnd(Request $request,PatrolMatter $patrolMatter)
     {
 
-        $imgdata = $request->img;
 
-        $data = $request->only(['title', 'content', 'latitude', 'longitude', 'suggest']);
+        if ($request->id) {  // 更新已有数据
+            // 更新数据不需要更新经纬度信息
+            $data = $request->only(['title', 'content', 'suggest']);
 
-        $data['images'] = '';
+            $patrolMatter = $patrolMatter->find($request->id);
+            if ($patrolMatter->images) {
+                $data['images'] = $patrolMatter->images . ';'; //拼接 分号 ，统一格式后面截掉
+            } else {
+                $data['images'] = '';
+            }
+
+            $imgdata = $request->img;
+            if (is_array($imgdata)) {
+
+                for ($i = 0; $i < count($imgdata); $i++) {
+                    $image = base64_decode($imgdata[$i]);
+
+                    $imgname = 'mt' . '_' . time() . '_' . str_random(10) . '.jpg';
+                    Storage::disk('public')->put($imgname, $image);
+
+                    $data['images'] = $data['images'] . '/storage/' . $imgname . ';';
+
+                }
+            }
+            if (!empty($data['images'])) {
+                $data['images'] = substr($data['images'],0,-1);
+            }
+            /*
+            * status 表示任务状态
+            *      0：默认状态，表示未处理
+            *      1：表示处理完成
+            *      2：表示无权处理
+            *      3：表示处理中
+            * */
+            if ($request->result == 1) {  // result  0表示处理完成 1表示无权处理，  2表示处理中
+                $data['status'] = 2;
+            } elseif ($request->result == 2) {
+                $data['status'] = 3;
+            } else {
+                $data['status'] = 1;
+            }
+            $patrolMatter->update($data);
+
+        } else {  // 添加新记录
+            $data = $request->only(['title', 'content', 'latitude', 'longitude', 'suggest']);
+
+            $imgdata = $request->img;
+            $data['images'] = '';
+
+            if (is_array($imgdata)) {
+
+                for ($i = 0; $i < count($imgdata); $i++) {
+                    $image = base64_decode($imgdata[$i]);
+
+                    $imgname = 'mt' . '_' . time() . '_' . str_random(10) . '.jpg';
+                    Storage::disk('public')->put($imgname, $image);
+
+                    if ($i == 0) {
+                        $data['image'] = '/storage/' . $imgname;
+                    } else {
+                        $data['images'] = $data['images'] . '/storage/' . $imgname . ';';
+                    }
+                }
+            }
+            if (!empty($data['images'])) {
+                $data['images'] = substr($data['images'],0,-1);
+            }
+
+            /*
+            * status 表示任务状态
+            *      0：默认状态，表示未处理
+            *      1：表示处理完成
+            *      2：表示无权处理
+            *      3：表示处理中
+            * */
+            if ($request->result == 1) {  // result  0表示处理完成 1表示无权处理，  2表示处理中
+                $data['status'] = 2;
+            } elseif ($request->result == 2) {
+                $data['status'] = 3;
+            } else {
+                $data['status'] = 1;
+            }
+            $data['patrol_id'] = $request->patrol_id ? $request->patrol_id : null;
+
+            $this->user()->patrolMatters()->create($data);
+        }
+
+
+        return $this->success('提交成功');
+    }
+    /*public function findMatterAndEnd(Request $request, Matter $matter, Situation $situation)
+    {
+        $data['patrol_id'] = $request->id ? $request->id : null;
+
+        $data = $request->only(['title', 'content', 'latitude', 'longitude',]);
+
+        $data['suggestion'] = $request->suggest;
+
+        $data['patrol_id'] = $request->id ? $request->id : null;
+
+        $imgdata = $request->img;  // 提交的所有图片
+
+        $data['many_images'] = '';   // 需要保存的多张图片
+
         if (is_array($imgdata)) {
 
             for ($i = 0; $i < count($imgdata); $i++) {
@@ -91,7 +195,7 @@ class MattersController extends Controller
                 if ($i == 0) {
                     $data['image'] = '/storage/' . $imgname;
                 } else {
-                    $data['images'] = $data['images'] . '/storage/' . $imgname . ';';
+                    $data['many_images'] = $data['images'] . '/storage/' . $imgname . ';';
                 }
             }
         }
@@ -99,14 +203,15 @@ class MattersController extends Controller
             $data['images'] = substr($data['images'],0,-1);
         }
 
-        //$request->result; 0表示无法处理
-        $data['status'] = 1;
-        $data['patrol_id'] = $request->id ? $request->id : null;
+        $matter = $this->user()->matters()->create($data);
 
-        $this->user()->patrolMatters()->create($data);
+        return $matter;
+        $situation->create([
+            ''
+        ]);
 
         return $this->success('提交成功');
-    }
+    }*/
 
 
     /*
