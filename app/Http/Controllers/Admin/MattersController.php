@@ -52,7 +52,7 @@ class MattersController extends Controller
         return view('admin.matters.create_and_edit', compact('matter', 'user_id', 'users'));
     }
 
-    public function update(Request $request, Matter $matter, Situation $situation, ImageUploadHandler $uploader)
+    public function update(Request $request, Matter $matter, JPushHandler $JPushHandler)
     {
         $this->rules($request);
 
@@ -60,6 +60,12 @@ class MattersController extends Controller
             $user_id = [
                 'user_id' => $request->user_id
             ];
+            $reg_id = User::where('id',$request->user_id)->value('reg_id');
+            try{
+                $JPushHandler->testJpush($reg_id);
+            }catch (\Exception $e) {
+
+            }
             $matter->situation->update($user_id);
         }
 
