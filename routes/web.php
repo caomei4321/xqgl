@@ -11,8 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+//Route::redirect('/', 'admin/login' );
+Route::get('/', function (){
+    return redirect()->route('admin.index');
 });
 
 Auth::routes();
@@ -149,6 +150,7 @@ Route::group(['prefix' => 'admin'], function () {
                 'update'    =>  'admin.part.update',
                 'destroy'   =>  'admin.part.destroy',
             ]);
+            Route::get('partInfo', 'Admin\PartsController@mapJsonInfo')->name('admin.part.partInfo');
             // 城市部件地图路由
             Route::get('part/mapInfo', 'Admin\PartsController@mapInfo')->name('admin.part.mapInfo');
 

@@ -44,6 +44,7 @@
                             <th>现场处理图片</th>
                             <th>处理信息</th>
                             <th>时间</th>
+                            <th>截止日期</th>
                             <th>状态</th>
                             <th>操作</th>
                         </tr>
@@ -61,6 +62,7 @@
                                 </td>
                                 <td>{{ $situation->information }}</td>
                                 <td>{{ $situation->created_at }}</td>
+                                <td>{{ $situation->matter->time_limit }}</td>
                                 <td>
                                     @if($situation->status  == 0)
                                         <button class="btn btn-default btn-xs" type="button"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;未处理</button>
@@ -92,6 +94,7 @@
                             <th>现场处理图片</th>
                             <th>处理信息</th>
                             <th>时间</th>
+                            <th>截止日期</th>
                             <th>状态</th>
                             <th>操作</th>
                         </tr>

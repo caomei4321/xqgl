@@ -75,7 +75,7 @@ class PeopleController extends Controller
         return view('admin.matters.people_edit', compact('matter', 'category', 'many_images', 'user_id', 'users'));
     }
 
-    public function update(Request $request, Matter $matter, Situation $situation, ImageUploadHandler $uploader)
+    public function update(Request $request, Matter $matter, Situation $situation, ImageUploadHandler $uploader, JPushHandler $JPushHandler)
     {
         $this->rules($request);
         $data = [
@@ -91,9 +91,19 @@ class PeopleController extends Controller
                 $data['image'] = $result['path'];
             }
         }
-        $situation->where('matter_id', $request->id)->update([
-            'user_id' => $request->user_id
-        ]);
+        // 修改了分配执行人则推送消息给修改人
+        if ($request->old_user_id !== $request->user_id) {
+            $situation->where('matter_id', $request->id)->update([
+                'user_id' => $request->user_id
+            ]);
+            $reg_id = User::where('id',$request->user_id)->value('reg_id');
+            try{
+                $JPushHandler->testJpush($reg_id);
+            }catch (\Exception $e) {
+
+            }
+        }
+
         $matter->where('id', $request->id)->update($data);
         return redirect()->route('admin.people.index');
     }

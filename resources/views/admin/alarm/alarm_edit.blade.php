@@ -54,7 +54,7 @@
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">已分配执行人：</label>
-
+                                <input type="hidden" name="old_user_id" value="{{ $user_id }}">
                                 <div class="col-sm-6">
                                     <select data-placeholder="选择执行人..." name="user_id" class="chosen-select" style="width:350px;" tabindex="2">
                                         @foreach($users as $user)

@@ -32,7 +32,7 @@ class AlarmsController extends Controller
         return view('admin.alarm.alarm_edit', compact('matter', 'category', 'users', 'user_id'));
     }
 
-    public function update(Request $request, Matter $matter, Situation $situation, ImageUploadHandler $uploader)
+    public function update(Request $request, Matter $matter, Situation $situation, ImageUploadHandler $uploader, JPushHandler $JPushHandler)
     {
         $data = [
             'id' => $request->id,
@@ -49,9 +49,19 @@ class AlarmsController extends Controller
                 $data['alarm_pic_url'] = $result['path'];
             }
         }
-        $situation->where('matter_id', $request->id)->update([
-            'user_id' => $request->user_id
-        ]);
+        // 修改了分配执行人则推送消息给修改人
+        if ($request->old_user_id !== $request->user_id) {
+            $situation->where('matter_id', $request->id)->update([
+                'user_id' => $request->user_id
+            ]);
+            $reg_id = User::where('id',$request->user_id)->value('reg_id');
+            try{
+                $JPushHandler->testJpush($reg_id);
+            }catch (\Exception $e) {
+
+            }
+        }
+
         $matter->where('id', $request->id)->update($data);
         return redirect()->route('admin.alarm.index');
     }
