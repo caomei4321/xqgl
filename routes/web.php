@@ -11,8 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+//Route::redirect('/', 'admin/login' );
+Route::get('/', function (){
+    return redirect()->route('admin.index');
 });
 
 Auth::routes();
