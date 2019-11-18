@@ -82,17 +82,21 @@ class CountsController extends Controller
     // 总人数在巡查
     public function allUserPatrol(Patrol $patrol)
     {
-        $sub_query = Patrol::orderBy('created_at', 'desc');
-        $patrols = Patrol::select('user_id', 'end_at', 'created_at')
-            ->from(DB::raw('('.$sub_query->toSql().') as a'))
-            ->whereBetween('created_at', [date('Y-m-d 00:00:00', time()), date('Y-m-d H:i:s', time())])
-            ->groupBy('user_id')
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $sql = "select * from (select * from patrols where created_at > DATE_FORMAT(NOW(),'%Y-%m-%d') order by created_at desc limit 10000) as a group by a.user_id order by created_at desc";
+        $patrols = DB::select($sql);
+
+//        $sub_query = Patrol::orderBy('created_at', 'desc');
+//        $patrols = Patrol::select('user_id', 'end_at', 'created_at')
+//            ->from(DB::raw('('.$sub_query->toSql().') as a'))
+//            ->whereBetween('created_at', [date('Y-m-d 00:00:00', time()), date('Y-m-d H:i:s', time())])
+//            ->groupBy('user_id')
+//            ->orderBy('created_at', 'desc')
+//            ->get()->toArray();
         $info = [];
         foreach ($patrols as $patrol) {
             $data = [
-                'created_at' => $patrol->created_at->toDateTimeString(),
+//                'created_at' => $patrol->created_at->toDateTimeString(),
+                'created_at' =>$patrol->created_at,
                 'end_at' => $patrol->end_at
             ];
             if (!$data['end_at']) {
