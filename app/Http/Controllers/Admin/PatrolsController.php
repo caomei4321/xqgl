@@ -88,6 +88,9 @@ class PatrolsController extends Controller
                 $patrol->end_at,
                 floor((strtotime($patrol->end_at) - strtotime($patrol->created_at))/60)
             ];
+            if ((strtotime($patrol->end_at) - strtotime($patrol->created_at)) < 0 ) {
+                $data['4'] = 0;
+            }
             array_push($cellData, $data);
         }
         $excel->create('巡查记录', function ($excel) use ($cellData, $firstRow) {
