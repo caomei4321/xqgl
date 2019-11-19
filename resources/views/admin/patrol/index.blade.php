@@ -32,8 +32,17 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <a href="{{ route('admin.patrols.export') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 巡查记录报表</button>
-                    </a>
+                    {{--<a href="{{ route('admin.patrols.export') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 巡查记录报表</button>--}}
+                    {{--</a>--}}
+                    <form action="{{ route('admin.patrols.export') }}" method="get">
+                        <div class="col-sm-2" style="display: inline-block">
+                            <input class="form-control inline" type="date" name="timeStart">
+                        </div>
+                        <div class="col-sm-2" style="display: inline-block">
+                            <input class="form-control inline" type="date" name="timeEnd">
+                        </div>
+                        <button class="btn btn-info" type="submit" style="display: inline-block"><i class="fa fa-paste"></i>巡查记录报表</button>
+                    </form>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                         <tr>

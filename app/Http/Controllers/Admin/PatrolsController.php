@@ -73,14 +73,14 @@ class PatrolsController extends Controller
     }
 
     // 导出
-    public function export(Patrol $patrol, Excel $excel)
+    public function export(Request $request,Patrol $patrol, Excel $excel)
     {
-        $patrols = $patrol->all();
+        $timeStart = $request->timeStart ? "$request->timeStart 00:00:00" : '2019-01-01 00:00:00';
+        $timeEnd = $request->timeEnd ? "$request->timeEnd 23:59:59" : date('Y-m-d H:i:s', time());
+        $patrols = $patrol->whereBetween('created_at', [$timeStart, $timeEnd])->orderBy('user_id')->get();
         $cellData = [];
         $firstRow = ['姓名','发现问题数量','开始时间','结束时间', '时长(分钟)'];
         foreach ($patrols as $patrol) {
-
-            //dd($patrol->patrol_matter);
             $data = [
                 $patrol->user->name,
                 $patrol->patrol_matter()->count(),
