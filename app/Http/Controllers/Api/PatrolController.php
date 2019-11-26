@@ -29,7 +29,7 @@ class PatrolController extends Controller
                 'mcode'     => env('BAIDU_MAP_MCODE'),
                 'entity_name' => $patrol->entity_name,
                 'start_time' => strtotime($patrol->created_at),
-                'end_time'  => $request->end_time,
+                'end_time'  => strtotime($request->end_time),
                 'is_processed' => 1,
                 //'process_option' => 'need_denoise=1,radius_threshold=10,need_vacuate=1,need_mapmatch=1,transport_mode=walking'
             ];
