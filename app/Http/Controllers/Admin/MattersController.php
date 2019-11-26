@@ -16,6 +16,7 @@ use Maatwebsite\Excel\Excel;
 use App\Handlers\JPushHandler;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Shared\ZipArchive;
 
 class MattersController extends Controller
 {
@@ -189,10 +190,16 @@ class MattersController extends Controller
     {
         $filePath = $this->uploadFile($request->import_file);
         $path = $filePath['path'];
+        $paths = 'word/word.doc';
         iconv('UTF-8', 'GBK', $path);
         try{
             $phpWord = new PhpWord();
-            $S1 = IOFactory::load($path)->getSections();
+            $zip = new ZipArchive();
+            if ($zip->open($path) !== true) {
+                $S1 = IOFactory::load($paths)->getSections();
+            } else {
+                $S1 = IOFactory::load($path)->getSections();
+            }
             $arr = [];
             foreach ($S1 as $S) {
                 $elements = $S->getElements();
@@ -313,12 +320,11 @@ class MattersController extends Controller
     public function uploadFile($file)
     {
         $folder_name = "word/import";
+//        $folder_name = "word";
         $upload_path = public_path() . '/' . $folder_name;
-
-        $extension = strtolower($file->getClientOriginalExtension()) ? 'docx' : 'docx';
-
-        $filename =   date('YmdHis', time()). mt_rand(111111,999999) .'word' . '.' . $extension;
-
+        $extension = strtolower($file->getClientOriginalExtension())? 'docx':'docx';
+        $filename =   date('YmdHis', time()). mt_rand(111111,999999) .'word' . '.' . $extension ;
+//        $filename =  'word' . '.' . $extension;
         if ( ! in_array($extension, ['doc', 'docx'])) {
             return false;
         }
