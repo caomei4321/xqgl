@@ -190,43 +190,76 @@ class MattersController extends Controller
     {
         $filePath = $this->uploadFile($request->import_file);
         $path = $filePath['path'];
+
+
         $paths = 'word/word.doc';
         iconv('UTF-8', 'GBK', $path);
         try{
             $phpWord = new PhpWord();
             $zip = new ZipArchive();
             if ($zip->open($path) !== true) {
-//                $S1 = IOFactory::load($paths)->getSections();
                 try {
-                    $word = new \COM("word.application", null, CP_UTF8) or die("cant start");
-                    $word->Visible = 0;
-                    $word->Documents->open(env('APP_URL').'/'. $path);
-                    header('Content-Type:text/html; charset=utf-8');
-                    $test=$word->ActiveDocument->content->Text;
-                    $txt = file_put_contents('1.html', $test);
-                    $string = file_get_contents('1.html');
-                    preg_match_all('/[\x{4e00}-\x{9fa5}a-zA-Z0-9;-]/u',$string,$result);
+                    $content = shell_exec('/usr/local/bin/antiword -w 0 -m UTF-8.txt ' . $path);
+                    $DBC = array('0','1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U','V', 'W', 'X', 'Y', 'Z','ａ','ｂ','ｃ', 'ｄ' ,'ｊ', 'ｋ' , 'ｌ' , 'ｍ' , 'ｎ' ,'ｏ' , 'ｐ' , 'ｑ' , 'ｒ' , 'ｓ' ,'ｔ' , 'ｕ' , 'ｖ' , 'ｗ' , 'ｘ' ,'ｙ' , 'ｚ' , '－' , '　' , '：' ,'．' , '，' , '／' , '％' , '＃' , '！' , '＠' , '＆' , '（' , '）' ,'＜' , '＞' , '＂' , '＇' , '？' ,'［' , '］' , '｛' , '｝' , '＼' ,'｜' , '＋' , '＝' , '＿' , '＾' ,'￥' , '￣' , '｀' );
+
+                    $SBC = Array('0', '1', '2', '3', '4','5', '6', '7', '8', '9','A', 'B', 'C', 'D', 'E','F', 'G', 'H', 'I', 'J','K', 'L', 'M', 'N', 'O','P', 'Q', 'R', 'S', 'T','U', 'V', 'W', 'X', 'Y','Z', 'a', 'b', 'c', 'd','e', 'f', 'g', 'h', 'i','j', 'k', 'l', 'm', 'n','o', 'p', 'q', 'r', 's','t', 'u', 'v', 'w', 'x','y', 'z', '-', ' ', ':','.', ',', '/', '%', '#','!', '@', '&', '(', ')','<', '>', '"', '\'','?','[', ']', '{', '}', '\\','|', '+', '=', '_', '^','$', '~', '`');
+                    $content = str_replace($DBC, $SBC, $content);
+                    file_put_contents('d.txt', $content);
+                    $str = file_get_contents('d.txt');
+                    preg_match_all('/[\x{4e00}-\x{9fa5}a-zA-Z0-9;|-]/u',$str,$result);
                     $temp =join('',$result[0]);
-                    $word = explode(";", $temp);
+                    $word = explode("|", $temp);
+                    $docArray = [
+                        array_search('受理员编号', $word) .'-'. array_search('办结时限', $word),
+                        array_search('办结时限', $word) .'-'. array_search('工单编号', $word),
+                        array_search('工单编号', $word) .'-'. array_search('紧急程度', $word),
+                        array_search('紧急程度', $word) .'-'. array_search('来电类别', $word),
+                        array_search('来电类别', $word) .'-'. array_search('信息来源', $word),
+                        array_search('信息来源', $word) .'-'. array_search('是否回复', $word),
+                        array_search('是否回复', $word) .'-'. array_search('是否保密', $word),
+                        array_search('是否保密', $word) .'-'. array_search('联系人', $word),
+                        array_search('联系人', $word) .'-'. array_search('联系电话', $word),
+                        array_search('联系电话', $word) .'-'. array_search('联系地址', $word),
+                        array_search('联系地址', $word) .'-'. array_search('回复备注', $word),
+                        array_search('回复备注', $word) .'-'. array_search('问题分类', $word),
+                        array_search('问题分类', $word) .'-'. array_search('问题描述', $word),
+                        array_search('问题描述', $word) .'-'. array_search('转办意见', $word),
+                        array_search('转办意见', $word) .'-'. array_search('领导批示', $word),
+                        array_search('领导批示', $word) .'-'. array_search('办理结果', $word),
+                        array_search('办理结果', $word) .'-'. (count($word) - 1),
+                    ];
+                    $doc = array();
+                    for ($i=0; $i < count($docArray); $i++) {
+                        $key = explode('-',$docArray[$i]);
+                        if ($key['1'] - $key['0'] > 0) {
+                            $tmp = [];
+                            for ($j =  $key['0']+1; $j < $key['1']; $j++) {
+                                array_push($tmp, $word[$j]);
+                            }
+                            array_push($doc, implode(';', $tmp));
+                        } else {
+                            array_push($doc, ' ');
+                        }
+                    }
                     $wordData = [
                         'title' => '12345承办单',
-                        'accept_num' => $word[1],
-                        'time_limit' => $word[3],
-                        'work_num' => $word[5],
-                        'level' => $word[7],
-                        'type' => $word[9],
-                        'source' => $word[11],
-                        'is_reply' => $word[13],
-                        'is_secret' => $word[15],
-                        'contact_name' => $word[17],
-                        'contact_phone' => $word[19],
-                        'address' => $word[21],
-                        'reply_remark' => $word[23],
-                        'category' => $word[25],
-                        'content' => $word['27'],
-                        'suggestion' => $word[29],
-                        'approval' => $word[31],
-                        'result' => $word[33],
+                        'accept_num' => $doc[0],
+                        'time_limit' => $doc[1],
+                        'work_num' => $doc[2],
+                        'level' => $doc[3],
+                        'type' => $doc[4],
+                        'source' => $doc[5],
+                        'is_reply' => $doc[6],
+                        'is_secret' => $doc[7],
+                        'contact_name' => $doc[8],
+                        'contact_phone' => $doc[9],
+                        'address' => $doc[10],
+                        'reply_remark' => $doc[11],
+                        'category' => $doc[12],
+                        'content' => $doc[13],
+                        'suggestion' => $doc[14],
+                        'approval' => $doc[15],
+                        'result' => $doc[16],
                         'created_at' => date('Y-m-d H:i:s', time()),
                         'updated_at' => date('Y-m-d H:i:s', time()),
                     ];
