@@ -206,7 +206,7 @@ class MattersController extends Controller
                     $str = file_get_contents('d.txt');
                     preg_match_all('/[\x{4e00}-\x{9fa5}a-zA-Z0-9;|-]/u',$str,$result);
                     $temp =join('',$result[0]);
-                    $word = explode("|", $tmp);
+                    $word = explode("|", $temp);
                     $docArray = [
                         array_search('受理员编号', $word) .'-'. array_search('办结时限', $word),
                         array_search('办结时限', $word) .'-'. array_search('工单编号', $word),
