@@ -80,7 +80,7 @@ class PatrolsController extends Controller
         $timeEnd = $request->timeEnd ? "$request->timeEnd 23:59:59" : date('Y-m-d H:i:s', time());
         $patrols = $patrol->whereBetween('created_at', [$timeStart, $timeEnd])->orderBy('user_id')->get();
         // 巡查总时长，总里程
-        $total = Patrol::select(DB::raw('SUM(`distance`) as k'),DB::raw('SUM(UNIX_TIMESTAMP(`end_at`)) as e'), DB::raw('SUM(UNIX_TIMESTAMP(`created_at`)) as c') , 'user_id')->whereBetween('created_at', [$timeStart, $timeEnd])->groupBy('user_id')->orderBy('user_id')->get();
+        $total = Patrol::select(DB::raw('SUM(`distance`) as k'),DB::raw('SUM(UNIX_TIMESTAMP(`end_at`)) as e'), DB::raw('SUM(UNIX_TIMESTAMP(`created_at`)) as c') , 'user_id')->whereBetween('created_at', [$timeStart, $timeEnd])->whereNotNull('end_at')->groupBy('user_id')->orderBy('user_id')->get();
         $all = [];
         foreach ($total as $value) {
             $tt = [
@@ -114,7 +114,6 @@ class PatrolsController extends Controller
         // 排序
         $first_key = array_column($cellData,'0');
         array_multisort($first_key,SORT_DESC,$cellData);    // 对多个数组或多维数组进行排序
-
         $excel->create('巡查记录', function ($excel) use ($cellData, $firstRow) {
             $excel->sheet('matter', function ($sheet) use ($cellData, $firstRow) {
                 $sheet->prependRow(1, $firstRow);
