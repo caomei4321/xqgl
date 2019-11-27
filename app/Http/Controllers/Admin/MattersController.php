@@ -190,46 +190,6 @@ class MattersController extends Controller
     {
         $filePath = $this->uploadFile($request->import_file);
         $path = $filePath['path'];
-
-
-        $str = file_get_contents('d.txt');
-        preg_match_all('/[\x{4e00}-\x{9fa5}a-zA-Z0-9;|-]/u',$str,$result);
-        $temp =join('',$result[0]);
-        $word = explode("|", $temp);
-        $docArray = [
-            array_search('受理员编号', $word) .'-'. array_search('办结时限', $word),
-            array_search('办结时限', $word) .'-'. array_search('工单编号', $word),
-            array_search('工单编号', $word) .'-'. array_search('紧急程度', $word),
-            array_search('紧急程度', $word) .'-'. array_search('来电类别', $word),
-            array_search('来电类别', $word) .'-'. array_search('信息来源', $word),
-            array_search('信息来源', $word) .'-'. array_search('是否回复', $word),
-            array_search('是否回复', $word) .'-'. array_search('是否保密', $word),
-            array_search('是否保密', $word) .'-'. array_search('联系人', $word),
-            array_search('联系人', $word) .'-'. array_search('联系电话', $word),
-            array_search('联系电话', $word) .'-'. array_search('联系地址', $word),
-            array_search('联系地址', $word) .'-'. array_search('回复备注', $word),
-            array_search('回复备注', $word) .'-'. array_search('问题分类', $word),
-            array_search('问题分类', $word) .'-'. array_search('问题描述', $word),
-            array_search('问题描述', $word) .'-'. array_search('转办意见', $word),
-            array_search('转办意见', $word) .'-'. array_search('领导批示', $word),
-            array_search('领导批示', $word) .'-'. array_search('办理结果', $word),
-            array_search('办理结果', $word) .'-'. (count($word) - 1),
-        ];
-        $doc = array();
-        for ($i=0; $i < count($docArray); $i++) {
-            $key = explode('-',$docArray[$i]);
-            if ($key['1'] - $key['0'] > 0) {
-                $tmp = [];
-                for ($j =  $key['0']+1; $j < $key['1']; $j++) {
-                    array_push($tmp, $word[$j]);
-                }
-                array_push($doc, implode(';', array_filter($tmp)));
-            } else {
-                array_push($doc, ' ');
-            }
-        }
-        dd($doc);
-
         $paths = 'word/word.doc';
         iconv('UTF-8', 'GBK', $path);
         try{
