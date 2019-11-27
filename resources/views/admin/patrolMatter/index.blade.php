@@ -77,9 +77,9 @@
                                 <td class="center">{{ $patrolMatter->created_at }}</td>
                                 <td class="center">
                                     @if( $patrolMatter->status  == 1)
-                                        处理完成
-                                    @elseif( $patrolMatter->status  == 2)
                                         无权处理
+                                    @elseif( $patrolMatter->status  == 2)
+                                        处理完成
                                     @elseif( $patrolMatter->status  == 3)
                                         处理中
                                     @endif
