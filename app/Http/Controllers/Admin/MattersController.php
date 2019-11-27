@@ -196,7 +196,45 @@ class MattersController extends Controller
             $phpWord = new PhpWord();
             $zip = new ZipArchive();
             if ($zip->open($path) !== true) {
-                $S1 = IOFactory::load($paths)->getSections();
+//                $S1 = IOFactory::load($paths)->getSections();
+                try {
+                    $word = new \COM("word.application", null, CP_UTF8) or die("cant start");
+                    $word->Visible = 0;
+                    $word->Documents->open(env('APP_URL').'/'. $path);
+                    header('Content-Type:text/html; charset=utf-8');
+                    $test=$word->ActiveDocument->content->Text;
+                    $txt = file_put_contents('1.html', $test);
+                    $string = file_get_contents('1.html');
+                    preg_match_all('/[\x{4e00}-\x{9fa5}a-zA-Z0-9;-]/u',$string,$result);
+                    $temp =join('',$result[0]);
+                    $word = explode(";", $temp);
+                    $wordData = [
+                        'title' => '12345承办单',
+                        'accept_num' => $word[1],
+                        'time_limit' => $word[3],
+                        'work_num' => $word[5],
+                        'level' => $word[7],
+                        'type' => $word[9],
+                        'source' => $word[11],
+                        'is_reply' => $word[13],
+                        'is_secret' => $word[15],
+                        'contact_name' => $word[17],
+                        'contact_phone' => $word[19],
+                        'address' => $word[21],
+                        'reply_remark' => $word[23],
+                        'category' => $word[25],
+                        'content' => $word['27'],
+                        'suggestion' => $word[29],
+                        'approval' => $word[31],
+                        'result' => $word[33],
+                        'created_at' => date('Y-m-d H:i:s', time()),
+                        'updated_at' => date('Y-m-d H:i:s', time()),
+                    ];
+                    DB::table('matters')->insert($wordData);
+                } catch (\Exception $exception) {
+                    return redirect()->route('admin.matters.index')->withErrors('导入失败，请选择正确的文件和按正确的文件填写方式导入');
+                }
+                return redirect()->route('admin.matters.index')->withErrors('导入成功');
             } else {
                 $S1 = IOFactory::load($path)->getSections();
             }
@@ -322,7 +360,7 @@ class MattersController extends Controller
         $folder_name = "word/import";
 //        $folder_name = "word";
         $upload_path = public_path() . '/' . $folder_name;
-        $extension = strtolower($file->getClientOriginalExtension())? 'docx':'docx';
+        $extension = strtolower($file->getClientOriginalExtension());
         $filename =   date('YmdHis', time()). mt_rand(111111,999999) .'word' . '.' . $extension ;
 //        $filename =  'word' . '.' . $extension;
         if ( ! in_array($extension, ['doc', 'docx'])) {
