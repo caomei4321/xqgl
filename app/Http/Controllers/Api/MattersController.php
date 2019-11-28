@@ -151,11 +151,11 @@ class MattersController extends Controller
             /*
             * status 表示任务状态
             *      0：默认状态，表示未处理
-            *      1：表示处理完成
-            *      2：表示无权处理
+            *      1：表示无权处理
+            *      2：表示处理完成
             *      3：表示处理中
             * */
-            if ($request->result == 1) {  // result  0表示处理完成 1表示无权处理，  2表示处理中
+            if ($request->result == 1) {  // result  1表示处理完成  0表示无权处理，  2表示处理中
                 $data['status'] = 2;
             } elseif ($request->result == 2) {
                 $data['status'] = 3;
