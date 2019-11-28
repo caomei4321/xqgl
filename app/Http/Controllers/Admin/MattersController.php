@@ -25,7 +25,7 @@ class MattersController extends Controller
     // 12345 任务管理
     public function index(Matter $matter, Request $request)
     {
-        $matters = $matter->where('form', [1,2])->orderBy('allocate', 'asc')->paginate();
+        $matters = $matter->where('form', [1,2])->orderBy('created_at', 'desc')->orderBy('allocate','asc')->paginate();
 
         return view('admin.matters.index', compact('matters'));
     }
@@ -190,7 +190,6 @@ class MattersController extends Controller
     {
         $filePath = $this->uploadFile($request->import_file);
         $path = $filePath['path'];
-        $paths = 'word/word.doc';
         iconv('UTF-8', 'GBK', $path);
         try{
             $phpWord = new PhpWord();

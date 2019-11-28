@@ -9,13 +9,15 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Excel;
+use PHPUnit\Framework\Constraint\Exception;
 
 class PatrolsController extends Controller
 {
     public function index(Patrol $patrol)
     {
-        $patrols = $patrol->paginate();
-        return view('admin.patrol.index', compact('patrols'));
+        $patrols = $patrol->orderBy('created_at', 'desc')->paginate();
+        $users = DB::table('patrols')->leftJoin('users', 'patrols.user_id', 'users.id')->select('user_id', 'users.name')->distinct('user_id')->get();
+        return view('admin.patrol.index', compact('patrols', 'users'));
     }
 
     public function show(Patrol $patrol, Curl $curl)
@@ -88,6 +90,8 @@ class PatrolsController extends Controller
                 '',
                 '',
                 '',
+                '',
+                '',
                 floor(($value->e - $value->c) / 60),
                 $value->k
             ];
@@ -95,7 +99,7 @@ class PatrolsController extends Controller
         }
         // 巡查记录
         $cellData = [];
-        $firstRow = ['姓名','发现问题数量','开始时间','结束时间', '时长(分钟)', '里程(KM)'];
+        $firstRow = ['姓名','发现问题数量','开始时间','结束时间', '时长(分钟)', '里程(KM)', '总时长(分钟)', '总里程(KM)'];
         foreach ($patrols as $patrol) {
             $data = [
                 $patrol->user->name,
@@ -104,17 +108,67 @@ class PatrolsController extends Controller
                 $patrol->end_at,
                 floor((strtotime($patrol->end_at) - strtotime($patrol->created_at))/60),
                 $patrol->distance,
+                '',
+                '',
             ];
             if ((strtotime($patrol->end_at) - strtotime($patrol->created_at)) < 0 ) {
                 $data['4'] = 0;
             }
             array_push($cellData, $data);
         }
-        $cellData = array_merge($all, $cellData);
+        $cellData = array_merge($cellData, $all);
         // 排序
         $first_key = array_column($cellData,'0');
-        array_multisort($first_key,SORT_DESC,$cellData);    // 对多个数组或多维数组进行排序
+        array_multisort($first_key,SORT_ASC,$cellData);    // 对多个数组或多维数组进行排序
         $excel->create('巡查记录', function ($excel) use ($cellData, $firstRow) {
+            $excel->sheet('matter', function ($sheet) use ($cellData, $firstRow) {
+                $sheet->prependRow(1, $firstRow);
+                $sheet->rows($cellData);
+            });
+        })->export('xls');
+    }
+
+    // 个人导出
+    public function personExport(Request $request, Patrol $patrol, Excel $excel)
+    {
+        $timeStart = $request->timeStart ? "$request->timeStart 00:00:00" : '2019-01-01 00:00:00';
+        $timeEnd = $request->timeEnd ? "$request->timeEnd 23:59:59" : date('Y-m-d H:i:s', time());
+        $patrols = $patrol->whereBetween('created_at', [$timeStart, $timeEnd])->where('user_id', $request->user_id)->get();
+        $total = Patrol::select(DB::raw('SUM(`distance`) as k'),DB::raw('SUM(UNIX_TIMESTAMP(`end_at`)) as e'), DB::raw('SUM(UNIX_TIMESTAMP(`created_at`)) as c') , 'user_id')->whereBetween('created_at', [$timeStart, $timeEnd])->whereNotNull('end_at')->where('user_id', $request->user_id)->get();
+        $cellData = [];
+        foreach ($patrols as $patrol) {
+            $data = [
+                $patrol->user->name,
+                $patrol->patrol_matter()->count(),
+                $patrol->created_at,
+                $patrol->end_at,
+                floor((strtotime($patrol->end_at) - strtotime($patrol->created_at))/60),
+                $patrol->distance,
+                '',
+                '',
+            ];
+            if ((strtotime($patrol->end_at) - strtotime($patrol->created_at)) < 0 ) {
+                $data['4'] = 0;
+            }
+            array_push($cellData, $data);
+        }
+        $all = [];
+        foreach ($total as $value) {
+            $tt = [
+                $value->user->name,
+                '',
+                '',
+                '',
+                '',
+                '',
+                floor(($value->e - $value->c) / 60),
+                $value->k
+            ];
+            array_push($all, $tt);
+        }
+        $cellData = array_merge($cellData, $all);
+        $firstRow = ['姓名','发现问题数量','开始时间','结束时间', '时长(分钟)', '里程(KM)', '总时长(分钟)', '总里程(KM)'];
+        $excel->create('个人巡查记录', function ($excel) use ($cellData, $firstRow) {
             $excel->sheet('matter', function ($sheet) use ($cellData, $firstRow) {
                 $sheet->prependRow(1, $firstRow);
                 $sheet->rows($cellData);
