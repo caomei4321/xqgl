@@ -119,7 +119,8 @@ class PatrolsController extends Controller
         $cellData = array_merge($cellData, $all);
         // 排序
         $first_key = array_column($cellData,'0');
-        array_multisort($first_key,SORT_ASC,$cellData);    // 对多个数组或多维数组进行排序
+        $second_key = array_column($cellData, '7');
+        array_multisort($first_key,SORT_ASC, $second_key, SORT_ASC, $cellData);    // 对多个数组或多维数组进行排序
         $excel->create('巡查记录', function ($excel) use ($cellData, $firstRow) {
             $excel->sheet('matter', function ($sheet) use ($cellData, $firstRow) {
                 $sheet->prependRow(1, $firstRow);
