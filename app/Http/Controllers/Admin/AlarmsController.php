@@ -19,7 +19,7 @@ class AlarmsController extends Controller
 {
     public function index(Matter $matter)
     {
-        $matters = $matter->where('form', '4')->orderBy('allocate', 'asc')->paginate();
+        $matters = $matter->where('form', '4')->orderBy('created_at', 'desc')->orderBy('allocate', 'asc')->paginate();
         return view('admin.alarm.index', compact('matters'));
     }
 

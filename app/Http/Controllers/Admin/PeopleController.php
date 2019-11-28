@@ -18,7 +18,7 @@ class PeopleController extends Controller
 {
     public function index(Matter $matter)
     {
-        $matters = $matter->where('form', '3')->orderBy('allocate', 'asc')->paginate();
+        $matters = $matter->where('form', '3')->orderBy('created_at', 'desc')->orderBy('allocate', 'asc')->paginate();
 
         return view('admin.matters.people', compact('matters'));
     }
