@@ -53,7 +53,7 @@
                             <tr class="gradeC">
                                 <td>{{ $situation->matter->id }}</td>
                                 <td>{{ $situation->matter->alarm_type }}</td>
-                                <td>{{ $situation->user->name }}</td>
+                                <td>{{ $situation->user['name'] }}</td>
                                 <td>
                                     <a class="fancybox" id="img" href="{{ $situation->see_image }}" >
                                         <img src="{{ $situation->see_image }}"  style="width: 40px;" />
