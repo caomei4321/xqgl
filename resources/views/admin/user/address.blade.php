@@ -86,7 +86,6 @@
                 url: '/admin/users/ajaxAddress',
                 async: false,
                 success:function (res) {
-                    //console.log(res);
                     map.clearOverlays();
                     $.each(res,function (index,value) {
 
@@ -100,9 +99,10 @@
                             var point = new BMap.Point(value.latest_location.longitude, value.latest_location.latitude);
                             // 如果points数组已经有值则直接push，没有则先创建数组再push
                             if (points.hasOwnProperty(index)) {
-                                // 计算两次点上传的时间间隔 ， 大于60（一分钟）则认为上次点不是最新点
+                                // 计算两次点上传的时间间隔 ， 大于300（五分钟）则认为上次点不是最新点
                                 var time = value.latest_location.loc_time - points[index]['lastTime'];  // 计算两次点上传的时间间隔
-                                if (time > 60) {
+                                if (time > 300) {
+                                    points[index]['lastTime'] = value.latest_location.loc_time;
                                     points[index]['point'] = [];
                                     points[index]['point'].push(point);
                                     points[index]['marker'].addEventListener("click", function () {
@@ -116,6 +116,7 @@
                                     var distance = map.getDistance(lastPoint[0],point).toFixed(2);  // 计算两点距离，单位米，保留两位小数
                                 } catch (e) {
                                     points[index]['point'].push(lastPoint[0]);
+                                    points[index]['lastTime'] = value.latest_location.loc_time;
                                     points[index]['marker'] = new BMap.Marker(lastPoint[0],{icon:myIcon});
                                     points[index]['marker'].addEventListener("click", function () {
                                         this.openInfoWindow(points[index]['infoWindow']);
@@ -130,6 +131,7 @@
                                     points[index]['point'].push(point);
                                     points[index]['marker'] = new BMap.Marker(point,{icon:myIcon});
                                 }
+                                points[index]['lastTime'] = value.latest_location.loc_time;
 
                                 map.addOverlay( points[index]['marker']);
                                 points[index]['marker'].addEventListener("click", function () {
@@ -173,11 +175,8 @@
                             //var label = new BMap.Label(value.entity_name+';上次更新时间：'+UnixToDate(value.latest_location.loc_time), {offset:new BMap.Size(-30,-20)});
                             //label.setStyle({ color : "red", fontSize : "15px" });
                             //addMarker(point,myIcon,label);
-                            //console.log(points);
                         }
                     });
-                    //console.log(points);
-                    //console.log(points);
                     /*$.each(points,function (index,value) {
                         var polyline = new BMap.Polyline(value, {
                             enableEditing: false,
