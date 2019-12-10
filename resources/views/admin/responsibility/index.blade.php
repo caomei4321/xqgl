@@ -61,8 +61,8 @@
                                 <td>{{ $res->county }}</td>
                                 <td>{{ $res->town }}</td>
                                 <td>{{ $res->legal_doc }}</td>
-                                <td style="width: 70px">{{ $res->subject_duty ===0 ? '主体责任' : '配合责任' }}</td>
-                                <td style="width: 70px">{{ $res->cooperate_duty ===1 ? '配合责任' : '主体责任' }}</td>
+                                <td style="width: 70px">{{ $res->subject_duty ==0 ? '主体责任' : '配合责任' }}</td>
+                                <td style="width: 70px">{{ $res->cooperate_duty ==1 ? '配合责任' : '主体责任' }}</td>
                                 <td class="center">
                                     <a href="{{ route('admin.responsibility.edit',['responsibility' => $res->id]) }}"><button type="button" class="btn btn-primary btn-xs">编辑</button></a>
                                     <button class="btn btn-warning btn-xs delete" data-id="{{ $res->id }}">删除</button>
