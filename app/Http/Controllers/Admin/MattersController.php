@@ -212,7 +212,7 @@ class MattersController extends Controller
                     $temp =join('',$result[0]);
                     $word = explode("|", $temp);
                     $docArray = [
-                        array_search('受理员编号', $word) .'-'. array_search('办结时限', $word),
+                        array_search('受理员编号', $word) .'-'. array_search('受理员', $word),
                         array_search('办结时限', $word) .'-'. array_search('工单编号', $word),
                         array_search('工单编号', $word) .'-'. array_search('紧急程度', $word),
                         array_search('紧急程度', $word) .'-'. array_search('来电类别', $word),
@@ -246,7 +246,7 @@ class MattersController extends Controller
                     $wordData = [
                         'title' => '12345承办单',
                         'accept_num' => $doc[0],
-                        'time_limit' => $doc[1],
+                        'acceptor' => $doc[1],
                         'work_num' => $doc[2],
                         'level' => $doc[3],
                         'type' => $doc[4],
