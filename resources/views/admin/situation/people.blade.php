@@ -67,17 +67,17 @@
                                     @if($situation->status  == 0)
                                         <button class="btn btn-default btn-xs" type="button"><i class="fa fa-map-marker"></i>&nbsp;&nbsp;未处理</button>
                                     @elseif( $situation->status  == 2)
-                                        <button class="btn btn-xs btn-warning" type="button" readonly><i class="fa fa-warning"></i> <span class="bold">配合</span>
+                                        <button class="btn btn-xs btn-warning" type="button" readonly><i class="fa fa-warning"></i> <span class="bold">完成</span>
                                         </button>
 
                                     @elseif($situation->status == 3)
                                         <button class="btn btn-xs btn-info " type="button"><i class="fa fa-paste"></i> 处理中</button>
                                     @else
-                                        <button class="btn btn-xs btn-info " type="button"><i class="fa fa-paste"></i> 完成</button>
+                                        <button class="btn btn-xs btn-info " type="button"><i class="fa fa-paste"></i> 无权处理</button>
                                     @endif
                                 </td>
                                 <td>
-                                    @if( $situation->status  == 2)
+                                    @if( $situation->status  == 1)
                                         <a href="{{ route('admin.situations.export', ['id' => $situation->id]) }}" class="btn btn-xs btn-danger"><i class="fa fa-warning"></i>转办单</a>
                                     @else
                                         <a href="{{ route('admin.people.show', ['id' => $situation->id]) }}"><button class="btn btn-xs btn-success " type="button"><i class="fa fa-paste"></i> 查看</button></a>
