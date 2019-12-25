@@ -59,7 +59,7 @@ class MattersController extends Controller
         /*return $this->user()->whereHas('situation', function ($query) {
             $query->where('user_has_matters.status','1');
         })->get();*/
-        return new MatterCollection($this->user()->situation()->get());
+        return new MatterCollection($this->user()->situation()->orderBy('user_has_matters.status', 'asc')->get());
     }
 
     public function matter(Request $request)
@@ -71,7 +71,7 @@ class MattersController extends Controller
 
     public function patrolMatters()
     {
-        return new MatterCollection($this->user()->patrolMatters()->orderBy('id', 'desc')->get());
+        return new MatterCollection($this->user()->patrolMatters()->orderBy('status', 'desc')->get());
     }
     /*
      * 巡查发现的问题处理
