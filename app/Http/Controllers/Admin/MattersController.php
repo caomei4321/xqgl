@@ -202,9 +202,9 @@ class MattersController extends Controller
             if ($zip->open($path) !== true) {
                 try {
                     $content = shell_exec('/usr/local/bin/antiword -w 0 -m UTF-8.txt ' . $path);
-                    $DBC = array('0','1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U','V', 'W', 'X', 'Y', 'Z','ａ','ｂ','ｃ', 'ｄ' ,'ｊ', 'ｋ' , 'ｌ' , 'ｍ' , 'ｎ' ,'ｏ' , 'ｐ' , 'ｑ' , 'ｒ' , 'ｓ' ,'ｔ' , 'ｕ' , 'ｖ' , 'ｗ' , 'ｘ' ,'ｙ' , 'ｚ' , '－' , '　' , '：' ,'．' , '，' , '／' , '％' , '＃' , '！' , '＠' , '＆' , '（' , '）' ,'＜' , '＞' , '＂' , '＇' , '？' ,'［' , '］' , '｛' , '｝' , '＼' ,'｜' , '＋' , '＝' , '＿' , '＾' ,'￥' , '￣' , '｀' );
+                    $DBC = array('0','1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U','V', 'W', 'X', 'Y', 'Z','ａ','ｂ','ｃ', 'ｄ' ,'e', 'f', 'g', 'h', 'i','ｊ', 'ｋ' , 'ｌ' , 'ｍ' , 'ｎ' ,'ｏ' , 'ｐ' , 'ｑ' , 'ｒ' , 'ｓ' ,'ｔ' , 'ｕ' , 'ｖ' , 'ｗ' , 'ｘ' ,'ｙ' , 'ｚ' , '－' , '　' , '：' ,'．' , '，' , '／' , '％' , '＃' , '！' , '＠' , '＆' , '（' , '）' ,'＜' , '＞' , '＂' , '＇' , '？' ,'［' , '］' , '｛' , '｝' , '＼' ,'｜' , '＋' , '＝' , '＿' , '＾' ,'￥' , '￣' , '｀');
 
-                    $SBC = Array('0', '1', '2', '3', '4','5', '6', '7', '8', '9','A', 'B', 'C', 'D', 'E','F', 'G', 'H', 'I', 'J','K', 'L', 'M', 'N', 'O','P', 'Q', 'R', 'S', 'T','U', 'V', 'W', 'X', 'Y','Z', 'a', 'b', 'c', 'd','e', 'f', 'g', 'h', 'i','j', 'k', 'l', 'm', 'n','o', 'p', 'q', 'r', 's','t', 'u', 'v', 'w', 'x','y', 'z', '-', ' ', ':','.', ',', '/', '%', '#','!', '@', '&', '(', ')','<', '>', '"', '\'','?','[', ']', '{', '}', '\\','|', '+', '=', '_', '^','$', '~', '`');
+                    $SBC = Array('0', '1', '2', '3', '4','5', '6', '7', '8', '9','A', 'B', 'C', 'D', 'E','F', 'G', 'H', 'I', 'J','K', 'L', 'M', 'N', 'O','P', 'Q', 'R', 'S', 'T','U', 'V', 'W', 'X', 'Y','Z', 'a', 'b', 'c', 'd','e', 'f', 'g', 'h', 'i','j', 'k', 'l', 'm', 'n','o', 'p', 'q', 'r', 's','t', 'u', 'v', 'w', 'x','y', 'z', '-', '-', ' ', ':','.', ',', '/', '%', '#','!', '@', '&', '(', ')','<', '>', '"', '\'','?','[', ']', '{', '}', '\\','|', '+', '=', '_', '^','$', '~', '`');
                     $content = str_replace($DBC, $SBC, $content);
                     file_put_contents('d.txt', $content);
                     $str = file_get_contents('d.txt');
@@ -212,8 +212,8 @@ class MattersController extends Controller
                     $temp =join('',$result[0]);
                     $word = explode("|", $temp);
                     $docArray = [
-                        array_search('受理员编号', $word) .'-'. array_search('办结时限', $word),
-                        array_search('办结时限', $word) .'-'. array_search('工单编号', $word),
+                        array_search('受理员编号', $word) .'-'. array_search('受理员', $word),
+                        array_search('受理员', $word) .'-'. array_search('工单编号', $word),
                         array_search('工单编号', $word) .'-'. array_search('紧急程度', $word),
                         array_search('紧急程度', $word) .'-'. array_search('来电类别', $word),
                         array_search('来电类别', $word) .'-'. array_search('信息来源', $word),
@@ -222,13 +222,14 @@ class MattersController extends Controller
                         array_search('是否保密', $word) .'-'. array_search('联系人', $word),
                         array_search('联系人', $word) .'-'. array_search('联系电话', $word),
                         array_search('联系电话', $word) .'-'. array_search('联系地址', $word),
-                        array_search('联系地址', $word) .'-'. array_search('回复备注', $word),
-                        array_search('回复备注', $word) .'-'. array_search('问题分类', $word),
+
+                        array_search('联系地址', $word) .'-'. array_search('问题分类', $word),
+//                        array_search('回复备注', $word) .'-'. array_search('问题分类', $word),
                         array_search('问题分类', $word) .'-'. array_search('问题描述', $word),
                         array_search('问题描述', $word) .'-'. array_search('转办意见', $word),
-                        array_search('转办意见', $word) .'-'. array_search('领导批示', $word),
-                        array_search('领导批示', $word) .'-'. array_search('办理结果', $word),
-                        array_search('办理结果', $word) .'-'. (count($word) - 1),
+//                        array_search('转办意见', $word) .'-'. array_search('领导批示', $word),
+//                        array_search('领导批示', $word) .'-'. array_search('办理结果', $word),
+                        array_search('转办意见', $word) .'-'. (count($word) - 1),
                     ];
                     $doc = array();
                     for ($i=0; $i < count($docArray); $i++) {
@@ -246,7 +247,7 @@ class MattersController extends Controller
                     $wordData = [
                         'title' => '12345承办单',
                         'accept_num' => $doc[0],
-                        'time_limit' => $doc[1],
+                        'acceptor' => $doc[1],
                         'work_num' => $doc[2],
                         'level' => $doc[3],
                         'type' => $doc[4],
@@ -256,12 +257,12 @@ class MattersController extends Controller
                         'contact_name' => $doc[8],
                         'contact_phone' => $doc[9],
                         'address' => $doc[10],
-                        'reply_remark' => $doc[11],
-                        'category' => $doc[12],
-                        'content' => $doc[13],
-                        'suggestion' => $doc[14],
-                        'approval' => $doc[15],
-                        'result' => $doc[16],
+                        'category' => $doc[11],
+                        'content' => $doc[12],
+                        'suggestion' => $doc[13],
+//                        'suggestion' => $doc[14],
+//                        'approval' => $doc[15],
+//                        'result' => $doc[16],
                         'created_at' => date('Y-m-d H:i:s', time()),
                         'updated_at' => date('Y-m-d H:i:s', time()),
                     ];
@@ -290,7 +291,7 @@ class MattersController extends Controller
             $wordData = [
                 'title' => '12345承办单',
                 'accept_num' => $word[1],
-                'time_limit' => $word[3],
+                'acceptor' => $word[3],
                 'work_num' => $word[5],
                 'level' => $word[7],
                 'type' => $word[9],
@@ -300,12 +301,10 @@ class MattersController extends Controller
                 'contact_name' => $word[17],
                 'contact_phone' => $word[19],
                 'address' => $word[21],
-                'reply_remark' => $word[23],
-                'category' => $word[25],
-                'content' => $word['27'],
-                'suggestion' => $word[29],
-                'approval' => $word[31],
-                'result' => $word[33],
+//                'reply_remark' => $word[23],
+                'category' => $word[23],
+                'content' => $word[25],
+                'suggestion' => $word[27],
                 'created_at' => date('Y-m-d H:i:s', time()),
                 'updated_at' => date('Y-m-d H:i:s', time()),
             ];
