@@ -18,7 +18,7 @@ class PeopleController extends Controller
 {
     public function index(Matter $matter)
     {
-        $matters = $matter->where('form', '3')->orderBy('allocate', 'asc')->paginate();
+        $matters = $matter->where('form', '3')->orderBy('created_at', 'desc')->orderBy('allocate', 'asc')->paginate();
 
         return view('admin.matters.people', compact('matters'));
     }
@@ -41,6 +41,11 @@ class PeopleController extends Controller
     public function allocates(Request $request,Matter $matter,Situation $situation, User $user, JPushHandler $JPushHandler)
     {
         $data = $request->only(['matter_id', 'user_id', 'category_id', 'responsibility_id']);
+        $this->validate($request, [
+            'matter_id' => 'unique:user_has_matters'
+        ],[
+            'matter_id.unique' => '此工单已被分配'
+        ]);
         // 截止日期
         $hour = Responsibility::where('id', $data['responsibility_id'])->value('deadline');
         $time = time() + $hour * 60 * 60;

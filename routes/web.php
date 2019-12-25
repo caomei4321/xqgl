@@ -189,6 +189,7 @@ Route::group(['prefix' => 'admin'], function () {
                 'destroy'   =>  'admin.patrols.destroy',
             ]);
             Route::get('export/patrol', 'Admin\PatrolsController@export')->name('admin.patrols.export');
+            Route::get('personExport/patrol', 'Admin\PatrolsController@personExport')->name('admin.patrols.personExport');
 
             // 分配任务到人
             Route::get('matters/users', 'Admin\MattersController@getUser')->name('admin.matters.users');

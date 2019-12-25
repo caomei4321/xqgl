@@ -3,6 +3,7 @@
 @section('styles')
     <!-- Data Tables -->
     <link href="{{ asset('assets/admin/css/plugins/dataTables/dataTables.bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/admin/css/plugins/chosen/chosen.css') }}" rel="stylesheet">
     <!-- Sweet Alert -->
     <link href="{{ asset('assets/admin/css/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet">
 @endsection
@@ -32,8 +33,6 @@
                     </div>
                 </div>
                 <div class="ibox-content">
-                    {{--<a href="{{ route('admin.patrols.export') }}"><button class="btn btn-info " type="button"><i class="fa fa-paste"></i> 巡查记录报表</button>--}}
-                    {{--</a>--}}
                     <form action="{{ route('admin.patrols.export') }}" method="get">
                         <div class="col-sm-2" style="display: inline-block">
                             <input class="form-control inline" type="date" name="timeStart">
@@ -42,6 +41,23 @@
                             <input class="form-control inline" type="date" name="timeEnd">
                         </div>
                         <button class="btn btn-info" type="submit" style="display: inline-block"><i class="fa fa-paste"></i>巡查记录报表</button>
+                    </form>
+                    <form action="{{ route('admin.patrols.personExport') }}" method="get">
+                        <div class="col-sm-2" style="display: inline-block">
+                            <select class="form-control chosen-select" name="user_id" tabindex="2" required>
+                                <option value="" hidden disabled selected>请选择人员,（必选）</option>
+                                @foreach ($users as $user)
+                                    <option value="{{ $user->user_id }}">{{ $user->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-sm-2" style="display: inline-block">
+                            <input class="form-control inline" type="date" name="timeStart">
+                        </div>
+                        <div class="col-sm-2" style="display: inline-block">
+                            <input class="form-control inline" type="date" name="timeEnd">
+                        </div>
+                        <button class="btn btn-info" type="submit" style="display: inline-block"><i class="fa fa-paste"></i>个人巡查记录报表</button>
                     </form>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
@@ -88,6 +104,8 @@
     <!-- Data Tables -->
     <script src="{{ asset('assets/admin/js/plugins/dataTables/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('assets/admin/js/plugins/dataTables/dataTables.bootstrap.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/plugins/chosen/chosen.jquery.js') }}"></script>
+    <script src="{{ asset('assets/admin/js/demo/form-advanced-demo.js') }}"></script>
 
     <!-- Sweet alert -->
     <script src="{{ asset('assets/admin/js/plugins/sweetalert/sweetalert.min.js') }}"></script>

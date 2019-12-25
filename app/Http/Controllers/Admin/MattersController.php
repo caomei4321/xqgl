@@ -108,6 +108,11 @@ class MattersController extends Controller
     public function allocates(Request $request, Matter $matter, Situation $situation, User $user, JPushHandler $JPushHandler)
     {
         $data = $request->only(['matter_id', 'user_id', 'category_id']);
+        $this->validate($request, [
+            'matter_id' => 'unique:user_has_matters'
+        ],[
+            'matter_id.unique' => '此工单已被分配'
+        ]);
         // 将matters表中数据allocate更新为1， 代表已分配
         $matter->where('id', $request->matter_id)->update([
             'allocate' => '1'
@@ -217,6 +222,7 @@ class MattersController extends Controller
                         array_search('是否保密', $word) .'-'. array_search('联系人', $word),
                         array_search('联系人', $word) .'-'. array_search('联系电话', $word),
                         array_search('联系电话', $word) .'-'. array_search('联系地址', $word),
+
                         array_search('联系地址', $word) .'-'. array_search('问题分类', $word),
 //                        array_search('回复备注', $word) .'-'. array_search('问题分类', $word),
                         array_search('问题分类', $word) .'-'. array_search('问题描述', $word),

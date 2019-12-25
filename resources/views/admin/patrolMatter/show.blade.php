@@ -66,9 +66,9 @@
 
                             <div class="col-sm-10">
                                 @if( $patrolMatter->status == 1)
-                                    <p class="form-control-static" style="color: red">处理完成</p>
-                                @elseif($patrolMatter->status == 2)
                                     <p class="form-control-static" style="color: red">无权处理</p>
+                                @elseif($patrolMatter->status == 2)
+                                    <p class="form-control-static" style="color: red">处理完成</p>
                                 @elseif($patrolMatter->status == 3)
                                     <p class="form-control-static" style="color: red">处理中</p>
                                 @endif
