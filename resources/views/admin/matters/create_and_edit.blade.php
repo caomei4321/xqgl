@@ -68,7 +68,7 @@
                                 <label class="col-sm-2 control-label">受理员：</label>
 
                                 <div class="col-sm-6">
-                                    <input name="accept_num"  type="text" class="form-control" value="{{ old('acceptor',$matter->acceptor) }}">
+                                    <input name="acceptor"  type="text" class="form-control" value="{{ old('acceptor',$matter->acceptor) }}">
                                 </div>
                             </div>
                             <div class="hr-line-dashed"></div>
@@ -254,7 +254,7 @@
                                         <label class="col-sm-2 control-label">受理员：</label>
 
                                         <div class="col-sm-6">
-                                            <input name="accept_num"  type="text" class="form-control" value="{{ old('acceptor',$matter->acceptor) }}">
+                                            <input name="acceptor"  type="text" class="form-control" value="{{ old('acceptor',$matter->acceptor) }}">
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>

@@ -5,7 +5,6 @@
     <link href="{{ asset('assets/admin/css/plugins/dataTables/dataTables.bootstrap.css') }}" rel="stylesheet">
     <!-- Sweet Alert -->
     <link href="{{ asset('assets/admin/css/plugins/sweetalert/sweetalert.css') }}" rel="stylesheet">
-    <!-- iCheck -->
 
 @endsection
 
@@ -115,7 +114,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $matter->created_at }}</td>
-                                <td id="time_limit">{{ $matter->time_limit }}</td>
+                                <td>{{ $matter->time_limit }}</td>
                                 <td>
                                     @if($matter->allocate == 0)
                                         <a href="{{ route('admin.matters.allocate', ['id' => $matter->id]) }}"><button type="button" class="btn btn-warning btn-xs">未分配</button></a>
@@ -163,7 +162,6 @@
     <!-- Data Tables -->
     <script src="{{ asset('assets/admin/js/plugins/dataTables/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('assets/admin/js/plugins/dataTables/dataTables.bootstrap.js') }}"></script>
-    <script src="{{ asset('assets/admin/js/plugins/jeditable/jquery.jeditable.js') }}"></script>
     <!-- Sweet alert -->
     <script src="{{ asset('assets/admin/js/plugins/sweetalert/sweetalert.min.js') }}"></script>
 @endsection
