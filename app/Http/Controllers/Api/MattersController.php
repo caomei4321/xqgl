@@ -224,6 +224,7 @@ class MattersController extends Controller
         $imgdata = $request->img;
         //$base64_str = substr($imgdata, strpos($imgdata, ",") + 1);
 
+        $see_image = '';
         $see_images = '';
 
         if ($situation->see_image) {  // 如果已经有数据则追加，不更新 see_img
