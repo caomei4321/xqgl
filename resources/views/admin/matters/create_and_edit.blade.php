@@ -65,6 +65,14 @@
                             </div>
                             <div class="hr-line-dashed"></div>
                             <div class="form-group">
+                                <label class="col-sm-2 control-label">受理员：</label>
+
+                                <div class="col-sm-6">
+                                    <input name="acceptor"  type="text" class="form-control" value="{{ old('acceptor',$matter->acceptor) }}">
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group">
                                 <label class="col-sm-2 control-label">办结时限：</label>
 
                                     <div class="col-sm-6">
@@ -239,6 +247,14 @@
 
                                         <div class="col-sm-6">
                                             <input name="accept_num"  type="text" class="form-control" value="{{ old('accept_num',$matter->accept_num) }}">
+                                        </div>
+                                    </div>
+                                    <div class="hr-line-dashed"></div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">受理员：</label>
+
+                                        <div class="col-sm-6">
+                                            <input name="acceptor"  type="text" class="form-control" value="{{ old('acceptor',$matter->acceptor) }}">
                                         </div>
                                     </div>
                                     <div class="hr-line-dashed"></div>

@@ -91,9 +91,6 @@
 <script src="{{ asset('assets/admin/js/hplus.js?v=4.1.0') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/admin/js/contabs.js') }}"></script>
 
-<!-- 第三方插件 -->
-<script src="{{ asset('asset/admin/js/plugins/pace/pace.min.js') }}"></script>
-
 </body>
 
 </html>

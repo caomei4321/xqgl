@@ -67,6 +67,13 @@
                         </div>
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
+                            <label class="col-sm-2 control-label">办结时限：</label>
+                            <div class="col-sm-6">
+                                <input class="form-control layer-date" name="time_limit" placeholder="YYYY-MM-DD hh:mm:ss" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" value="" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group">
                             <div class="col-sm-4 col-sm-offset-2">
                                 <button class="btn btn-primary" id="add_device">提交</button>
                             </div>
@@ -78,9 +85,14 @@
     </div>
 @endsection
 
-@section('javascript')
+@section('scripts')
     <script src="{{ asset('assets/admin/js/plugins/chosen/chosen.jquery.js') }}"></script>
+
+    <script src="{{ asset('assets/admin/js/plugins/layer/laydate/laydate.js') }}"></script>
     <script src="{{ asset('assets/admin/js/demo/form-advanced-demo.js') }}"></script>
+@endsection
+
+@section('javascript')
     <script>
 
     </script>

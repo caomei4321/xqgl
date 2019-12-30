@@ -107,16 +107,23 @@ class MattersController extends Controller
 
     public function allocates(Request $request, Matter $matter, Situation $situation, User $user, JPushHandler $JPushHandler)
     {
-        $data = $request->only(['matter_id', 'user_id', 'category_id']);
+        $data = $request->only(['matter_id', 'user_id', 'category_id', 'time_limit']);
+
         $this->validate($request, [
-            'matter_id' => 'unique:user_has_matters'
+            'matter_id' => 'unique:user_has_matters',
+            'user_id' => 'required'
         ],[
-            'matter_id.unique' => '此工单已被分配'
+            'matter_id.unique' => '此工单已被分配',
+            'user_id.required' => '请选择执行人',
         ]);
-        // 将matters表中数据allocate更新为1， 代表已分配
-        $matter->where('id', $request->matter_id)->update([
+        $matterData = [
             'allocate' => '1'
-        ]);
+        ];
+        if ($request->time_limit) {
+            $matterData['time_limit'] = $request->time_limit;
+        }
+        // 将matters表中数据allocate更新为1， 代表已分配
+        $matter->where('id', $request->matter_id)->update($matterData);
         // 分配信息存入user_has_matters表中
         $situation->fill($data);
         $situation->save();
@@ -413,17 +420,5 @@ class MattersController extends Controller
     {
         $filePath = 'word/word.doc';
         return response()->download($filePath, '导入模板.doc');
-    }
-
-    // 鼠标绘制点线面
-    public function mouse()
-    {
-        return view('admin.matters.mouse');
-    }
-
-    public function ajaxData(Request $request)
-    {
-        $data = $request->all();
-        return response()->json(['status' => 1, 'msg' => $data]);
     }
 }

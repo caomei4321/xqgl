@@ -138,9 +138,6 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('matters/import', 'Admin\MattersController@import')->name('admin.matters.import');
             Route::get('matters/download', 'Admin\MattersController@download')->name('admin.matters.download');
 
-            // 鼠标绘制点线面
-            Route::get('matters/mouse', 'Admin\MattersController@mouse')->name('admin.matters.mouse');
-            Route::post('matters/ajax', 'Admin\MattersController@ajaxData')->name('admin.matters.ajax');
 
             // 城市部件信息
             Route::resource('part', 'Admin\PartsController', ['except' => ['show']])->names([
