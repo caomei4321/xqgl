@@ -38,7 +38,8 @@ Route::group(['prefix' => 'admin'], function () {
             Route::get('user/{user}', 'Admin\UsersController@show')->name('admin.users.show');
             Route::get('users/address', 'Admin\UsersController@address')->name('admin.users.address');
 
-            Route::get('users/ajaxAddress', 'Admin\UsersController@ajaxAddress')->name('admin.users.ajaxAddress');
+            Route::get('users/entityList', 'Admin\UsersController@entityList')->name('admin.users.entityList');
+            //Route::get('users/ajaxAddress', 'Admin\UsersController@ajaxAddress')->name('admin.users.ajaxAddress');
             Route::post('users/latestPoint', 'Admin\UsersController@latestPoint')->name('admin.users.latestPoint');
 
             Route::get('users/export', 'Admin\UsersController@export')->name('admin.users.export');
