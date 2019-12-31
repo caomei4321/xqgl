@@ -75,17 +75,17 @@
             imageOffset:new BMap.Size(5,5)
         });
         reloadMap();
-
-        setInterval('reloadMap()',5000);  //5秒
+        // setInterval('reloadMap()',5000);  5秒
         //setInterval('reloadMap()',1000);
         var data = [];
         function reloadMap() {
             $.ajaxSetup({
                 headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 type:"get",
-                url: '/admin/users/ajaxAddress',
+                url: '/admin/users/entityList',
                 async: false,
                 success:function (res) {
+                    console.log(res);
                     map.clearOverlays();
                     $.each(res,function (index,value) {
 
@@ -94,105 +94,124 @@
                             "<span style='margin: 0 12px;'>姓名 :" + value.latest_location.desc_name + "</span></br>" +
                             "<p style='margin: 0 12px; font-size: 12px; color: rgb(77,77,77);'>"+"更新时间："+ UnixToDate(value.latest_location.loc_time)  +"</p></br>" +
                             "<p style=' margin: 0 12px;font-size: 12px; color: rgb(127,127,127); overflow: hidden;text-overflow: ellipsis;'>";
-                        //entityList.push(value.entity_name);
-                        if(value.latest_location){  // 如果有最新轨迹点信息则标注
-                            var point = new BMap.Point(value.latest_location.longitude, value.latest_location.latitude);
-                            // 如果points数组已经有值则直接push，没有则先创建数组再push
-                            if (points.hasOwnProperty(index)) {
-                                // 计算两次点上传的时间间隔 ， 大于300（五分钟）则认为上次点不是最新点
-                                var time = value.latest_location.loc_time - points[index]['lastTime'];  // 计算两次点上传的时间间隔
-                                if (time > 300) {
-                                    points[index]['lastTime'] = value.latest_location.loc_time;
-                                    points[index]['point'] = [];
-                                    points[index]['point'].push(point);
-                                    points[index]['marker'].addEventListener("click", function () {
-                                        this.openInfoWindow(points[index]['infoWindow']);
-                                    });
-                                    return true;  // 相当于 continue
-                                }
+                        var point = new BMap.Point(value.latest_location.longitude, value.latest_location.latitude);
+                        points[index] = [];
+                        points[index]['color'] = getColor();
+                        points[index]['point'] = [];
+                        points[index]['sContent'] = sContent;
+                        points[index]['lastTime'] = value.latest_location.loc_time;
+                        points[index]['startTime'] = parseInt(new Date().getTime()/1000) ;
+                        points[index]['entityName'] = value.entity_name;
+                        points[index]['name'] = value.latest_location.desc_name;
+                        points[index]['infoWindow'] = new BMap.InfoWindow(points[index]['sContent']);
+                        points[index]['marker'] = new BMap.Marker(point,{icon:myIcon});
+                        map.addOverlay( points[index]['marker']);
+                        points[index]['marker'].addEventListener("click", function () {
+                            this.openInfoWindow(points[index]['infoWindow']);
+                        });
+                    });
+                    /*document.getElementById('users-address').onload = function (){
+                        infoWindow.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
+                    }*/
+                },
+            });
+            $.ajax();
+        }
 
-                                var lastPoint = points[index]['point'].slice(-1);   // 获取上个坐标点
-                                try {
-                                    var distance = map.getDistance(lastPoint[0],point).toFixed(2);  // 计算两点距离，单位米，保留两位小数
-                                } catch (e) {
-                                    points[index]['point'].push(lastPoint[0]);
-                                    points[index]['lastTime'] = value.latest_location.loc_time;
-                                    points[index]['marker'] = new BMap.Marker(lastPoint[0],{icon:myIcon});
-                                    points[index]['marker'].addEventListener("click", function () {
-                                        this.openInfoWindow(points[index]['infoWindow']);
-                                    });
-                                }
 
-                                if (distance > 1500) { // 距离大于 150认为飘点，则把上一次的点当作当前次的点
-                                    points[index]['point'].push(lastPoint[0]);
+        var pointsLength = points.length;
 
-                                    points[index]['marker'] = new BMap.Marker(lastPoint[0],{icon:myIcon});
-                                } else {
-                                    points[index]['point'].push(point);
-                                    points[index]['marker'] = new BMap.Marker(point,{icon:myIcon});
-                                }
-                                points[index]['lastTime'] = value.latest_location.loc_time;
+        var timer = points.length * 5000;  // 所有人员循环一遍所用的时间（单位毫秒）
 
-                                map.addOverlay( points[index]['marker']);
-                                points[index]['marker'].addEventListener("click", function () {
-                                    this.openInfoWindow(points[index]['infoWindow']);
+        for (let a = 0; a < pointsLength; a++) {
+            setTimeout(function () {
+                userAddress(a, points[a].entityName, pointsLength)
+            }, a*5000);
+        }
+        setInterval(function () {
+            for (let a = 0; a < pointsLength; a++) {
+                setTimeout(function () {
+                    userAddress(a, points[a].entityName, pointsLength)
+                }, a*5000);
+            }
+        },timer);  //5秒
+
+        function userAddress(index, entityName, pointsLength) {
+            console.log(index,entityName,pointsLength);
+            $.ajaxSetup({
+                headers:{'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                type:"post",
+                data: {
+                    'entityName' : entityName,
+                    'startTime'  : points[index]['startTime']
+                },
+                url: '/admin/users/latestPoint',
+                async: false,
+                success:function (res) {
+                    res = JSON.parse(res);
+                    console.log(res);
+                    if (res.size > 0) {  // 结果数大于 0
+                        map.clearOverlays();
+                        // 计算两次的时间间隔 ， 
+                        var time = res.end_point.loc_time - points[index]['lastTime'];  // 计算两次的时间间隔 ( 单位秒)
+
+                        console.log(time,timer/1000+200);
+                        if (time  > (timer/1000+200)) {  // 间隔时间超过正常时间后的200秒算不正常, 清空之前的轨迹点
+                            console.log(5555);
+                            points[index]['point'] = [];
+                        }
+                        /*map.removeOverlay(new BMap.Polyline(points[index]['point'], {
+                            enableEditing: false,
+                            enableClicking: true,
+                            strokeWeight: '5',
+                            strokeOpacity: '1',
+                            strokeColor: points[index]['color']
+                        }));
+                        map.removeOverlay(points[index]['marker']);*/
+                        $.each(res.points, function (key, value) {
+                            var point = new BMap.Point(value.longitude, value.latitude);
+                            console.log(point);
+                            console.log(111);
+                            points[index]['point'].push(point);
+                        });
+                        var endPoint = new BMap.Point(res.end_point.longitude, res.end_point.latitude);
+                        var sContent =
+                            "<h4 style='margin-left: 13px; margin-bottom: 5px;'>"+ "人员信息" +" </h4></br>" +
+                            "<span style='margin: 0 12px;'>姓名 :" + points[index]['name'] + "</span></br>" +
+                            "<p style='margin: 0 12px; font-size: 12px; color: rgb(77,77,77);'>"+"更新时间："+ UnixToDate(res.end_point.loc_time)  +"</p></br>" +
+                            "<p style=' margin: 0 12px;font-size: 12px; color: rgb(127,127,127); overflow: hidden;text-overflow: ellipsis;'>";
+                        points[index]['sContent'] = sContent;
+                        points[index]['infoWindow'] = new BMap.InfoWindow(points[index]['sContent']);
+                        points[index]['marker'] = new BMap.Marker(endPoint,{icon:myIcon});
+                        points[index]['lastTime'] = res.end_point.loc_time
+
+                        $.each(points, function (key, value) {
+                            /*if (value['point']) {
+                                var sy = new BMap.Symbol(BMap_Symbol_SHAPE_BACKWARD_OPEN_ARROW, {
+                                    scale: 0.6,//图标缩放大小
+                                    strokeColor:'#fff',//设置矢量图标的线填充颜色
+                                    strokeWeight: '0.6',//设置线宽
                                 });
-
-                            } else {
-
-                                points[index] = [];
-                                points[index]['color'] = getColor();
-                                points[index]['point'] = [];
-                                points[index]['point'].push(point);
-                                points[index]['sContent'] = sContent;
-                                points[index]['lastTime'] = value.latest_location.loc_time;
-
-                                points[index]['infoWindow'] = new BMap.InfoWindow(points[index]['sContent']);
-                                points[index]['marker'] = new BMap.Marker(point,{icon:myIcon});
-                                map.addOverlay( points[index]['marker']);
-                                points[index]['marker'].addEventListener("click", function () {
-                                    this.openInfoWindow(points[index]['infoWindow']);
-                                });
-                            }
-
-                            if (points[index]['point'].length > 1) {
-                                //console.log(points[index]);
-                                var polyline = new BMap.Polyline(points[index]['point'], {
+                                var icons = new BMap.IconSequence(sy, '5', '5');*/
+                                var polyline = new BMap.Polyline(value['point'], {
                                     enableEditing: false,
                                     enableClicking: true,
                                     strokeWeight: '5',
                                     strokeOpacity: '1',
-                                    strokeColor: points[index]['color']
+                                    strokeColor: value['color'],
+                                    //icons: [icons]
                                 });
-                                map.addOverlay(polyline);
-                            }
+                            //}
 
-                            /*if (value.latest_location.hasOwnProperty('desc_name')) {
-                                var label = new BMap.Label(value.latest_location.desc_name+';'+UnixToDate(value.latest_location.loc_time), {offset:new BMap.Size(-30,-20)});
-                            } else {
-                                var label = new BMap.Label(value.desc_name+';'+UnixToDate(value.latest_location.loc_time), {offset:new BMap.Size(-30,-20)});
-                            }*/
-                            //var label = new BMap.Label(value.entity_name+';上次更新时间：'+UnixToDate(value.latest_location.loc_time), {offset:new BMap.Size(-30,-20)});
-                            //label.setStyle({ color : "red", fontSize : "15px" });
-                            //addMarker(point,myIcon,label);
-                        }
-                    });
-                    /*$.each(points,function (index,value) {
-                        var polyline = new BMap.Polyline(value, {
-                            enableEditing: false,
-                            enableClicking: true,
-                            icons: [icons],
-                            strokeWeight: '8',
-                            strokeOpacity: '0.8',
-                            strokeColor: "#18a45b"
-                        });
-                        map.addOverlay(polyline);
-                    });*/
+                            map.addOverlay( value['marker']);
+                            value['marker'].addEventListener("click", function () {
+                                this.openInfoWindow(value['infoWindow']);
+                            });
+                            map.addOverlay(polyline);
+                        })
 
-
-                    /*document.getElementById('users-address').onload = function (){
-                        infoWindow.redraw();   //防止在网速较慢，图片未加载时，生成的信息框高度比图片的总高度小，导致图片部分被隐藏
-                    }*/
+                    }
+                    console.log(points);
                 },
             });
             $.ajax();

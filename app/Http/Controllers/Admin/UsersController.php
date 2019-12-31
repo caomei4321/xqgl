@@ -129,7 +129,7 @@ class UsersController extends Controller
         return view('admin.user.address', compact('entities'));
     }
 
-    public function ajaxAddress(Curl $curl, User $user)
+    public function entityList(Curl $curl, User $user)
     {
         $data = [
             'ak' => env('BAIDU_MAP_AK', ''),
@@ -143,13 +143,13 @@ class UsersController extends Controller
         //$entities = array_diff(array_column($entities,'entity_name'),$userHasEntities);
         //$entities = array_diff_assoc(array_column($entities,'entity_name'),$userHasEntities);
 //dd($entities);
-        $entities = [];
+        /*$entities = [];
         foreach ($entityList as $entity) {
             if (in_array($entity->entity_name,$userHasEntities)) {
                 $entities[] = $entity;
             }
-        }
-        return $entities;
+        }*/
+        return $entityList;
     }
 
     public function latestPoint(Curl $curl, Request $request)
@@ -159,15 +159,21 @@ class UsersController extends Controller
             'ak' => env('BAIDU_MAP_AK', ''),
             'service_id' => env('BAIDU_MAP_SERVICE_ID', ''),
             'mcode'     => (string)env('BAIDU_MAP_MCODE'),
-            'entity_name' => $request->entity_name,
-            'process_option' => 'need_denoise=1,need_mapmatch=1,radius_threshold=0,transport_mode=auto'
+            'entity_name' => $request->entityName,
+            'is_processed'=> 1,
+            //'process_option' => 'need_denoise=1,radius_threshold=10,need_vacuate=1,need_mapmatch=1,transport_mode=auto',
+            'process_option' => 'need_denoise=1,radius_threshold=20,need_vacuate=0,need_mapmatch=0,transport_mode=auto',
+            'start_time' => time()-(40*5),
+            //'start_time' => $request->startTime,
+            'end_time'   => time()
         ];
-        $result = $curl->curl('http://yingyan.baidu.com/api/v3/track/getlatestpoint', $data);
+        //$result = $curl->curl('http://yingyan.baidu.com/api/v3/track/getlatestpoint', $data);
+        $result = $curl->curl('http://yingyan.baidu.com/api/v3/track/gettrack', $data, false);
 
 
         //$result = json_encode($result);
         //$result = json_decode($result);
-        return $result;
+        return response()->json($result);
         $latestPoint = $result->latest_point;
         //$userHasEntities = $user->all()->pluck('entity_name')->toArray();
         //$entities = array_diff(array_column($entities,'entity_name'),$userHasEntities);
