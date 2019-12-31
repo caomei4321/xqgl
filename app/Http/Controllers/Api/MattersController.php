@@ -92,6 +92,7 @@ class MattersController extends Controller
                 $data['image'] = $patrolMatter->image;
                 $data['images'] = '';
             } elseif ($patrolMatter->images) {
+                $data['image'] = $patrolMatter->image;
                 $data['images'] = $patrolMatter->images . ';'; //拼接 分号 ，统一格式后面截掉
             }
 
