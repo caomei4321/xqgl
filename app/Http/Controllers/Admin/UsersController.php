@@ -143,13 +143,13 @@ class UsersController extends Controller
         //$entities = array_diff(array_column($entities,'entity_name'),$userHasEntities);
         //$entities = array_diff_assoc(array_column($entities,'entity_name'),$userHasEntities);
 //dd($entities);
-        /*$entities = [];
+        $entities = [];
         foreach ($entityList as $entity) {
             if (in_array($entity->entity_name,$userHasEntities)) {
                 $entities[] = $entity;
             }
-        }*/
-        return $entityList;
+        }
+        return $entities;
     }
 
     public function latestPoint(Curl $curl, Request $request)
