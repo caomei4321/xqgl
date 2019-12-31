@@ -73,7 +73,11 @@
                                 <td>{{ $patrolMatter->id }}</td>
                                 <td>{{ $patrolMatter->title }}</td>
                                 <td>{{ $patrolMatter->content }}</td>
-                                <td><image src="{{ $patrolMatter->img_url }}"  style="width: 40px;"/></td>
+                                <td>
+                                @if($patrolMatter->img_url)
+                                    <image src="{{ $patrolMatter->img_url }}"  style="width: 40px;"/>
+                                @endif
+                                </td>
                                 <td class="center">{{ $patrolMatter->created_at }}</td>
                                 <td class="center">
                                     @if( $patrolMatter->status  == 1)

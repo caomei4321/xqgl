@@ -85,11 +85,15 @@ class MattersController extends Controller
             $data = $request->only(['title', 'content', 'suggest']);
 
             $patrolMatter = $patrolMatter->find($request->id);
-            if ($patrolMatter->images) {
-                $data['images'] = $patrolMatter->images . ';'; //拼接 分号 ，统一格式后面截掉
-            } else {
+            if (!$patrolMatter->image) {
+                $data['image'] = '';
                 $data['images'] = '';
+            }  elseif (!$patrolMatter->images) {
+                $data['images'] = '';
+            } elseif ($patrolMatter->images) {
+                $data['images'] = $patrolMatter->images . ';'; //拼接 分号 ，统一格式后面截掉
             }
+
 
             $imgdata = $request->img;
             if (is_array($imgdata)) {
@@ -99,6 +103,10 @@ class MattersController extends Controller
 
                     $imgname = 'mt' . '_' . time() . '_' . str_random(10) . '.jpg';
                     Storage::disk('public')->put($imgname, $image);
+
+                    if (!$data['image'] && $i == 0) {
+                        $data['image'] = '/storage/' . $imgname;
+                    }
 
                     $data['images'] = $data['images'] . '/storage/' . $imgname . ';';
 
