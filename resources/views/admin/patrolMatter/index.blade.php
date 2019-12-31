@@ -74,7 +74,7 @@
                                 <td>{{ $patrolMatter->title }}</td>
                                 <td>{{ $patrolMatter->content }}</td>
                                 <td>
-                                @if($patrolMatter->img_url)
+                                @if($patrolMatter->image)
                                     <image src="{{ $patrolMatter->img_url }}"  style="width: 40px;"/>
                                 @endif
                                 </td>

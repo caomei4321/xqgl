@@ -106,9 +106,9 @@ class MattersController extends Controller
 
                     if (!$data['image'] && $i == 0) {
                         $data['image'] = '/storage/' . $imgname;
+                    } else {
+                        $data['images'] = $data['images'] . '/storage/' . $imgname . ';';
                     }
-
-                    $data['images'] = $data['images'] . '/storage/' . $imgname . ';';
 
                 }
             }
